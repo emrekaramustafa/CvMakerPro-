@@ -15,7 +15,37 @@ class ResumeLocalDataSourceImpl implements ResumeLocalDataSource {
 
   @override
   Future<List<ResumeModel>> getAllResumes() async {
-    return resumeBox.values.toList();
+    try {
+      return resumeBox.values.toList();
+    } catch (e) {
+      print("CRITICAL: Corrupted Resume Data detected: $e");
+      // Fallback: Try to recover valid resumes and delete corrupted ones
+      final safeList = <ResumeModel>[];
+      final keysToDelete = <dynamic>[];
+
+      for (var key in resumeBox.keys) {
+        try {
+          final resume = resumeBox.get(key);
+          if (resume != null) {
+            safeList.add(resume);
+          } else {
+             // Null value in box (unexpected)
+             keysToDelete.add(key);
+          }
+        } catch (e) {
+           print("Deleting corrupted resume at key $key: $e");
+           keysToDelete.add(key);
+        }
+      }
+
+      // Cleanup corrupted entries
+      if (keysToDelete.isNotEmpty) {
+        await resumeBox.deleteAll(keysToDelete);
+        print("Deleted ${keysToDelete.length} corrupted entries.");
+      }
+
+      return safeList;
+    }
   }
 
   @override

@@ -12,6 +12,7 @@ class CertificatesForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Consumer<ResumeProvider>(
       builder: (context, provider, child) {
         final certificates = provider.currentResume?.certificates ?? [];
@@ -22,7 +23,7 @@ class CertificatesForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Add Button
-              _buildAddButton(context),
+              _buildAddButton(context, c),
               
               const SizedBox(height: 32),
               
@@ -30,10 +31,10 @@ class CertificatesForm extends StatelessWidget {
               if (certificates.isNotEmpty) ...[
                 Text(
                   'form.certificates_list'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: c.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -41,9 +42,11 @@ class CertificatesForm extends StatelessWidget {
                 ...certificates.asMap().entries.map((entry) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: _buildCertificateCard(context, entry.value, entry.key),
+                    child: _buildCertificateCard(context, entry.value, entry.key, c),
                   );
                 }),
+              ] else ...[
+                _buildEmptyState(c),
               ],
               
               const SizedBox(height: 80),
@@ -54,13 +57,13 @@ class CertificatesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildAddButton(BuildContext context) {
+  Widget _buildAddButton(BuildContext context, AppColorsDynamic c) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.accent.withOpacity(0.12),
+        color: c.accent.withOpacity(0.12),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.accent.withOpacity(0.3)),
+        border: Border.all(color: c.accent.withOpacity(0.3)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -74,18 +77,18 @@ class CertificatesForm extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withOpacity(0.2),
+                    color: c.accent.withOpacity(0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.add_rounded, color: AppColors.accent, size: 20),
+                  child: Icon(Icons.add_rounded, color: c.accent, size: 20),
                 ),
                 const SizedBox(width: 16),
                 Text(
                   'form.add_certificate'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.accent,
+                    color: c.accent,
                   ),
                 ),
               ],
@@ -96,17 +99,71 @@ class CertificatesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildCertificateCard(BuildContext context, CertificateModel cert, int index) {
+  Widget _buildEmptyState(AppColorsDynamic c) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: c.cardBackgroundSolid,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: c.cardBorder),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: c.accent.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.workspace_premium_rounded,
+              color: c.accent,
+              size: 28,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'form.no_certificates'.tr(),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: c.textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'form.no_certificates_desc'.tr(),
+            style: TextStyle(
+              fontSize: 14,
+              color: c.textSecondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCertificateCard(BuildContext context, CertificateModel cert, int index, AppColorsDynamic c) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackgroundSolid,
+        color: c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.cardBorder),
-        boxShadow: const [
+        border: Border.all(color: c.cardBorder),
+        boxShadow: c.isDark ? [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
+          ),
+        ] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -122,10 +179,10 @@ class CertificatesForm extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.accent.withOpacity(0.1),
+                    color: c.accent.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.workspace_premium_rounded, color: AppColors.accent),
+                  child: Icon(Icons.workspace_premium_rounded, color: c.accent),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -134,8 +191,8 @@ class CertificatesForm extends StatelessWidget {
                     children: [
                       Text(
                         cert.title,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
+                        style: TextStyle(
+                          color: c.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -143,8 +200,8 @@ class CertificatesForm extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         cert.issuer,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: c.textSecondary,
                           fontSize: 14,
                         ),
                       ),
@@ -152,8 +209,8 @@ class CertificatesForm extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           DateFormat.yMMMd().format(cert.date!),
-                          style: const TextStyle(
-                            color: AppColors.textTertiary,
+                          style: TextStyle(
+                            color: c.textTertiary,
                             fontSize: 12,
                           ),
                         ),
@@ -162,7 +219,7 @@ class CertificatesForm extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+                  icon: Icon(Icons.delete_outline_rounded, color: c.error),
                   onPressed: () => context.read<ResumeProvider>().deleteCertificate(index),
                 ),
               ],
@@ -225,9 +282,10 @@ class _CertificateEditDialogState extends State<_CertificateEditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return AlertDialog(
-      backgroundColor: AppColors.cardBackgroundSolid,
-      title: Text(widget.index == null ? 'form.add_certificate'.tr() : 'form.edit_certificate'.tr()),
+      backgroundColor: c.cardBackgroundSolid,
+      title: Text(widget.index == null ? 'form.add_certificate'.tr() : 'form.edit_certificate'.tr(), style: TextStyle(color: c.textPrimary)),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -236,33 +294,47 @@ class _CertificateEditDialogState extends State<_CertificateEditDialog> {
             children: [
               TextFormField(
                 controller: _titleController,
+                style: TextStyle(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'form.cert_title'.tr(),
+                  labelStyle: TextStyle(color: c.textSecondary),
                   filled: true,
-                  fillColor: AppColors.inputFill,
+                  fillColor: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryStart)),
                 ),
                 validator: (v) => v!.isEmpty ? 'form.required'.tr() : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _issuerController,
+                style: TextStyle(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'form.cert_issuer'.tr(),
+                  labelStyle: TextStyle(color: c.textSecondary),
                   filled: true,
-                  fillColor: AppColors.inputFill,
+                  fillColor: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryStart)),
                 ),
                 validator: (v) => v!.isEmpty ? 'form.required'.tr() : null,
               ),
               const SizedBox(height: 16),
               ListTile(
-                title: Text(_date == null ? 'form.select_date'.tr() : DateFormat.yMMMd().format(_date!)),
-                leading: const Icon(Icons.calendar_today),
+                title: Text(_date == null ? 'form.select_date'.tr() : DateFormat.yMMMd().format(_date!), style: TextStyle(color: c.textPrimary)),
+                leading: Icon(Icons.calendar_today, color: c.textSecondary),
                 onTap: () async {
                   final picked = await showDatePicker(
                     context: context,
                     initialDate: _date ?? DateTime.now(),
                     firstDate: DateTime(1900),
                     lastDate: DateTime.now(),
+                    builder: (context, child) => Theme(
+                       data: Theme.of(context).copyWith(
+                        colorScheme: c.isDark ? ColorScheme.dark(primary: c.primaryStart, surface: c.surface) : ColorScheme.light(primary: c.primaryStart, surface: c.surface),
+                      ),
+                      child: child!,
+                    ),
                   );
                   if (picked != null) setState(() => _date = picked);
                 },
@@ -272,8 +344,12 @@ class _CertificateEditDialogState extends State<_CertificateEditDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text('form.cancel'.tr())),
-        FilledButton(onPressed: _save, child: Text('form.save'.tr())),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text('form.cancel'.tr(), style: TextStyle(color: c.textSecondary))),
+        FilledButton(
+          onPressed: _save,
+          style: FilledButton.styleFrom(backgroundColor: c.primaryStart),
+          child: Text('form.save'.tr()),
+        ),
       ],
     );
   }

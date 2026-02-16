@@ -11,6 +11,7 @@ class ReferencesForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Consumer<ResumeProvider>(
       builder: (context, provider, child) {
         final references = provider.currentResume?.references ?? [];
@@ -21,7 +22,7 @@ class ReferencesForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Add Button
-              _buildAddButton(context),
+              _buildAddButton(context, c),
               
               const SizedBox(height: 32),
               
@@ -29,10 +30,10 @@ class ReferencesForm extends StatelessWidget {
               if (references.isNotEmpty) ...[
                 Text(
                   'form.references_list'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: c.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -40,9 +41,11 @@ class ReferencesForm extends StatelessWidget {
                 ...references.asMap().entries.map((entry) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: _buildReferenceCard(context, entry.value, entry.key),
+                    child: _buildReferenceCard(context, entry.value, entry.key, c),
                   );
                 }),
+              ] else ...[
+                _buildEmptyState(c),
               ],
               
               const SizedBox(height: 80),
@@ -53,13 +56,13 @@ class ReferencesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildAddButton(BuildContext context) {
+  Widget _buildAddButton(BuildContext context, AppColorsDynamic c) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.accentGreen.withOpacity(0.12),
+        color: c.accentGreen.withOpacity(0.12),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.accentGreen.withOpacity(0.3)),
+        border: Border.all(color: c.accentGreen.withOpacity(0.3)),
       ),
       child: Material(
         color: Colors.transparent,
@@ -73,18 +76,18 @@ class ReferencesForm extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.accentGreen.withOpacity(0.2),
+                    color: c.accentGreen.withOpacity(0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.add_rounded, color: AppColors.accentGreen, size: 20),
+                  child: Icon(Icons.add_rounded, color: c.accentGreen, size: 20),
                 ),
                 const SizedBox(width: 16),
                 Text(
                   'form.add_reference'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.accentGreen,
+                    color: c.accentGreen,
                   ),
                 ),
               ],
@@ -95,17 +98,71 @@ class ReferencesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildReferenceCard(BuildContext context, ReferenceModel ref, int index) {
+  Widget _buildEmptyState(AppColorsDynamic c) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: c.cardBackgroundSolid,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: c.cardBorder),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: c.accentGreen.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.people_alt_rounded,
+              color: c.accentGreen,
+              size: 28,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'form.no_references'.tr(),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: c.textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'form.no_references_desc'.tr(),
+            style: TextStyle(
+              fontSize: 14,
+              color: c.textSecondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReferenceCard(BuildContext context, ReferenceModel ref, int index, AppColorsDynamic c) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackgroundSolid,
+        color: c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.cardBorder),
-        boxShadow: const [
+        border: Border.all(color: c.cardBorder),
+        boxShadow: c.isDark ? [
           BoxShadow(
-            color: Colors.black12,
+            color: Colors.black.withOpacity(0.1),
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
+          ),
+        ] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -121,10 +178,10 @@ class ReferencesForm extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppColors.accentGreen.withOpacity(0.1),
+                    color: c.accentGreen.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.people_alt_rounded, color: AppColors.accentGreen),
+                  child: Icon(Icons.people_alt_rounded, color: c.accentGreen),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -133,8 +190,8 @@ class ReferencesForm extends StatelessWidget {
                     children: [
                       Text(
                         ref.fullName,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
+                        style: TextStyle(
+                          color: c.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
@@ -142,8 +199,8 @@ class ReferencesForm extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         ref.company,
-                        style: const TextStyle(
-                          color: AppColors.textSecondary,
+                        style: TextStyle(
+                          color: c.textSecondary,
                           fontSize: 14,
                         ),
                       ),
@@ -151,8 +208,8 @@ class ReferencesForm extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           ref.email!,
-                          style: const TextStyle(
-                            color: AppColors.textTertiary,
+                          style: TextStyle(
+                            color: c.textTertiary,
                             fontSize: 12,
                           ),
                         ),
@@ -161,7 +218,7 @@ class ReferencesForm extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.delete_outline_rounded, color: AppColors.error),
+                  icon: Icon(Icons.delete_outline_rounded, color: c.error),
                   onPressed: () => context.read<ResumeProvider>().deleteReference(index),
                 ),
               ],
@@ -227,9 +284,10 @@ class _ReferenceEditDialogState extends State<_ReferenceEditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return AlertDialog(
-      backgroundColor: AppColors.cardBackgroundSolid,
-      title: Text(widget.index == null ? 'form.add_reference'.tr() : 'form.edit_reference'.tr()),
+      backgroundColor: c.cardBackgroundSolid,
+      title: Text(widget.index == null ? 'form.add_reference'.tr() : 'form.edit_reference'.tr(), style: TextStyle(color: c.textPrimary)),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -238,40 +296,56 @@ class _ReferenceEditDialogState extends State<_ReferenceEditDialog> {
             children: [
               TextFormField(
                 controller: _nameController,
+                style: TextStyle(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'form.ref_name'.tr(),
+                  labelStyle: TextStyle(color: c.textSecondary),
                   filled: true,
-                  fillColor: AppColors.inputFill,
+                  fillColor: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryStart)),
                 ),
                 validator: (v) => v!.isEmpty ? 'form.required'.tr() : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _companyController,
+                style: TextStyle(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'form.ref_company'.tr(),
+                  labelStyle: TextStyle(color: c.textSecondary),
                   filled: true,
-                  fillColor: AppColors.inputFill,
+                  fillColor: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryStart)),
                 ),
                 validator: (v) => v!.isEmpty ? 'form.required'.tr() : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _emailController,
+                style: TextStyle(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'form.email'.tr(),
+                  labelStyle: TextStyle(color: c.textSecondary),
                   filled: true,
-                  fillColor: AppColors.inputFill,
+                  fillColor: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryStart)),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
+                style: TextStyle(color: c.textPrimary),
                 decoration: InputDecoration(
                   labelText: 'form.phone'.tr(),
+                  labelStyle: TextStyle(color: c.textSecondary),
                   filled: true,
-                  fillColor: AppColors.inputFill,
+                  fillColor: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+                  enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryStart)),
                 ),
                 keyboardType: TextInputType.phone,
               ),
@@ -280,8 +354,12 @@ class _ReferenceEditDialogState extends State<_ReferenceEditDialog> {
         ),
       ),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text('form.cancel'.tr())),
-        FilledButton(onPressed: _save, child: Text('form.save'.tr())),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text('form.cancel'.tr(), style: TextStyle(color: c.textSecondary))),
+        FilledButton(
+          onPressed: _save,
+          style: FilledButton.styleFrom(backgroundColor: c.primaryStart),
+          child: Text('form.save'.tr()),
+        ),
       ],
     );
   }

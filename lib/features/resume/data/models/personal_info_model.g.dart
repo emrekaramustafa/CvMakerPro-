@@ -17,14 +17,14 @@ class PersonalInfoModelAdapter extends TypeAdapter<PersonalInfoModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return PersonalInfoModel(
-      fullName: fields[0] as String,
+      fullName: fields[0] as String? ?? '',
       birthDate: fields[8] as DateTime?,
-      email: fields[1] as String,
-      phone: fields[2] as String,
+      email: fields[1] as String? ?? '',
+      phone: fields[2] as String? ?? '',
       address: fields[3] as String?,
       linkedinUrl: fields[4] as String?,
       websiteUrl: fields[5] as String?,
-      targetJobTitle: fields[6] as String,
+      targetJobTitle: fields[6] as String? ?? '',
       profileImagePath: fields[7] as String?,
     );
   }

@@ -19,36 +19,43 @@ class SectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: c.textPrimary),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: ClipRect(
           child: BackdropFilter(
-            filter:ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: AppColors.background.withOpacity(0.8),
+              color: c.background.withOpacity(0.8),
             ),
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          icon: Icon(Icons.arrow_back_ios_new_rounded, color: c.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: AppColors.backgroundGradient,
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: c.backgroundGradient,
         ),
         child: SafeArea(
           child: Stack(
             children: [
-              child,
+              // Wrap child with padding to avoid button overlap
+              Padding(
+                padding: EdgeInsets.only(bottom: onNext != null ? 100 : 0),
+                child: child,
+              ),
               
               if (onNext != null)
                 Positioned(
@@ -58,10 +65,10 @@ class SectionPage extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      gradient: AppColors.primaryGradient,
+                      gradient: c.primaryGradient,
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primaryStart.withOpacity(0.3),
+                          color: c.primaryStart.withOpacity(0.3),
                           blurRadius: 15,
                           offset: const Offset(0, 8),
                         ),
@@ -78,7 +85,7 @@ class SectionPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                nextButtonLabel ?? 'Next',
+                                nextButtonLabel ?? 'form.save_and_continue'.tr(),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,

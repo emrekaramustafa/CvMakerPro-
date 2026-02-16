@@ -3,7 +3,8 @@
   "home": {
     "title": "My Resumes",
     "create_new": "Create New Resume",
-    "no_resumes": "No resumes found. Create one now!"
+    "no_resumes": "No resumes found. Create one now!",
+    "delete_confirm": "Are you sure you want to delete this resume?"
   },
   "welcome": {
     "title": "Welcome",
@@ -14,7 +15,7 @@
     "continue": "Get Started"
   },
   "cv_language": {
-    "title": "Choose CV Language",
+    "title": "In which language will you prepare your CV?",
     "subtitle": "What language should your CV be in?",
     "continue": "Create CV"
   },
@@ -26,7 +27,16 @@
     "import_cv": "Upload Existing CV",
     "import_cv_desc": "Let's perfect your CV",
     "analyzing": "Analyzing CV...",
-    "no_text_found": "No text found in CV"
+    "no_text_found": "No text found in CV",
+    "saved_resumes": "Saved Resumes",
+    "saved_resumes_desc": "Browse your previously created resumes",
+    "ai_working": "AI is Analyzing",
+    "ai_working_desc": "We're extracting and structuring\nyour CV data with AI",
+    "ai_patience": "This may take a few seconds...",
+    "step_extracting": "Extracting text from PDF",
+    "step_analyzing": "AI is analyzing content",
+    "step_structuring": "Structuring your data",
+    "step_finalizing": "Preparing your CV"
   },
   "templates": {
     "title": "Choose Template",
@@ -41,13 +51,25 @@
     "elegant": "Elegant",
     "elegant_desc": "Sophisticated and minimal"
   },
+  "cv_theme": {
+    "title": "Choose Color Theme",
+    "subtitle": "Pick a primary color for your CV",
+    "indigo": "Indigo",
+    "emerald": "Emerald",
+    "amber": "Amber",
+    "rose": "Rose",
+    "cyan": "Cyan"
+  },
   "form": {
     "personal_info": "Personal Info",
     "experience": "Experience",
     "education": "Education",
     "skills": "Skills",
     "next": "Next",
+    "save_and_continue": "Save & Continue",
     "save": "Save",
+    "edit_image": "Edit Photo",
+    "save_success": "Resume saved successfully!",
     "full_name": "Full Name",
     "required": "This field is required",
     "birth_date": "Date of Birth",
@@ -90,6 +112,14 @@
     "lang_basic": "Basic (A2)",
     "no_languages": "Add Your Languages",
     "no_languages_desc": "Add languages you know and your proficiency level.",
+    "no_skills": "Add Your Skills",
+    "no_skills_desc": "Adding skills increases your chances of getting hired by showing your expertise.",
+    "no_activities": "Add Activities & Hobbies",
+    "no_activities_desc": "Showcase your personality and leadership skills through activities.",
+    "no_references": "Add References",
+    "no_references_desc": "References add credibility to your application.",
+    "no_certificates": "Add Certificates",
+    "no_certificates_desc": "Certifications validate your expertise and commitment to learning.",
     "edit_education": "Edit Education",
     "add_skill": "Add Skill",
     "skill_hint": "e.g. Python, Project Management",
@@ -98,6 +128,8 @@
     "change_template": "Change Template",
     "modern_template": "Modern Template",
     "classic_template": "Classic Template",
+    "creative_template": "Creative Template",
+    "elegant_template": "Elegant Template",
     "unlock_pdf": "Unlock Unlimited PDF",
     "premium_title": "Upgrade to Premium",
     "premium_subtitle": "Create and download unlimited CVs",
@@ -112,12 +144,17 @@
     "edit_certificate": "Edit Certificate",
     "cert_title": "Certificate Title",
     "cert_issuer": "Issuing Organization",
+    "select_date": "Select Date",
     "references": "References",
     "references_list": "References",
     "add_reference": "Add Reference",
     "edit_reference": "Edit Reference",
     "ref_name": "Full Name",
     "ref_company": "Company",
+    "no_experience": "Add Professional Experience",
+    "no_experience_desc": "Highlighting your career history increases your credibility.",
+    "no_education": "Add Education History",
+    "no_education_desc": "Showcase your academic background to demonstrate your qualifications.",
     "activities": "Activities",
     "activities_list": "Social Responsibility & Hobbies",
     "add_activity": "Add Activity",
@@ -134,5 +171,68 @@
     "fr": "French",
     "es": "Spanish",
     "pt": "Portuguese"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "dark_mode": "Dark Mode",
+    "legal": "Legal",
+    "privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "about": "About",
+    "app_version": "Version",
+    "contact": "Contact Us",
+    "restore_purchase": "Restore Purchase",
+    "rate_app": "Rate App",
+    "share_app": "Share App"
+  },
+  "legal": {
+    "privacy_title": "Privacy Policy",
+    "terms_title": "Terms of Service"
+  },
+  "cover_letter": {
+    "title": "Cover Letter with AI",
+    "menu_title": "Cover Letter with AI",
+    "short": "Letter",
+    "preview": "Preview",
+    "info": "AI will generate a personalized cover letter using your CV data and the job details you provide.",
+    "company_name": "Company Name",
+    "company_hint": "e.g. Google, Apple, Microsoft",
+    "job_title": "Job Title",
+    "job_hint": "e.g. Senior Software Engineer",
+    "job_desc": "Job Description (Optional)",
+    "job_desc_hint": "Paste the job posting description here for better results...",
+    "generate": "Generate with AI ✨",
+    "generating": "Writing your cover letter...",
+    "generating_desc": "AI is crafting a personalized letter based on your CV and the job requirements.",
+    "ready": "Your cover letter is ready!",
+    "edit_hint": "You can edit the text here...",
+    "copied": "Copied to clipboard!",
+    "regenerate": "Start Over",
+    "share_pdf": "Share PDF",
+    "fill_required": "Please fill in Company Name and Job Title"
+  },
+  "score": {
+    "ai_analyze": "Analyze with AI",
+    "analyzing": "Analyzing your CV...",
+    "keyword_score": "Keyword Match",
+    "action_verbs": "Action Verbs",
+    "overall": "Overall Impact",
+    "strengths": "Strengths",
+    "missing_keywords": "Missing Keywords",
+    "suggestions": "AI Suggestions",
+    "cv_strength_analysis": "CV Strength & Analysis",
+    "ai_insights": "AI Insights"
+  },
+  "ai_assistant": {
+    "title": "AI Assistant",
+    "subtitle": "Supercharge your resume with AI tools",
+    "ai_magic": "AI Magic",
+    "ai_magic_desc": "Auto-optimize content and phrasing",
+    "analyze": "Analyze with AI",
+    "analyze_desc": "Get detailed feedback and keyword analysis",
+    "strength": "Strength Score",
+    "strength_desc": "View breakdown and missing elements"
   }
 }

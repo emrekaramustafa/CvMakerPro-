@@ -15,7 +15,12 @@ class ResumeProvider extends ChangeNotifier {
   final ResumeRepository repository;
   final OpenAIService openAIService;
   ResumeModel? _currentResume;
+  List<ResumeModel> _resumes = [];
   bool _isLoading = false;
+  
+  // AI Analysis state
+  Map<String, dynamic>? _aiAnalysis;
+  bool _isAnalyzing = false;
 
   ResumeProvider({
     required this.repository,
@@ -23,8 +28,13 @@ class ResumeProvider extends ChangeNotifier {
   });
 
   ResumeModel? get currentResume => _currentResume;
+  List<ResumeModel> get resumes => _resumes;
   bool get isLoading => _isLoading;
   List<LanguageEntry> get languages => _currentResume?.languages ?? [];
+  
+  // AI Analysis getters
+  Map<String, dynamic>? get aiAnalysis => _aiAnalysis;
+  bool get isAnalyzing => _isAnalyzing;
 
   // Completion Checkers
   bool get isPersonalInfoComplete {
@@ -175,6 +185,27 @@ class ResumeProvider extends ChangeNotifier {
     return items;
   }
 
+  /// AI-powered CV analysis: keyword score, action verbs, suggestions
+  Future<void> analyzeWithAI() async {
+    if (_currentResume == null) return;
+    _isAnalyzing = true;
+    _aiAnalysis = null;
+    notifyListeners();
+
+    try {
+      final result = await openAIService.analyzeCVStrength(
+        resume: _currentResume!,
+        language: _currentResume!.targetLanguage,
+      );
+      _aiAnalysis = result;
+    } catch (e) {
+      _aiAnalysis = {'error': e.toString()};
+    } finally {
+      _isAnalyzing = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> optimizeResume() async {
     if (_currentResume == null) return;
     _isLoading = true;
@@ -204,6 +235,7 @@ class ResumeProvider extends ChangeNotifier {
         updatedAt: DateTime.now(),
         templateId: _currentResume!.templateId,
         isPremium: _currentResume!.isPremium,
+        coverLetter: _currentResume!.coverLetter,
       );
       
       // Also update experience bullets if possible
@@ -276,7 +308,23 @@ class ResumeProvider extends ChangeNotifier {
       updatedAt: DateTime.now(),
       templateId: _currentResume!.templateId,
       isPremium: _currentResume!.isPremium,
+      coverLetter: _currentResume!.coverLetter,
     );
+    notifyListeners();
+  }
+
+  Future<void> loadResumes() async {
+    _isLoading = true;
+    notifyListeners();
+    
+    _resumes = await repository.getResumes();
+    
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  void loadResume(ResumeModel resume) {
+    _currentResume = resume;
     notifyListeners();
   }
 
@@ -286,9 +334,15 @@ class ResumeProvider extends ChangeNotifier {
     notifyListeners();
     
     await repository.saveResume(_currentResume!);
+    await loadResumes(); // Refresh list
     
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> deleteResume(String id) async {
+    await repository.deleteResume(id);
+    await loadResumes(); // Refresh list
   }
   
   // Experience
@@ -416,6 +470,10 @@ class ResumeProvider extends ChangeNotifier {
     _updateResume(activities: updatedList);
   }
 
+  void updateCoverLetter(String coverLetter) {
+    _updateResume(coverLetter: coverLetter);
+  }
+
   void _updateResume({
     List<ExperienceModel>? experience,
     List<EducationModel>? education,
@@ -424,6 +482,7 @@ class ResumeProvider extends ChangeNotifier {
     List<CertificateModel>? certificates,
     List<ReferenceModel>? references,
     List<ActivityModel>? activities,
+    String? coverLetter,
   }) {
     if (_currentResume == null) return;
     _currentResume = ResumeModel(
@@ -442,6 +501,7 @@ class ResumeProvider extends ChangeNotifier {
       updatedAt: DateTime.now(),
       templateId: _currentResume!.templateId,
       isPremium: _currentResume!.isPremium,
+      coverLetter: coverLetter ?? _currentResume!.coverLetter,
     );
     notifyListeners();
   }
@@ -465,6 +525,7 @@ class ResumeProvider extends ChangeNotifier {
       updatedAt: DateTime.now(),
       templateId: _currentResume!.templateId,
       isPremium: true,
+      coverLetter: _currentResume!.coverLetter,
     );
     notifyListeners();
   }
@@ -488,6 +549,7 @@ class ResumeProvider extends ChangeNotifier {
       updatedAt: DateTime.now(),
       templateId: templateId,
       isPremium: _currentResume!.isPremium,
+      coverLetter: _currentResume!.coverLetter,
     );
     notifyListeners();
   }

@@ -19,6 +19,7 @@ class LanguagesForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Consumer<ResumeProvider>(
       builder: (context, provider, child) {
         final languages = provider.languages;
@@ -29,7 +30,7 @@ class LanguagesForm extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Add Language Button
-              _buildAddLanguageButton(context),
+              _buildAddLanguageButton(context, c),
               
               const SizedBox(height: 24),
               
@@ -37,10 +38,10 @@ class LanguagesForm extends StatelessWidget {
               if (languages.isNotEmpty) ...[
                 Text(
                   'form.languages_list'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: c.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -48,11 +49,11 @@ class LanguagesForm extends StatelessWidget {
                 ...languages.asMap().entries.map((entry) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: _buildLanguageCard(context, entry.value, entry.key),
+                    child: _buildLanguageCard(context, entry.value, entry.key, c),
                   );
                 }).toList(),
               ] else ...[
-                _buildEmptyState(),
+                _buildEmptyState(c),
               ],
               
               const SizedBox(height: 80),
@@ -63,15 +64,15 @@ class LanguagesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildAddLanguageButton(BuildContext context) {
+  Widget _buildAddLanguageButton(BuildContext context, AppColorsDynamic c) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: AppColors.primaryGradient,
+        gradient: c.primaryGradient,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryStart.withOpacity(0.3),
+            color: c.primaryStart.withOpacity(0.3),
             blurRadius: 15,
             offset: const Offset(0, 6),
           ),
@@ -105,14 +106,14 @@ class LanguagesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppColorsDynamic c) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: AppColors.cardBackgroundSolid,
+        color: c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: c.cardBorder),
       ),
       child: Column(
         children: [
@@ -120,31 +121,31 @@ class LanguagesForm extends StatelessWidget {
             width: 60,
             height: 60,
             decoration: BoxDecoration(
-              color: AppColors.primaryStart.withOpacity(0.1),
+              color: c.primaryStart.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               Icons.translate_rounded,
-              color: AppColors.primaryStart,
+              color: c.primaryStart,
               size: 28,
             ),
           ),
           const SizedBox(height: 16),
           Text(
             'form.no_languages'.tr(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: AppColors.textPrimary,
+              color: c.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
             'form.no_languages_desc'.tr(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
-              color: AppColors.textSecondary,
+              color: c.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -153,9 +154,9 @@ class LanguagesForm extends StatelessWidget {
     );
   }
 
-  Widget _buildLanguageCard(BuildContext context, LanguageEntry lang, int index) {
+  Widget _buildLanguageCard(BuildContext context, LanguageEntry lang, int index, AppColorsDynamic c) {
     // Find level color
-    Color levelColor = AppColors.accentGreen;
+    Color levelColor = c.accentGreen;
     for (var level in proficiencyLevels) {
       if (level['id'] == lang.level) {
         levelColor = level['color'] as Color;
@@ -165,12 +166,18 @@ class LanguagesForm extends StatelessWidget {
     
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackgroundSolid,
+        color: c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.cardBorder),
-        boxShadow: [
+        border: Border.all(color: c.cardBorder),
+        boxShadow: c.isDark ? [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -207,10 +214,10 @@ class LanguagesForm extends StatelessWidget {
                     children: [
                       Text(
                         lang.languageName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: c.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -238,7 +245,7 @@ class LanguagesForm extends StatelessWidget {
                     context.read<ResumeProvider>().deleteLanguage(index);
                   },
                   icon: const Icon(Icons.delete_outline_rounded),
-                  color: AppColors.error,
+                  color: c.error,
                   iconSize: 22,
                 ),
               ],
@@ -292,10 +299,11 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -306,7 +314,7 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.textMuted,
+              color: c.textMuted,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -329,6 +337,7 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
                       widget.language == null ? 'form.add_language'.tr() : 'form.edit_language'.tr(),
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w700,
+                        color: c.textPrimary,
                       ),
                     ),
                   ),
@@ -340,40 +349,42 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
                     decoration: InputDecoration(
                       labelText: 'form.language_name'.tr(),
                       hintText: 'form.language_hint'.tr(),
-                      prefixIcon: const Icon(Icons.translate_rounded, color: AppColors.primaryStart, size: 22),
+                      labelStyle: TextStyle(color: c.textSecondary),
+                      prefixIcon: Icon(Icons.translate_rounded, color: c.primaryStart, size: 22),
                       filled: true,
-                      fillColor: AppColors.cardBackgroundSolid,
+                      fillColor: c.cardBackgroundSolid,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: AppColors.cardBorder),
+                        borderSide: BorderSide(color: c.cardBorder),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: AppColors.cardBorder),
+                        borderSide: BorderSide(color: c.cardBorder),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: AppColors.primaryStart, width: 2),
+                        borderSide: BorderSide(color: c.primaryStart, width: 2),
                       ),
                     ),
                     items: _commonLanguages.map((lang) {
                       return DropdownMenuItem(
                         value: lang,
-                        child: Text(lang),
+                        child: Text(lang, style: TextStyle(color: c.textPrimary)),
                       );
                     }).toList(),
                     onChanged: (val) => setState(() => _selectedLanguage = val),
                     validator: (v) => v == null || v.isEmpty ? 'form.required'.tr() : null,
+                    dropdownColor: c.cardBackground,
                   ),
                   const SizedBox(height: 20),
                   
                   // Proficiency Level Selection
                   Text(
                     'form.proficiency_level'.tr(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
+                      color: c.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -391,10 +402,10 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                           decoration: BoxDecoration(
-                            color: isSelected ? color.withOpacity(0.15) : AppColors.cardBackgroundSolid,
+                            color: isSelected ? color.withOpacity(0.15) : c.cardBackgroundSolid,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: isSelected ? color : AppColors.cardBorder,
+                              color: isSelected ? color : c.cardBorder,
                               width: isSelected ? 2 : 1,
                             ),
                           ),
@@ -407,7 +418,7 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
                                   shape: BoxShape.circle,
                                   color: isSelected ? color : Colors.transparent,
                                   border: Border.all(
-                                    color: isSelected ? color : AppColors.textMuted,
+                                    color: isSelected ? color : c.textMuted,
                                     width: 2,
                                   ),
                                 ),
@@ -421,7 +432,7 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                  color: isSelected ? color : AppColors.textPrimary,
+                                  color: isSelected ? color : c.textPrimary,
                                 ),
                               ),
                             ],
@@ -437,11 +448,11 @@ class _LanguageEditDialogState extends State<LanguageEditDialog> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      gradient: AppColors.primaryGradient,
+                      gradient: c.primaryGradient,
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.primaryStart.withOpacity(0.3),
+                          color: c.primaryStart.withOpacity(0.3),
                           blurRadius: 12,
                           offset: const Offset(0, 5),
                         ),

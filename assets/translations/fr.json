@@ -3,7 +3,8 @@
     "home": {
         "title": "Mes CV",
         "create_new": "Créer un nouveau CV",
-        "no_resumes": "Aucun CV trouvé. Créez-en un maintenant!"
+        "no_resumes": "Aucun CV trouvé. Créez-en un maintenant!",
+        "delete_confirm": "Êtes-vous sûr de vouloir supprimer ce CV ?"
     },
     "welcome": {
         "title": "Bienvenue",
@@ -14,7 +15,7 @@
         "continue": "Commencer"
     },
     "cv_language": {
-        "title": "Langue du CV",
+        "title": "Dans quelle langue allez-vous préparer votre CV ?",
         "subtitle": "Dans quelle langue votre CV doit-il être rédigé?",
         "continue": "Créer le CV"
     },
@@ -26,7 +27,16 @@
         "import_cv": "Télécharger un CV",
         "import_cv_desc": "Perfectionnons votre CV",
         "analyzing": "Analyse du CV...",
-        "no_text_found": "Aucun texte trouvé dans le CV"
+        "no_text_found": "Aucun texte trouvé dans le CV",
+        "saved_resumes": "CV Enregistrés",
+        "saved_resumes_desc": "Parcourez vos CV créés précédemment",
+        "ai_working": "L'IA analyse",
+        "ai_working_desc": "Vos données CV sont extraites\net structurées par l'IA",
+        "ai_patience": "Cela peut prendre quelques secondes...",
+        "step_extracting": "Extraction du texte du PDF",
+        "step_analyzing": "L'IA analyse le contenu",
+        "step_structuring": "Structuration de vos données",
+        "step_finalizing": "Préparation de votre CV"
     },
     "templates": {
         "title": "Choisir un modèle",
@@ -47,7 +57,10 @@
         "education": "Formation",
         "skills": "Compétences",
         "next": "Suivant",
+        "save_and_continue": "Enregistrer et Continuer",
         "save": "Enregistrer",
+        "edit_image": "Modifier la Photo",
+        "save_success": "CV enregistré avec succès !",
         "full_name": "Nom complet",
         "required": "Ce champ est obligatoire",
         "birth_date": "Date de naissance",
@@ -90,6 +103,18 @@
         "lang_basic": "Basique (A2)",
         "no_languages": "Ajouter vos langues",
         "no_languages_desc": "Ajoutez les langues que vous connaissez et votre niveau.",
+        "no_skills": "Ajoutez vos compétences",
+        "no_skills_desc": "L'ajout de compétences augmente vos chances d'être embauché.",
+        "no_activities": "Ajouter des activités et loisirs",
+        "no_activities_desc": "Montrez votre personnalité et vos compétences en leadership.",
+        "no_references": "Ajouter des références",
+        "no_references_desc": "Les références ajoutent de la crédibilité à votre candidature.",
+        "no_experience": "Ajouter une expérience professionnelle",
+        "no_experience_desc": "Mettre en avant votre parcours professionnel augmente votre crédibilité.",
+        "no_education": "Ajouter une formation",
+        "no_education_desc": "Présentez votre parcours scolaire pour démontrer vos qualifications.",
+        "no_certificates": "Ajouter des certificats",
+        "no_certificates_desc": "Les certifications valident votre expertise.",
         "edit_education": "Modifier la formation",
         "add_skill": "Ajouter une compétence",
         "skill_hint": "ex. Python, Gestion de projet",
@@ -98,6 +123,8 @@
         "change_template": "Changer de modèle",
         "modern_template": "Modèle moderne",
         "classic_template": "Modèle classique",
+        "creative_template": "Modèle créatif",
+        "elegant_template": "Modèle élégant",
         "unlock_pdf": "Débloquer PDF illimité",
         "premium_title": "Passer à Premium",
         "premium_subtitle": "Créez et téléchargez des CV illimités",
@@ -114,5 +141,57 @@
         "fr": "Français",
         "es": "Espagnol",
         "pt": "Portugais"
+    },
+    "settings": {
+        "title": "Paramètres",
+        "language": "Langue",
+        "theme": "Thème",
+        "dark_mode": "Mode Sombre",
+        "legal": "Légal",
+        "privacy_policy": "Politique de Confidentialité",
+        "terms_of_service": "Conditions d'Utilisation",
+        "about": "À propos",
+        "app_version": "Version",
+        "contact": "Nous contacter",
+        "restore_purchase": "Restaurer l'achat",
+        "rate_app": "Noter l'application",
+        "share_app": "Partager l'application"
+    },
+    "legal": {
+        "privacy_title": "Politique de Confidentialité",
+        "terms_title": "Conditions d'Utilisation"
+    },
+    "cover_letter": {
+        "title": "Lettre de Motivation",
+        "short": "Lettre",
+        "preview": "Aperçu",
+        "info": "L'IA générera une lettre de motivation personnalisée en utilisant les données de votre CV et les détails du poste fournis.",
+        "company_name": "Nom de l'Entreprise",
+        "company_hint": "ex. Google, Apple, Microsoft",
+        "job_title": "Titre du Poste",
+        "job_hint": "ex. Ingénieur Logiciel Senior",
+        "job_desc": "Description du Poste (Facultatif)",
+        "job_desc_hint": "Collez ici la description de l'offre d'emploi pour de meilleurs résultats...",
+        "generate": "Générer avec l'IA ✨",
+        "generating": "Rédaction de votre lettre...",
+        "generating_desc": "L'IA rédige une lettre personnalisée basée sur votre CV et les exigences du poste.",
+        "ready": "Votre lettre de motivation est prête !",
+        "edit_hint": "Vous pouvez modifier le texte ici...",
+        "copied": "Copié dans le presse-papiers !",
+        "regenerate": "Recommencer",
+        "share_pdf": "Partager PDF",
+        "fill_required": "Veuillez remplir le Nom de l'Entreprise et le Titre du Poste"
+    },
+    "score": {
+        "ai_analyze": "Analyser avec l'IA",
+        "analyzing": "Analyse de votre CV...",
+        "keyword_score": "Correspondance des Mots-clés",
+        "action_verbs": "Verbes d'Action",
+        "overall": "Impact Global",
+        "strengths": "Points Forts",
+        "missing_keywords": "Mots-clés Manquants",
+        "suggestions": "Suggestions IA",
+        "cv_strength_analysis": "Force du CV et Analyse",
+        "ai_insights": "Analyse IA"
     }
 }

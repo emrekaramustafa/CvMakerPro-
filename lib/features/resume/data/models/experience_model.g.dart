@@ -17,13 +17,13 @@ class ExperienceModelAdapter extends TypeAdapter<ExperienceModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ExperienceModel(
-      companyName: fields[0] as String,
-      jobTitle: fields[1] as String,
-      startDate: fields[2] as DateTime,
+      companyName: fields[0] as String? ?? '',
+      jobTitle: fields[1] as String? ?? '',
+      startDate: fields[2] as DateTime? ?? DateTime.now(),
       endDate: fields[3] as DateTime?,
-      isCurrent: fields[4] as bool,
-      description: fields[5] as String,
-      bulletPoints: (fields[6] as List).cast<String>(),
+      isCurrent: fields[4] as bool? ?? false,
+      description: fields[5] as String? ?? '',
+      bulletPoints: (fields[6] as List?)?.cast<String>() ?? [],
     );
   }
 

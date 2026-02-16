@@ -47,6 +47,7 @@ class _SkillsFormState extends State<SkillsForm> {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Consumer<ResumeProvider>(
       builder: (context, provider, child) {
         final skills = provider.currentResume?.skills ?? [];
@@ -63,9 +64,15 @@ class _SkillsFormState extends State<SkillsForm> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
+                        boxShadow: c.isDark ? [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ] : [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),
@@ -74,33 +81,35 @@ class _SkillsFormState extends State<SkillsForm> {
                       child: TextField(
                         controller: _controller,
                         focusNode: _focusNode,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
+                        style: TextStyle(
+                          color: c.textPrimary,
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                         decoration: InputDecoration(
                           labelText: 'form.add_skill'.tr(),
                           hintText: 'form.skill_hint'.tr(),
+                          labelStyle: TextStyle(color: c.textSecondary),
+                          hintStyle: TextStyle(color: c.textTertiary),
                           prefixIcon: ShaderMask(
-                            shaderCallback: (bounds) => const LinearGradient(
-                              colors: [AppColors.accentOrange, Color(0xFFEF4444)],
+                            shaderCallback: (bounds) => LinearGradient(
+                              colors: [c.accentOrange, const Color(0xFFEF4444)],
                             ).createShader(bounds),
                             child: const Icon(Icons.psychology_rounded, color: Colors.white, size: 22),
                           ),
                           filled: true,
-                          fillColor: AppColors.cardBackgroundSolid,
+                          fillColor: c.cardBackgroundSolid,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(color: AppColors.cardBorder),
+                            borderSide: BorderSide(color: c.cardBorder),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(color: AppColors.cardBorder),
+                            borderSide: BorderSide(color: c.cardBorder),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(14),
-                            borderSide: const BorderSide(color: AppColors.accentOrange, width: 2),
+                            borderSide: BorderSide(color: c.accentOrange, width: 2),
                           ),
                         ),
                         onSubmitted: (_) => _addSkill(),
@@ -111,15 +120,15 @@ class _SkillsFormState extends State<SkillsForm> {
                   // Premium Add Button
                   Container(
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [AppColors.accentOrange, Color(0xFFEF4444)],
+                      gradient: LinearGradient(
+                        colors: [c.accentOrange, const Color(0xFFEF4444)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.accentOrange.withOpacity(0.4),
+                          color: c.accentOrange.withOpacity(0.4),
                           blurRadius: 12,
                           offset: const Offset(0, 4),
                         ),
@@ -143,14 +152,14 @@ class _SkillsFormState extends State<SkillsForm> {
               
               // Skills Display
               if (skills.isEmpty)
-                _buildEmptyState()
+                _buildEmptyState(c)
               else
                 Expanded(
                   child: SingleChildScrollView(
                     child: Wrap(
                       spacing: 10.0,
                       runSpacing: 10.0,
-                      children: skills.map((skill) => _buildSkillChip(skill)).toList(),
+                      children: skills.map((skill) => _buildSkillChip(skill, c)).toList(),
                     ),
                   ),
                 ),
@@ -161,7 +170,7 @@ class _SkillsFormState extends State<SkillsForm> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppColorsDynamic c) {
     return Expanded(
       child: Center(
         child: Column(
@@ -171,13 +180,13 @@ class _SkillsFormState extends State<SkillsForm> {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.cardBackground,
+                color: c.cardBackground,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.cardBorder),
+                border: Border.all(color: c.cardBorder),
               ),
               child: ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [AppColors.accentOrange, Color(0xFFEF4444)],
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: [c.accentOrange, const Color(0xFFEF4444)],
                 ).createShader(bounds),
                 child: const Icon(
                   Icons.psychology_alt_rounded,
@@ -188,20 +197,21 @@ class _SkillsFormState extends State<SkillsForm> {
             ),
             const SizedBox(height: 16),
             Text(
-              'form.skills'.tr(),
-              style: const TextStyle(
+              'form.no_skills'.tr(),
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
-                color: AppColors.textSecondary,
+                color: c.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Add your skills above',
+              'form.no_skills_desc'.tr(),
               style: TextStyle(
                 fontSize: 14,
-                color: AppColors.textMuted,
+                color: c.textMuted,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -209,20 +219,26 @@ class _SkillsFormState extends State<SkillsForm> {
     );
   }
 
-  Widget _buildSkillChip(String skill) {
+  Widget _buildSkillChip(String skill, AppColorsDynamic c) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppColors.cardBackgroundSolid,
-            AppColors.cardBackgroundSolid.withOpacity(0.8),
+            c.cardBackgroundSolid,
+            c.cardBackgroundSolid.withOpacity(0.8),
           ],
         ),
         borderRadius: BorderRadius.circular(25),
-        border: Border.all(color: AppColors.cardBorder),
-        boxShadow: [
+        border: Border.all(color: c.cardBorder),
+        boxShadow: c.isDark ? [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 3),
           ),
@@ -239,18 +255,18 @@ class _SkillsFormState extends State<SkillsForm> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ShaderMask(
-                  shaderCallback: (bounds) => const LinearGradient(
-                    colors: [AppColors.accentOrange, Color(0xFFEF4444)],
+                  shaderCallback: (bounds) => LinearGradient(
+                    colors: [c.accentOrange, const Color(0xFFEF4444)],
                   ).createShader(bounds),
                   child: const Icon(Icons.star_rounded, color: Colors.white, size: 16),
                 ),
                 const SizedBox(width: 8),
                 Text(
                   skill,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
+                    color: c.textPrimary,
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -259,13 +275,13 @@ class _SkillsFormState extends State<SkillsForm> {
                   child: Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: AppColors.error.withOpacity(0.15),
+                      color: c.error.withOpacity(0.15),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.close_rounded,
                       size: 16,
-                      color: AppColors.error,
+                      color: c.error,
                     ),
                   ),
                 ),

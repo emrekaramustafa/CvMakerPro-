@@ -17,12 +17,12 @@ class EducationModelAdapter extends TypeAdapter<EducationModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return EducationModel(
-      institutionName: fields[0] as String,
-      degree: fields[1] as String,
-      fieldOfStudy: fields[2] as String,
-      startDate: fields[3] as DateTime,
+      institutionName: fields[0] as String? ?? '',
+      degree: fields[1] as String? ?? '',
+      fieldOfStudy: fields[2] as String? ?? '',
+      startDate: fields[3] as DateTime? ?? DateTime.now(),
       endDate: fields[4] as DateTime?,
-      isCurrent: fields[5] as bool,
+      isCurrent: fields[5] as bool? ?? false,
     );
   }
 

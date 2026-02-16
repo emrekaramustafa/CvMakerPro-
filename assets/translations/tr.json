@@ -3,7 +3,8 @@
     "home": {
         "title": "CV'lerim",
         "create_new": "Yeni CV Oluştur",
-        "no_resumes": "Henüz CV yok. Hemen oluştur!"
+        "no_resumes": "Henüz CV yok. Hemen oluştur!",
+        "delete_confirm": "Bu CV'yi silmek istediğinize emin misiniz?"
     },
     "welcome": {
         "title": "Hoş Geldiniz",
@@ -14,7 +15,7 @@
         "continue": "Başlayalım"
     },
     "cv_language": {
-        "title": "CV Dilini Seç",
+        "title": "Hangi dilde CV hazırlayacaksın",
         "subtitle": "CV'niz hangi dilde hazırlansın?",
         "continue": "CV Oluştur"
     },
@@ -26,7 +27,16 @@
         "import_cv": "Mevcut CV'yi Yükle",
         "import_cv_desc": "CV'ni mükemmelleştirelim",
         "analyzing": "CV analiz ediliyor...",
-        "no_text_found": "CV'de metin bulunamadı"
+        "no_text_found": "CV'de metin bulunamadı",
+        "saved_resumes": "Kayıtlı CV'ler",
+        "saved_resumes_desc": "Daha önce oluşturduğun CV'lere göz at",
+        "ai_working": "AI Analiz Ediyor",
+        "ai_working_desc": "CV verileriniz AI ile çıkarılıyor\nve yapılandırılıyor",
+        "ai_patience": "Bu işlem birkaç saniye sürebilir...",
+        "step_extracting": "PDF'den metin çıkarılıyor",
+        "step_analyzing": "AI içeriği analiz ediyor",
+        "step_structuring": "Verileriniz yapılandırılıyor",
+        "step_finalizing": "CV'niz hazırlanıyor"
     },
     "templates": {
         "title": "Şablon Seç",
@@ -41,13 +51,25 @@
         "elegant": "Zarif",
         "elegant_desc": "Sofistike ve minimal"
     },
+    "cv_theme": {
+        "title": "Renk Teması Seç",
+        "subtitle": "CV'n için bir ana renk belirle",
+        "indigo": "İndigo",
+        "emerald": "Zümrüt",
+        "amber": "Kehribar",
+        "rose": "Gül",
+        "cyan": "Siyan"
+    },
     "form": {
         "personal_info": "Kişisel Bilgiler",
         "experience": "Deneyim",
         "education": "Eğitim",
         "skills": "Yetenekler",
         "next": "İleri",
+        "save_and_continue": "Kaydet ve Devam Et",
         "save": "Kaydet",
+        "edit_image": "Fotoğrafı Düzenle",
+        "save_success": "CV başarıyla kaydedildi!",
         "full_name": "Ad Soyad",
         "required": "Bu alan zorunludur",
         "birth_date": "Doğum Tarihi",
@@ -90,6 +112,14 @@
         "lang_basic": "Temel (A2)",
         "no_languages": "Dillerinizi Ekleyin",
         "no_languages_desc": "Bildiğiniz dilleri ve seviyelerini ekleyin.",
+        "no_skills": "Yeteneklerinizi Ekleyin",
+        "no_skills_desc": "Yeteneklerinizi eklemek iş bulma şansınızı artırır.",
+        "no_activities": "Aktivite & Hobi Ekleyin",
+        "no_activities_desc": "Sosyal yönünüzü aktivitelerle gösterin.",
+        "no_references": "Referans Ekleyin",
+        "no_references_desc": "Referanslar başvurunuza güvenilirlik katar.",
+        "no_certificates": "Sertifika Ekleyin",
+        "no_certificates_desc": "Sertifikalar uzmanlığınızı kanıtlar.",
         "edit_education": "Eğitimi Düzenle",
         "add_skill": "Yetenek Ekle",
         "skill_hint": "ör. Python, Project Management",
@@ -98,6 +128,8 @@
         "change_template": "Şablon Değiştir",
         "modern_template": "Modern Şablon",
         "classic_template": "Klasik Şablon",
+        "creative_template": "Yaratıcı Şablon",
+        "elegant_template": "Zarif Şablon",
         "unlock_pdf": "Sınırsız PDF'nin Kilidini Aç",
         "premium_title": "Premium'a Yükselt",
         "premium_subtitle": "Sınırsız CV oluşturun ve indirin",
@@ -112,12 +144,17 @@
         "edit_certificate": "Sertifika Düzenle",
         "cert_title": "Sertifika Adı",
         "cert_issuer": "Veren Kurum",
+        "select_date": "Tarih Seç",
         "references": "Referanslar",
         "references_list": "Referanslarım",
         "add_reference": "Referans Ekle",
         "edit_reference": "Referans Düzenle",
         "ref_name": "Ad Soyad",
         "ref_company": "Şirket",
+        "no_experience": "İş Deneyimi Ekle",
+        "no_experience_desc": "Kariyer geçmişinizi eklemek güvenilirliğinizi artırır.",
+        "no_education": "Eğitim Bilgisi Ekle",
+        "no_education_desc": "Akademik geçmişinizi göstermek yetkinliğinizi kanıtlar.",
         "activities": "Aktiviteler",
         "activities_list": "Sosyal Sorumluluk & Hobiler",
         "add_activity": "Aktivite Ekle",
@@ -134,5 +171,68 @@
         "fr": "Fransızca",
         "es": "İspanyolca",
         "pt": "Portekizce"
+    },
+    "settings": {
+        "title": "Ayarlar",
+        "language": "Dil",
+        "theme": "Tema",
+        "dark_mode": "Karanlık Mod",
+        "legal": "Yasal",
+        "privacy_policy": "Gizlilik Politikası",
+        "terms_of_service": "Kullanım Koşulları",
+        "about": "Hakkında",
+        "app_version": "Sürüm",
+        "contact": "Bize Ulaşın",
+        "restore_purchase": "Satın Alımı Geri Yükle",
+        "rate_app": "Uygulamayı Değerlendir",
+        "share_app": "Uygulamayı Paylaş"
+    },
+    "legal": {
+        "privacy_title": "Gizlilik Politikası",
+        "terms_title": "Kullanım Koşulları"
+    },
+    "cover_letter": {
+        "title": "AI ile Ön Yazı",
+        "menu_title": "AI ile Ön Yazı",
+        "short": "Ön Yazı",
+        "preview": "Önizleme",
+        "info": "AI, CV verilerinizi ve sağladığınız iş detaylarını kullanarak kişiselleştirilmiş bir ön yazı oluşturacak.",
+        "company_name": "Şirket Adı",
+        "company_hint": "ör. Google, Apple, Microsoft",
+        "job_title": "Pozisyon",
+        "job_hint": "ör. Kıdemli Yazılım Mühendisi",
+        "job_desc": "İş Açıklaması (İsteğe Bağlı)",
+        "job_desc_hint": "Daha iyi sonuçlar için iş ilanı açıklamasını buraya yapıştırın...",
+        "generate": "AI ile Oluştur ✨",
+        "generating": "Ön yazınız hazırlanıyor...",
+        "generating_desc": "AI, CV'niz ve iş gereksinimlerine göre kişiselleştirilmiş bir mektup yazıyor.",
+        "ready": "Ön yazınız hazır!",
+        "edit_hint": "Metni buradan düzenleyebilirsiniz...",
+        "copied": "Panoya kopyalandı!",
+        "regenerate": "Baştan Başla",
+        "share_pdf": "PDF Paylaş",
+        "fill_required": "Lütfen Şirket Adı ve Pozisyon alanlarını doldurun"
+    },
+    "score": {
+        "ai_analyze": "AI ile Analiz Et",
+        "analyzing": "CV'niz analiz ediliyor...",
+        "keyword_score": "Anahtar Kelime Uyumu",
+        "action_verbs": "Eylem Fiilleri",
+        "overall": "Genel Etki",
+        "strengths": "Güçlü Yönler",
+        "missing_keywords": "Eksik Anahtar Kelimeler",
+        "suggestions": "AI Önerileri",
+        "cv_strength_analysis": "CV Gücü ve Analiz",
+        "ai_insights": "AI Analizi"
+    },
+    "ai_assistant": {
+        "title": "AI Asistan",
+        "subtitle": "CV'nizi AI araçlarıyla güçlendirin",
+        "ai_magic": "AI Magic",
+        "ai_magic_desc": "İçeriği ve ifadeyi otomatik optimize et",
+        "analyze": "AI ile Analiz Et",
+        "analyze_desc": "Detaylı geri bildirim ve anahtar kelime analizi al",
+        "strength": "Güç Skoru",
+        "strength_desc": "Detaylı kırılımı ve eksikleri gör"
     }
 }

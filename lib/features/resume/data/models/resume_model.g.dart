@@ -17,20 +17,21 @@ class ResumeModelAdapter extends TypeAdapter<ResumeModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return ResumeModel(
-      id: fields[0] as String,
-      targetLanguage: fields[1] as String,
+      id: fields[0] as String? ?? '',
+      targetLanguage: fields[1] as String? ?? 'en',
       personalInfo: fields[2] as PersonalInfoModel,
-      experience: (fields[3] as List).cast<ExperienceModel>(),
-      education: (fields[4] as List).cast<EducationModel>(),
-      skills: (fields[5] as List).cast<String>(),
-      languages: (fields[11] as List).cast<LanguageEntry>(),
-      certificates: (fields[12] as List).cast<CertificateModel>(),
-      references: (fields[13] as List).cast<ReferenceModel>(),
-      activities: (fields[14] as List).cast<ActivityModel>(),
+      experience: (fields[3] as List?)?.cast<ExperienceModel>() ?? [],
+      education: (fields[4] as List?)?.cast<EducationModel>() ?? [],
+      skills: (fields[5] as List?)?.cast<String>() ?? [],
+      languages: (fields[11] as List?)?.cast<LanguageEntry>() ?? [],
+      certificates: (fields[12] as List?)?.cast<CertificateModel>() ?? [],
+      references: (fields[13] as List?)?.cast<ReferenceModel>() ?? [],
+      activities: (fields[14] as List?)?.cast<ActivityModel>() ?? [],
       professionalSummary: fields[6] as String?,
-      createdAt: fields[7] as DateTime,
-      updatedAt: fields[8] as DateTime,
-      templateId: fields[9] as String,
+      coverLetter: fields[15] as String?,
+      createdAt: fields[7] as DateTime? ?? DateTime.now(),
+      updatedAt: fields[8] as DateTime? ?? DateTime.now(),
+      templateId: fields[9] as String? ?? 'modern',
       isPremium: fields[10] as bool?,
     );
   }
@@ -38,7 +39,7 @@ class ResumeModelAdapter extends TypeAdapter<ResumeModel> {
   @override
   void write(BinaryWriter writer, ResumeModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -68,7 +69,9 @@ class ResumeModelAdapter extends TypeAdapter<ResumeModel> {
       ..writeByte(13)
       ..write(obj.references)
       ..writeByte(14)
-      ..write(obj.activities);
+      ..write(obj.activities)
+      ..writeByte(15)
+      ..write(obj.coverLetter);
   }
 
   @override

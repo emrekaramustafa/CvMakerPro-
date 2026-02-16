@@ -19,15 +19,16 @@ class SectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackgroundSolid,
+        color: c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: isCompleted ? color.withOpacity(0.5) : AppColors.cardBorder,
+          color: isCompleted ? color.withOpacity(0.5) : c.cardBorder,
           width: isCompleted ? 1.5 : 1,
         ),
-        boxShadow: [
+        boxShadow: c.isDark ? [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
@@ -36,6 +37,18 @@ class SectionCard extends StatelessWidget {
           if (isCompleted)
             BoxShadow(
               color: color.withOpacity(0.15),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+        ] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+          if (isCompleted)
+            BoxShadow(
+              color: color.withOpacity(0.1),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -68,10 +81,10 @@ class SectionCard extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                        color: c.textPrimary,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -91,7 +104,7 @@ class SectionCard extends StatelessWidget {
                     color: isCompleted ? color : Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: isCompleted ? color : AppColors.textMuted.withOpacity(0.4),
+                      color: isCompleted ? color : c.textMuted.withOpacity(0.4),
                       width: 2,
                     ),
                   ),
@@ -100,6 +113,7 @@ class SectionCard extends StatelessWidget {
                           Icons.check_rounded,
                           size: 18,
                           color: Colors.white,
+                          key: ValueKey('completed_icon'),
                         )
                       : null,
                 ),

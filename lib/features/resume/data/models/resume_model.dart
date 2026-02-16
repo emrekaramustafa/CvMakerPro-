@@ -56,6 +56,9 @@ class ResumeModel extends HiveObject {
   @HiveField(14)
   final List<ActivityModel> activities;
 
+  @HiveField(15)
+  final String? coverLetter;
+
   ResumeModel({
     required this.id,
     required this.targetLanguage,
@@ -68,6 +71,7 @@ class ResumeModel extends HiveObject {
     this.references = const [],
     this.activities = const [],
     this.professionalSummary,
+    this.coverLetter,
     required this.createdAt,
     required this.updatedAt,
     this.templateId = 'modern',

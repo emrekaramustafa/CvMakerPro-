@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +46,6 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     _birthDate = info?.birthDate;
     _profileImagePath = info?.profileImagePath;
     
-    // Listen to changes to update provider
     _nameController.addListener(_updateProvider);
     _emailController.addListener(_updateProvider);
     _phoneController.addListener(_updateProvider);
@@ -69,6 +69,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
   }
 
   Future<void> _pickBirthDate() async {
+    final c = AppColorsDynamic.of(context);
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _birthDate ?? DateTime(1995, 1, 1),
@@ -77,12 +78,9 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: AppColors.primaryStart,
-              onPrimary: Colors.white,
-              surface: AppColors.surface,
-              onSurface: AppColors.textPrimary,
-            ),
+            colorScheme: c.isDark 
+              ? const ColorScheme.dark(primary: AppColors.primaryStart, onPrimary: Colors.white, surface: AppColors.surface)
+              : const ColorScheme.light(primary: AppColors.primaryStart, onPrimary: Colors.white, surface: Colors.white),
           ),
           child: child!,
         );
@@ -90,156 +88,112 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     );
     
     if (picked != null && picked != _birthDate) {
-      setState(() {
-        _birthDate = picked;
-      });
+      setState(() => _birthDate = picked);
       _updateProvider();
     }
   }
 
   Future<void> _pickImage() async {
+    final c = AppColorsDynamic.of(context);
     try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        maxWidth: 500,
-        maxHeight: 500,
-        imageQuality: 85,
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery, maxWidth: 1000, maxHeight: 1000, imageQuality: 90,
       );
       
-      if (image != null) {
-        // Copy image to app directory for persistence
-        final Directory appDir = await getApplicationDocumentsDirectory();
-        final String fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
-        final String newPath = '${appDir.path}/$fileName';
-        
-        await File(image.path).copy(newPath);
-        
-        setState(() {
-          _profileImagePath = newPath;
-        });
-        _updateProvider();
+      if (pickedFile != null) {
+        final croppedFile = await ImageCropper().cropImage(
+          sourcePath: pickedFile.path,
+          aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+          uiSettings: [
+            AndroidUiSettings(
+              toolbarTitle: 'form.edit_image'.tr(),
+              toolbarColor: c.backgroundStart,
+              toolbarWidgetColor: c.textPrimary,
+              activeControlsWidgetColor: c.primaryStart,
+              initAspectRatio: CropAspectRatioPreset.square,
+              lockAspectRatio: true,
+              backgroundColor: c.backgroundStart,
+            ),
+            IOSUiSettings(
+              title: 'form.edit_image'.tr(),
+              aspectRatioLockEnabled: true,
+              resetAspectRatioEnabled: false,
+            ),
+          ],
+        );
+
+        if (croppedFile != null) {
+          final Directory appDir = await getApplicationDocumentsDirectory();
+          final String fileName = 'profile_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          final String newPath = '${appDir.path}/$fileName';
+          await File(croppedFile.path).copy(newPath);
+          setState(() => _profileImagePath = newPath);
+          _updateProvider();
+        }
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error picking image: $e'),
-            backgroundColor: AppColors.error,
-          ),
-        );
-      }
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error picking image: $e'), backgroundColor: c.error));
     }
   }
 
   void _removeImage() {
-    setState(() {
-      _profileImagePath = null;
-    });
+    setState(() => _profileImagePath = null);
     _updateProvider();
   }
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: Column(
           children: [
-            // Premium Profile Picture Section
-            _buildProfilePictureWidget(),
+            _buildProfilePictureWidget(c),
             const SizedBox(height: 32),
-            
-            // Form Fields with Premium Styling
-            _buildPremiumTextField(
-              controller: _nameController,
-              label: 'form.full_name'.tr(),
-              icon: Icons.person_rounded,
-              isRequired: true,
-            ),
+            _buildPremiumTextField(controller: _nameController, label: 'form.full_name'.tr(), icon: Icons.person_rounded, isRequired: true, c: c),
             const SizedBox(height: 16),
-            
-            _buildPremiumTextField(
-              controller: _jobTitleController,
-              label: 'form.target_job_title'.tr(),
-              icon: Icons.work_rounded,
-              isRequired: true,
-            ),
+            _buildPremiumTextField(controller: _jobTitleController, label: 'form.target_job_title'.tr(), icon: Icons.work_rounded, isRequired: true, c: c),
             const SizedBox(height: 16),
-            
-            // Birth Date Picker
-            _buildBirthDatePicker(),
+            _buildBirthDatePicker(c),
             const SizedBox(height: 16),
             _buildPremiumTextField(
-              controller: _emailController,
-              label: 'form.email'.tr(),
-              icon: Icons.email_rounded,
-              keyboardType: TextInputType.emailAddress,
-              isRequired: true,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'form.required'.tr();
-                }
-                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                  return 'Invalid email format';
-                }
-                return null;
-              },
+              controller: _emailController, label: 'form.email'.tr(), icon: Icons.email_rounded, keyboardType: TextInputType.emailAddress, isRequired: true, c: c,
+              validator: (value) => (value == null || value.isEmpty) ? 'form.required'.tr() : (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) ? 'Invalid email format' : null,
             ),
             const SizedBox(height: 16),
-            _buildPremiumTextField(
-              controller: _phoneController,
-              label: 'form.phone'.tr(),
-              icon: Icons.phone_rounded,
-              keyboardType: TextInputType.phone,
-              isRequired: true,
-            ),
+            _buildPremiumTextField(controller: _phoneController, label: 'form.phone'.tr(), icon: Icons.phone_rounded, keyboardType: TextInputType.phone, isRequired: true, c: c),
             const SizedBox(height: 16),
-            _buildPremiumTextField(
-              controller: _addressController,
-              label: 'form.address'.tr(),
-              icon: Icons.location_on_rounded,
-              isRequired: true,
-            ),
+            _buildPremiumTextField(controller: _addressController, label: 'form.address'.tr(), icon: Icons.location_on_rounded, isRequired: true, c: c),
             const SizedBox(height: 16),
-            _buildPremiumTextField(
-              controller: _linkedinController,
-              label: 'Website/LinkedIn URL',
-              icon: Icons.link_rounded,
-              isRequired: true,
-            ),
-            const SizedBox(height: 100), // Space for FAB
+            _buildPremiumTextField(controller: _linkedinController, label: 'Website/LinkedIn URL', icon: Icons.link_rounded, isRequired: true, c: c),
+            const SizedBox(height: 100),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildBirthDatePicker() {
+  Widget _buildBirthDatePicker(AppColorsDynamic c) {
     return GestureDetector(
       onTap: _pickBirthDate,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          boxShadow: c.isDark ? [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4))] : [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           decoration: BoxDecoration(
-            color: AppColors.cardBackgroundSolid,
+            color: c.cardBackgroundSolid,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.cardBorder, width: 1),
+            border: Border.all(color: c.cardBorder, width: 1),
           ),
           child: Row(
             children: [
               ShaderMask(
-                shaderCallback: (bounds) => AppColors.primaryGradient.createShader(bounds),
+                shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
                 child: const Icon(Icons.cake_rounded, color: Colors.white, size: 22),
               ),
               const SizedBox(width: 16),
@@ -247,33 +201,16 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'form.birth_date'.tr(),
-                      style: TextStyle(
-                        color: _birthDate != null ? AppColors.primaryStart : AppColors.textTertiary,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    Text('form.birth_date'.tr(), style: TextStyle(color: _birthDate != null ? c.primaryStart : c.textTertiary, fontSize: 12, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
                     Text(
-                      _birthDate != null 
-                          ? DateFormat.yMMMd(context.locale.toString()).format(_birthDate!)
-                          : 'Select date',
-                      style: TextStyle(
-                        color: _birthDate != null ? AppColors.textPrimary : AppColors.textMuted,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      _birthDate != null ? DateFormat.yMMMd(context.locale.toString()).format(_birthDate!) : 'Select date',
+                      style: TextStyle(color: _birthDate != null ? c.textPrimary : c.textMuted, fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
               ),
-              Icon(
-                Icons.arrow_drop_down_rounded,
-                color: AppColors.textTertiary,
-                size: 28,
-              ),
+              Icon(Icons.arrow_drop_down_rounded, color: c.textTertiary, size: 28),
             ],
           ),
         ),
@@ -281,58 +218,32 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     );
   }
 
-  Widget _buildProfilePictureWidget() {
+  Widget _buildProfilePictureWidget(AppColorsDynamic c) {
     return Column(
       children: [
-        // Premium Profile Picture Container
         GestureDetector(
           onTap: _pickImage,
           child: Container(
-            width: 130,
-            height: 130,
+            width: 130, height: 130,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: _profileImagePath == null 
-                  ? AppColors.cardGradient 
-                  : null,
-              border: Border.all(
-                color: AppColors.primaryStart.withOpacity(0.5),
-                width: 3,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primaryStart.withOpacity(0.3),
-                  blurRadius: 25,
-                  spreadRadius: 0,
-                ),
-              ],
+              gradient: _profileImagePath == null ? c.cardGradient : null,
+              border: Border.all(color: c.primaryStart.withOpacity(0.5), width: 3),
+              boxShadow: [BoxShadow(color: c.primaryStart.withOpacity(0.3), blurRadius: 25, spreadRadius: 0)],
             ),
             child: ClipOval(
               child: _profileImagePath != null
-                  ? Image.file(
-                      File(_profileImagePath!),
-                      fit: BoxFit.cover,
-                      width: 130,
-                      height: 130,
-                    )
+                  ? Image.file(File(_profileImagePath!), fit: BoxFit.cover, width: 130, height: 130)
                   : BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.cardBackground,
-                          shape: BoxShape.circle,
-                        ),
+                        decoration: BoxDecoration(color: c.cardBackground, shape: BoxShape.circle),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ShaderMask(
-                              shaderCallback: (bounds) => 
-                                  AppColors.primaryGradient.createShader(bounds),
-                              child: const Icon(
-                                Icons.add_a_photo_rounded,
-                                size: 36,
-                                color: Colors.white,
-                              ),
+                              shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
+                              child: const Icon(Icons.add_a_photo_rounded, size: 36, color: Colors.white),
                             ),
                           ],
                         ),
@@ -345,90 +256,39 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         if (_profileImagePath != null)
           TextButton.icon(
             onPressed: _removeImage,
-            icon: const Icon(Icons.delete_rounded, size: 18, color: AppColors.error),
-            label: Text(
-              'form.delete'.tr(), 
-              style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w600),
-            ),
+            icon: Icon(Icons.delete_rounded, size: 18, color: c.error),
+            label: Text('form.delete'.tr(), style: TextStyle(color: c.error, fontWeight: FontWeight.w600)),
           )
         else
-          Text(
-            'Tap to add photo',
-            style: TextStyle(
-              color: AppColors.textTertiary, 
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text('Tap to add photo', style: TextStyle(color: c.textTertiary, fontSize: 13, fontWeight: FontWeight.w500)),
       ],
     );
   }
   
-  Widget _buildPremiumTextField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    TextInputType? keyboardType,
-    bool isRequired = false,
-    String? Function(String?)? validator,
-  }) {
+  Widget _buildPremiumTextField({required TextEditingController controller, required String label, required IconData icon, required AppColorsDynamic c, TextInputType? keyboardType, bool isRequired = false, String? Function(String?)? validator}) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: c.isDark ? [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4))] : [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
       ),
       child: TextFormField(
         controller: controller,
-        style: const TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
+        style: TextStyle(color: c.textPrimary, fontSize: 16, fontWeight: FontWeight.w500),
         decoration: InputDecoration(
           labelText: isRequired ? '$label *' : label,
-          prefixIcon: ShaderMask(
-            shaderCallback: (bounds) => AppColors.primaryGradient.createShader(bounds),
-            child: Icon(icon, color: Colors.white, size: 22),
-          ),
+          labelStyle: TextStyle(color: c.textSecondary),
+          prefixIcon: ShaderMask(shaderCallback: (bounds) => c.primaryGradient.createShader(bounds), child: Icon(icon, color: Colors.white, size: 22)),
           filled: true,
-          fillColor: AppColors.cardBackgroundSolid,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.cardBorder, width: 1),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.cardBorder, width: 1),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.primaryStart, width: 2),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.error, width: 1),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(color: AppColors.error, width: 2),
-          ),
+          fillColor: c.cardBackgroundSolid,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: c.cardBorder, width: 1)),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: c.cardBorder, width: 1)),
+          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: c.primaryStart, width: 2)),
+          errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: c.error, width: 1)),
+          focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: c.error, width: 2)),
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         ),
         keyboardType: keyboardType,
-        validator: validator ?? (isRequired
-            ? (value) {
-                if (value == null || value.isEmpty) {
-                  return 'form.required'.tr();
-                }
-                return null;
-              }
-            : null),
+        validator: validator ?? (isRequired ? (value) => (value == null || value.isEmpty) ? 'form.required'.tr() : null : null),
       ),
     );
   }

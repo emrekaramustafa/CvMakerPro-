@@ -3,7 +3,8 @@
     "home": {
         "title": "Meus Currículos",
         "create_new": "Criar novo currículo",
-        "no_resumes": "Nenhum currículo encontrado. Crie um agora!"
+        "no_resumes": "Nenhum currículo encontrado. Crie um agora!",
+        "delete_confirm": "Tem certeza de que deseja excluir este currículo?"
     },
     "welcome": {
         "title": "Bem-vindo",
@@ -14,7 +15,7 @@
         "continue": "Começar"
     },
     "cv_language": {
-        "title": "Idioma do CV",
+        "title": "Em qual idioma você preparará seu currículo?",
         "subtitle": "Em que idioma você quer seu currículo?",
         "continue": "Criar CV"
     },
@@ -26,7 +27,16 @@
         "import_cv": "Enviar CV existente",
         "import_cv_desc": "Vamos aperfeiçoar seu CV",
         "analyzing": "Analisando CV...",
-        "no_text_found": "Nenhum texto encontrado no CV"
+        "no_text_found": "Nenhum texto encontrado no CV",
+        "saved_resumes": "Currículos Salvos",
+        "saved_resumes_desc": "Navegue pelos seus currículos criados anteriormente",
+        "ai_working": "A IA está analisando",
+        "ai_working_desc": "Seus dados de CV estão sendo extraídos\ne estruturados com IA",
+        "ai_patience": "Isso pode levar alguns segundos...",
+        "step_extracting": "Extraindo texto do PDF",
+        "step_analyzing": "A IA analisa o conteúdo",
+        "step_structuring": "Estruturando seus dados",
+        "step_finalizing": "Preparando seu CV"
     },
     "templates": {
         "title": "Escolher modelo",
@@ -47,7 +57,10 @@
         "education": "Educação",
         "skills": "Habilidades",
         "next": "Próximo",
+        "save_and_continue": "Salvar e Continuar",
         "save": "Salvar",
+        "edit_image": "Editar Foto",
+        "save_success": "Currículo salvo com sucesso!",
         "full_name": "Nome completo",
         "required": "Este campo é obrigatório",
         "birth_date": "Data de nascimento",
@@ -90,6 +103,18 @@
         "lang_basic": "Básico (A2)",
         "no_languages": "Adicionar idiomas",
         "no_languages_desc": "Adicione os idiomas que você conhece e seu nível.",
+        "no_skills": "Adicione suas habilidades",
+        "no_skills_desc": "Adicionar habilidades aumenta suas chances de ser contratado.",
+        "no_activities": "Adicionar atividades e hobbies",
+        "no_activities_desc": "Mostre sua personalidade e habilidades de liderança.",
+        "no_references": "Adicionar referências",
+        "no_references_desc": "Referências adicionam credibilidade à sua candidatura.",
+        "no_experience": "Adicionar experiência profissional",
+        "no_experience_desc": "Destacar seu histórico profissional aumenta sua credibilidade.",
+        "no_education": "Adicionar formação",
+        "no_education_desc": "Mostre sua formação acadêmica para demonstrar suas qualificações.",
+        "no_certificates": "Adicionar certificados",
+        "no_certificates_desc": "Certificações validam sua experiência.",
         "edit_education": "Editar educação",
         "add_skill": "Adicionar habilidade",
         "skill_hint": "ex. Python, Gerenciamento de projetos",
@@ -98,6 +123,8 @@
         "change_template": "Alterar modelo",
         "modern_template": "Modelo moderno",
         "classic_template": "Modelo clássico",
+        "creative_template": "Modelo criativo",
+        "elegant_template": "Modelo elegante",
         "unlock_pdf": "Desbloquear PDF ilimitado",
         "premium_title": "Atualizar para Premium",
         "premium_subtitle": "Crie e baixe currículos ilimitados",
@@ -114,5 +141,57 @@
         "fr": "Francês",
         "es": "Espanhol",
         "pt": "Português"
+    },
+    "settings": {
+        "title": "Configurações",
+        "language": "Idioma",
+        "theme": "Tema",
+        "dark_mode": "Modo Escuro",
+        "legal": "Legal",
+        "privacy_policy": "Política de Privacidade",
+        "terms_of_service": "Termos de Serviço",
+        "about": "Sobre",
+        "app_version": "Versão",
+        "contact": "Contate-nos",
+        "restore_purchase": "Restaurar compra",
+        "rate_app": "Avaliar aplicativo",
+        "share_app": "Compartilhar aplicativo"
+    },
+    "legal": {
+        "privacy_title": "Política de Privacidade",
+        "terms_title": "Termos de Serviço"
+    },
+    "cover_letter": {
+        "title": "Carta de Apresentação",
+        "short": "Carta",
+        "preview": "Pré-visualização",
+        "info": "A IA gerará uma carta de apresentação personalizada usando os dados do seu currículo e os detalhes da vaga fornecidos.",
+        "company_name": "Nome da Empresa",
+        "company_hint": "ex. Google, Apple, Microsoft",
+        "job_title": "Título da Vaga",
+        "job_hint": "ex. Engenheiro de Software Sênior",
+        "job_desc": "Descrição da Vaga (Opcional)",
+        "job_desc_hint": "Cole aqui a descrição da vaga para melhores resultados...",
+        "generate": "Gerar com IA ✨",
+        "generating": "Escrevendo sua carta...",
+        "generating_desc": "A IA está elaborando uma carta personalizada com base no seu currículo e nos requisitos da vaga.",
+        "ready": "Sua carta de apresentação está pronta!",
+        "edit_hint": "Você pode editar o texto aqui...",
+        "copied": "Copiado para a área de transferência!",
+        "regenerate": "Recomeçar",
+        "share_pdf": "Compartilhar PDF",
+        "fill_required": "Por favor preencha o Nome da Empresa e o Título da Vaga"
+    },
+    "score": {
+        "ai_analyze": "Analisar com IA",
+        "analyzing": "Analisando seu currículo...",
+        "keyword_score": "Correspondência de Palavras-chave",
+        "action_verbs": "Verbos de Ação",
+        "overall": "Impacto Geral",
+        "strengths": "Pontos Fortes",
+        "missing_keywords": "Palavras-chave Faltantes",
+        "suggestions": "Sugestões IA",
+        "cv_strength_analysis": "Força do Currículo e Análise",
+        "ai_insights": "Análise IA"
     }
 }

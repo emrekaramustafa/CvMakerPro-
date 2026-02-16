@@ -3,7 +3,8 @@
     "home": {
         "title": "Meine Lebensläufe",
         "create_new": "Neuen Lebenslauf erstellen",
-        "no_resumes": "Keine Lebensläufe gefunden. Jetzt erstellen!"
+        "no_resumes": "Keine Lebensläufe gefunden. Jetzt erstellen!",
+        "delete_confirm": "Möchten Sie diesen Lebenslauf wirklich löschen?"
     },
     "welcome": {
         "title": "Willkommen",
@@ -14,7 +15,7 @@
         "continue": "Los geht's"
     },
     "cv_language": {
-        "title": "Lebenslauf-Sprache",
+        "title": "In welcher Sprache wirst du deinen Lebenslauf erstellen?",
         "subtitle": "In welcher Sprache soll Ihr Lebenslauf erstellt werden?",
         "continue": "Lebenslauf erstellen"
     },
@@ -26,7 +27,16 @@
         "import_cv": "CV hochladen",
         "import_cv_desc": "Verbessern wir Ihren Lebenslauf",
         "analyzing": "CV wird analysiert...",
-        "no_text_found": "Kein Text im CV gefunden"
+        "no_text_found": "Kein Text im CV gefunden",
+        "saved_resumes": "Gespeicherte Lebensläufe",
+        "saved_resumes_desc": "Durchsuchen Sie Ihre zuvor erstellten Lebensläufe",
+        "ai_working": "KI analysiert",
+        "ai_working_desc": "Ihre CV-Daten werden mit KI\nextrahiert und strukturiert",
+        "ai_patience": "Dies kann einige Sekunden dauern...",
+        "step_extracting": "Text aus PDF extrahieren",
+        "step_analyzing": "KI analysiert den Inhalt",
+        "step_structuring": "Daten werden strukturiert",
+        "step_finalizing": "Lebenslauf wird vorbereitet"
     },
     "templates": {
         "title": "Vorlage wählen",
@@ -47,7 +57,10 @@
         "education": "Ausbildung",
         "skills": "Fähigkeiten",
         "next": "Weiter",
+        "save_and_continue": "Speichern & Weiter",
         "save": "Speichern",
+        "edit_image": "Bild bearbeiten",
+        "save_success": "Lebenslauf erfolgreich gespeichert!",
         "full_name": "Vollständiger Name",
         "required": "Dieses Feld ist erforderlich",
         "birth_date": "Geburtsdatum",
@@ -90,6 +103,18 @@
         "lang_basic": "Grundkenntnisse (A2)",
         "no_languages": "Sprachen hinzufügen",
         "no_languages_desc": "Fügen Sie Sprachen und Ihr Niveau hinzu.",
+        "no_skills": "Fügen Sie Ihre Fähigkeiten hinzu",
+        "no_skills_desc": "Das Hinzufügen von Fähigkeiten erhöht Ihre Chancen, eingestellt zu werden.",
+        "no_activities": "Aktivitäten & Hobbys hinzufügen",
+        "no_activities_desc": "Zeigen Sie Ihre Persönlichkeit und Führungsqualitäten durch Aktivitäten.",
+        "no_references": "Referenzen hinzufügen",
+        "no_references_desc": "Referenzen verleihen Ihrer Bewerbung Glaubwürdigkeit.",
+        "no_experience": "Berufserfahrung hinzufügen",
+        "no_experience_desc": "Das Hervorheben Ihrer beruflichen Laufbahn erhöht Ihre Glaubwürdigkeit.",
+        "no_education": "Ausbildung hinzufügen",
+        "no_education_desc": "Zeigen Sie Ihren akademischen Hintergrund, um Ihre Qualifikationen zu belegen.",
+        "no_certificates": "Zertifikate hinzufügen",
+        "no_certificates_desc": "Zertifizierungen bestätigen Ihr Fachwissen.",
         "edit_education": "Ausbildung bearbeiten",
         "add_skill": "Fähigkeit hinzufügen",
         "skill_hint": "z.B. Python, Projektmanagement",
@@ -98,6 +123,8 @@
         "change_template": "Vorlage ändern",
         "modern_template": "Moderne Vorlage",
         "classic_template": "Klassische Vorlage",
+        "creative_template": "Kreative Vorlage",
+        "elegant_template": "Elegante Vorlage",
         "unlock_pdf": "Unbegrenztes PDF freischalten",
         "premium_title": "Auf Premium upgraden",
         "premium_subtitle": "Unbegrenzte Lebensläufe erstellen und herunterladen",
@@ -114,5 +141,57 @@
         "fr": "Französisch",
         "es": "Spanisch",
         "pt": "Portugiesisch"
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "language": "Sprache",
+        "theme": "Thema",
+        "dark_mode": "Dunkelmodus",
+        "legal": "Rechtliches",
+        "privacy_policy": "Datenschutzerklärung",
+        "terms_of_service": "Nutzungsbedingungen",
+        "about": "Über",
+        "app_version": "Version",
+        "contact": "Kontakt",
+        "restore_purchase": "Kauf wiederherstellen",
+        "rate_app": "App bewerten",
+        "share_app": "App teilen"
+    },
+    "legal": {
+        "privacy_title": "Datenschutzerklärung",
+        "terms_title": "Nutzungsbedingungen"
+    },
+    "cover_letter": {
+        "title": "Anschreiben",
+        "short": "Brief",
+        "preview": "Vorschau",
+        "info": "Die KI erstellt ein personalisiertes Anschreiben basierend auf Ihrem Lebenslauf und den angegebenen Stellendetails.",
+        "company_name": "Firmenname",
+        "company_hint": "z.B. Google, Apple, Microsoft",
+        "job_title": "Stellenbezeichnung",
+        "job_hint": "z.B. Senior Software-Ingenieur",
+        "job_desc": "Stellenbeschreibung (Optional)",
+        "job_desc_hint": "Fügen Sie hier die Stellenausschreibung für bessere Ergebnisse ein...",
+        "generate": "Mit KI erstellen ✨",
+        "generating": "Ihr Anschreiben wird verfasst...",
+        "generating_desc": "Die KI erstellt einen personalisierten Brief basierend auf Ihrem Lebenslauf und den Stellenanforderungen.",
+        "ready": "Ihr Anschreiben ist bereit!",
+        "edit_hint": "Sie können den Text hier bearbeiten...",
+        "copied": "In die Zwischenablage kopiert!",
+        "regenerate": "Neu starten",
+        "share_pdf": "PDF teilen",
+        "fill_required": "Bitte füllen Sie Firmenname und Stellenbezeichnung aus"
+    },
+    "score": {
+        "ai_analyze": "Mit KI analysieren",
+        "analyzing": "Ihr Lebenslauf wird analysiert...",
+        "keyword_score": "Schlüsselwort-Übereinstimmung",
+        "action_verbs": "Aktionsverben",
+        "overall": "Gesamteindruck",
+        "strengths": "Stärken",
+        "missing_keywords": "Fehlende Schlüsselwörter",
+        "suggestions": "KI-Vorschläge",
+        "cv_strength_analysis": "CV-Stärke & Analyse",
+        "ai_insights": "KI-Analyse"
     }
 }

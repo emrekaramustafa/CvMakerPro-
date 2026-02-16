@@ -4,6 +4,8 @@ import 'package:path_provider/path_provider.dart';
 import '../models/resume_model.dart';
 import '../templates/modern_template.dart';
 import '../templates/classic_template.dart';
+import '../templates/creative_template.dart';
+import '../templates/elegant_template.dart';
 
 class PdfGeneratorService {
   Future<File> generateResumePdf(ResumeModel resume) async {
@@ -12,10 +14,20 @@ class PdfGeneratorService {
     
     // Choose template
     String htmlContent;
-    if (resume.templateId == 'classic') {
-       htmlContent = ClassicTemplate.generate(resume);
-    } else {
-       htmlContent = ModernTemplate.generate(resume);
+    switch (resume.templateId) {
+      case 'classic':
+        htmlContent = ClassicTemplate.generate(resume);
+        break;
+      case 'creative':
+        htmlContent = CreativeTemplate.generate(resume);
+        break;
+      case 'elegant':
+        htmlContent = ElegantTemplate.generate(resume);
+        break;
+      case 'modern':
+      default:
+        htmlContent = ModernTemplate.generate(resume);
+        break;
     }
     
     // Generate PDF

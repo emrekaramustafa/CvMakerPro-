@@ -19,6 +19,7 @@ class EducationForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Consumer<ResumeProvider>(
       builder: (context, provider, child) {
         final educationList = provider.currentResume?.education ?? [];
@@ -31,10 +32,10 @@ class EducationForm extends StatelessWidget {
               // Education Level Buttons
               Text(
                 'form.add_education'.tr(),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
+                  color: c.textPrimary,
                 ),
               ),
               const SizedBox(height: 16),
@@ -44,7 +45,7 @@ class EducationForm extends StatelessWidget {
                 children: educationLevels.map((level) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 10),
-                    child: _buildLevelButton(context, level),
+                    child: _buildLevelButton(context, level, c),
                   );
                 }).toList(),
               ),
@@ -55,10 +56,10 @@ class EducationForm extends StatelessWidget {
               if (educationList.isNotEmpty) ...[
                 Text(
                   'form.education_list'.tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: c.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -66,9 +67,12 @@ class EducationForm extends StatelessWidget {
                 ...educationList.asMap().entries.map((entry) {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: _buildEducationCard(context, entry.value, entry.key),
+                    child: _buildEducationCard(context, entry.value, entry.key, c),
                   );
                 }).toList(),
+              ] else ...[
+                const SizedBox(height: 32),
+                _buildEmptyState(context, c),
               ],
               
               const SizedBox(height: 80), // Space for FAB
@@ -79,7 +83,7 @@ class EducationForm extends StatelessWidget {
     );
   }
 
-  Widget _buildLevelButton(BuildContext context, Map<String, dynamic> level) {
+  Widget _buildLevelButton(BuildContext context, Map<String, dynamic> level, AppColorsDynamic c) {
     final color = level['color'] as Color;
     
     return Container(
@@ -135,9 +139,9 @@ class EducationForm extends StatelessWidget {
     );
   }
 
-  Widget _buildEducationCard(BuildContext context, EducationModel edu, int index) {
+  Widget _buildEducationCard(BuildContext context, EducationModel edu, int index, AppColorsDynamic c) {
     // Find matching level color
-    Color levelColor = AppColors.accentGreen;
+    Color levelColor = c.accentGreen;
     for (var level in educationLevels) {
       if (edu.degree.toLowerCase().contains(level['id']) ||
           (level['nameKey'] as String).tr().toLowerCase() == edu.degree.toLowerCase()) {
@@ -148,12 +152,18 @@ class EducationForm extends StatelessWidget {
     
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cardBackgroundSolid,
+        color: c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder, width: 1),
-        boxShadow: [
+        border: Border.all(color: c.cardBorder, width: 1),
+        boxShadow: c.isDark ? [
           BoxShadow(
             color: Colors.black.withOpacity(0.15),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -190,19 +200,19 @@ class EducationForm extends StatelessWidget {
                     children: [
                       Text(
                         edu.institutionName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
+                          color: c.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${edu.degree} • ${edu.fieldOfStudy}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.textSecondary,
+                          color: c.textSecondary,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -230,12 +240,12 @@ class EducationForm extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: AppColors.cardBackground,
+                    color: c.cardBackground,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.edit_rounded,
-                    color: AppColors.textTertiary,
+                    color: c.textTertiary,
                     size: 20,
                   ),
                 ),
@@ -257,6 +267,50 @@ class EducationForm extends StatelessWidget {
         education: education,
         index: index,
         degreeLevel: degreeLevel,
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context, AppColorsDynamic c) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: c.isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.03),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.school_rounded,
+              size: 40,
+              color: c.textTertiary.withOpacity(0.5),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'form.no_education'.tr(),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: c.textSecondary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Text(
+              'form.no_education_desc'.tr(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: c.textTertiary,
+                height: 1.5,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -306,10 +360,11 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final c = AppColorsDynamic.of(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      decoration: BoxDecoration(
+        color: c.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -320,7 +375,7 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
             width: 40,
             height: 4,
             decoration: BoxDecoration(
-              color: AppColors.textMuted,
+              color: c.textMuted,
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -371,6 +426,7 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
                               widget.education == null ? 'form.add_education'.tr() : 'form.edit_education'.tr(),
                               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.w700,
+                                color: c.textPrimary,
                               ),
                             ),
                           ],
@@ -383,18 +439,21 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
                         controller: _institutionController,
                         label: 'form.institution_name'.tr(),
                         icon: Icons.school_rounded,
+                        c: c,
                       ),
                       const SizedBox(height: 16),
                       _buildPremiumTextField(
                         controller: _degreeController,
                         label: 'form.degree'.tr(),
                         icon: Icons.workspace_premium_rounded,
+                        c: c,
                       ),
                       const SizedBox(height: 16),
                       _buildPremiumTextField(
                         controller: _fieldController,
                         label: 'form.field_of_study'.tr(),
                         icon: Icons.menu_book_rounded,
+                        c: c,
                       ),
                       const SizedBox(height: 20),
                       
@@ -404,12 +463,19 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
                           Expanded(child: _buildDateButton(
                             label: 'form.start_date'.tr(),
                             date: _startDate,
+                            c: c,
                             onTap: () async {
                               final date = await showDatePicker(
                                 context: context,
                                 firstDate: DateTime(1950),
                                 lastDate: DateTime.now(),
                                 initialDate: _startDate,
+                                builder: (context, child) => Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: c.isDark ? ColorScheme.dark(primary: c.primaryStart, surface: c.surface) : ColorScheme.light(primary: c.primaryStart, surface: c.surface),
+                                  ),
+                                  child: child!,
+                                ),
                               );
                               if (date != null) setState(() => _startDate = date);
                             },
@@ -420,12 +486,19 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
                             date: _endDate,
                             isDisabled: _isCurrent,
                             placeholder: 'Select',
+                            c: c,
                             onTap: _isCurrent ? null : () async {
                               final date = await showDatePicker(
                                 context: context,
                                 firstDate: DateTime(1950),
                                 lastDate: DateTime.now(),
                                 initialDate: _endDate ?? DateTime.now(),
+                                builder: (context, child) => Theme(
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: c.isDark ? ColorScheme.dark(primary: c.primaryStart, surface: c.surface) : ColorScheme.light(primary: c.primaryStart, surface: c.surface),
+                                  ),
+                                  child: child!,
+                                ),
                               );
                               if (date != null) setState(() => _endDate = date);
                             },
@@ -437,17 +510,17 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
                       // Currently Studying Checkbox
                       Container(
                         decoration: BoxDecoration(
-                          color: AppColors.cardBackgroundSolid,
+                          color: c.cardBackgroundSolid,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.cardBorder),
+                          border: Border.all(color: c.cardBorder),
                         ),
                         child: CheckboxListTile(
                           title: Text(
                             'form.currently_studying'.tr(),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.textPrimary,
+                              color: c.textPrimary,
                             ),
                           ),
                           value: _isCurrent,
@@ -473,7 +546,7 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
                               },
                               icon: const Icon(Icons.delete_rounded, size: 18),
                               label: Text('form.delete'.tr()),
-                              style: TextButton.styleFrom(foregroundColor: AppColors.error),
+                              style: TextButton.styleFrom(foregroundColor: c.error),
                             ),
                           const SizedBox(width: 12),
                           _buildSaveButton(),
@@ -494,22 +567,24 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
     required TextEditingController controller,
     required String label,
     required IconData icon,
+    required AppColorsDynamic c,
   }) {
     return TextFormField(
       controller: controller,
-      style: const TextStyle(color: AppColors.textPrimary, fontSize: 15),
+      style: TextStyle(color: c.textPrimary, fontSize: 15),
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: TextStyle(color: c.textSecondary),
         prefixIcon: Icon(icon, color: _levelColor, size: 22),
         filled: true,
-        fillColor: AppColors.cardBackgroundSolid,
+        fillColor: c.cardBackgroundSolid,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.cardBorder),
+          borderSide: BorderSide(color: c.cardBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.cardBorder),
+          borderSide: BorderSide(color: c.cardBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -523,6 +598,7 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
   Widget _buildDateButton({
     required String label,
     DateTime? date,
+    required AppColorsDynamic c,
     bool isDisabled = false,
     String? placeholder,
     VoidCallback? onTap,
@@ -532,9 +608,9 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: isDisabled ? AppColors.surface : AppColors.cardBackgroundSolid,
+          color: isDisabled ? c.surface : c.cardBackgroundSolid,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: c.cardBorder),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -544,7 +620,7 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isDisabled ? AppColors.textMuted : _levelColor,
+                color: isDisabled ? c.textMuted : _levelColor,
               ),
             ),
             const SizedBox(height: 4),
@@ -553,7 +629,7 @@ class _EducationEditDialogState extends State<EducationEditDialog> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: isDisabled ? AppColors.textMuted : AppColors.textPrimary,
+                color: isDisabled ? c.textMuted : c.textPrimary,
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/scale_button.dart';
 
 class SectionCard extends StatelessWidget {
   final String title;
@@ -20,106 +21,65 @@ class SectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = AppColorsDynamic.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: c.cardBackgroundSolid,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isCompleted ? color.withOpacity(0.5) : c.cardBorder,
-          width: isCompleted ? 1.5 : 1,
+    return ScaleButton(
+      onTap: onTap,
+      scale: 0.98,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: c.cardBackgroundSolid,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isCompleted ? color.withOpacity(0.5) : c.cardBorder,
+            width: isCompleted ? 1.5 : 1,
+          ),
+          boxShadow: c.isDark ? [] : [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-        boxShadow: c.isDark ? [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-          if (isCompleted)
-            BoxShadow(
-              color: color.withOpacity(0.15),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+        child: Row(
+          children: [
+            // Icon Container
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 24),
             ),
-        ] : [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-          if (isCompleted)
-            BoxShadow(
-              color: color.withOpacity(0.1),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
-          child: Stack(
-            children: [
-              // Main Content
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: color.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        icon,
-                        size: 32,
-                        color: color,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: c.textPrimary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+            const SizedBox(width: 16),
+            
+            // Title
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: c.textPrimary,
                 ),
               ),
-
-              // Bottom Right Status Indicator
-              Positioned(
-                bottom: 12,
-                right: 12,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    color: isCompleted ? color : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: isCompleted ? color : c.textMuted.withOpacity(0.4),
-                      width: 2,
-                    ),
-                  ),
-                  child: isCompleted
-                      ? const Icon(
-                          Icons.check_rounded,
-                          size: 18,
-                          color: Colors.white,
-                          key: ValueKey('completed_icon'),
-                        )
-                      : null,
+            ),
+            
+            // Status Indicator
+            if (isCompleted)
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: c.success.withOpacity(0.1),
+                  shape: BoxShape.circle,
                 ),
-              ),
-            ],
-          ),
+                child: Icon(Icons.check_rounded, color: c.success, size: 16),
+              )
+            else
+              Icon(Icons.chevron_right_rounded, color: c.textTertiary),
+          ],
         ),
       ),
     );

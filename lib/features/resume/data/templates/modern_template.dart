@@ -7,17 +7,15 @@ class ModernTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
     if (resume.personalInfo.profileImagePath != null) {
-      try {
-        final bytes = File(resume.personalInfo.profileImagePath!).readAsBytesSync();
-        final base64Image = base64Encode(bytes);
+      final imageFile = File(resume.personalInfo.profileImagePath!);
+      if (imageFile.existsSync()) {
+        final fileUri = Uri.file(imageFile.path).toString();
         profileImageHtml = '''
           <div style="text-align:center; margin-bottom:18px;">
-            <img src="data:image/jpeg;base64,$base64Image" 
+            <img src="$fileUri" 
                  style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid #0D9488;" />
           </div>
         ''';
-      } catch (e) {
-        profileImageHtml = '';
       }
     }
 
@@ -99,10 +97,10 @@ class ModernTemplate {
       </style>
     </head>
     <body>
-      <table width="100%" cellpadding="0" cellspacing="0" style="min-height:100vh; border:none;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
         <tr>
           <!-- ═══ SIDEBAR ═══ -->
-          <td width="34%" style="background-color:#F1F5F9; padding:28px 18px; vertical-align:top; border-right:3px solid #0D9488; border-top:none; border-bottom:none; border-left:none;">
+          <td width="34%" style="background-color:#F1F5F9; padding:16px 14px; vertical-align:top; border-right:3px solid #0D9488; border-top:none; border-bottom:none; border-left:none;">
             
             $profileImageHtml
 
@@ -140,7 +138,7 @@ class ModernTemplate {
           </td>
 
           <!-- ═══ MAIN CONTENT ═══ -->
-          <td width="66%" style="background-color:#fff; padding:28px 24px; vertical-align:top; border:none;">
+          <td width="66%" style="background-color:#fff; padding:16px 18px; vertical-align:top; border:none;">
             
             <!-- Name & Title -->
             <div style="font-size:24px; font-weight:700; color:#0F172A; letter-spacing:0.5px; margin-bottom:2px;">${resume.personalInfo.fullName}</div>

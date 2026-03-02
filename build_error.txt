@@ -1,0 +1,25 @@
+Running Gradle task 'assembleDebug'...                          
+lib/features/onboarding/presentation/pages/language_selection_page.dart:7:8: Error: Error when reading 'lib/features/onboarding/resume/presentation/pages/home_page.dart': No such file or directory
+import '../../resume/presentation/pages/home_page.dart';
+       ^
+lib/features/onboarding/presentation/pages/language_selection_page.dart:75:65: Error: Not a constant expression.
+                        MaterialPageRoute(builder: (_) => const HomePage()),
+                                                                ^^^^^^^^
+Target kernel_snapshot_program failed: Exception
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileFlutterBuildDebug'.
+> Process 'command '/opt/homebrew/share/flutter/bin/flutter'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 8s
+Running Gradle task 'assembleDebug'...                              9,1s
+Gradle task assembleDebug failed with exit code 1

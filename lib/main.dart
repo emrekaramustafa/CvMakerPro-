@@ -12,6 +12,8 @@ import 'features/resume/data/models/resume_model.dart';
 import 'features/resume/domain/repositories/resume_repository.dart';
 import 'features/resume/presentation/providers/resume_provider.dart';
 import 'features/resume/data/services/openai_service.dart';
+import 'features/paywall/data/services/revenue_cat_service.dart';
+import 'features/paywall/presentation/providers/premium_provider.dart';
 import 'core/constants/app_constants.dart';
 
 import 'dart:async';
@@ -44,6 +46,22 @@ void main() async {
       final repository = ResumeRepositoryImpl(localDataSource: localDataSource);
       final openAiService = OpenAIService(apiKey: AppConstants.openAiApiKey);
 
+      // Init RevenueCat (non-blocking — key may be empty until build-time define is set)
+      final rcService = RevenueCatService();
+      try {
+        await rcService.init();
+      } catch (e) {
+        debugPrint('RevenueCat Init Error: $e');
+      }
+
+      // Create PremiumProvider and eagerly load entitlement status
+      final premiumProvider = PremiumProvider(rcService: rcService);
+      try {
+        await premiumProvider.initialize();
+      } catch (e) {
+        debugPrint('PremiumProvider Init Error: $e');
+      }
+
       runApp(
         EasyLocalization(
           supportedLocales: const [
@@ -61,6 +79,7 @@ void main() async {
                 ),
               ),
               ChangeNotifierProvider(create: (_) => ThemeProvider()),
+              ChangeNotifierProvider<PremiumProvider>.value(value: premiumProvider),
             ],
             child: const MyApp(),
           ),

@@ -193,5 +193,24 @@
         "suggestions": "Suggestions IA",
         "cv_strength_analysis": "Force du CV et Analyse",
         "ai_insights": "Analyse IA"
+    },
+    "paywall": {
+        "title": "Passer Premium",
+        "subtitle": "Débloquez toute la puissance de CV Maker Pro",
+        "feature_unlimited_pdf": "Téléchargements PDF illimités",
+        "feature_ai_tools": "Tous les outils IA : Optimiser, Analyser, Lettre de motivation",
+        "feature_all_templates": "Tous les modèles premium",
+        "feature_no_watermark": "Sans filigrane",
+        "unlock_now": "Débloquer maintenant",
+        "restore_purchases": "Restaurer les achats",
+        "popular": "POPULAIRE",
+        "period_weekly": "Hebdomadaire",
+        "period_monthly": "Mensuel",
+        "period_yearly": "Annuel",
+        "purchase_failed": "Achat échoué. Veuillez réessayer.",
+        "restore_success": "Achats restaurés avec succès !",
+        "restore_none": "Aucun achat précédent trouvé.",
+        "offerings_error": "Impossible de charger les plans. Vérifiez votre connexion.",
+        "legal_note": "L'abonnement est renouvelé automatiquement sauf annulation. Annulez à tout moment dans les Paramètres."
     }
 }

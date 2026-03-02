@@ -11,8 +11,8 @@ class ThemeProvider extends ChangeNotifier {
 
   static bool _loadInitial() {
     final box = Hive.box(_boxName);
-    // Default to light mode (false = light)
-    return box.get(_key, defaultValue: false) as bool;
+    // Default to dark mode (true = dark)
+    return box.get(_key, defaultValue: true) as bool;
   }
 
   bool get isDarkMode => _isDarkMode;

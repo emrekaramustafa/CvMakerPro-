@@ -19,4 +19,14 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+
+    <style name="UCropTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="toolbarStyle">@style/UCropToolbarStyle</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="UCropToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:paddingTop">75px</item>
+    </style>
 </resources>

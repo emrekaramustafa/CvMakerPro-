@@ -1,0 +1,12 @@
+# Android Release Keystore Configuration
+# 
+# Instructions:
+# 1. Rename this file to `key.properties` (do not commit it to public version control).
+# 2. Update the values below with your actual keystore credentials.
+# 3. Ensure your keystore file (.jks or .keystore) is placed at the path specified by storeFile.
+#    (e.g., if storeFile=upload-keystore.jks, place the file in the android/ directory)
+
+storePassword=YOUR_STORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=YOUR_KEY_ALIAS
+storeFile=upload-keystore.jks

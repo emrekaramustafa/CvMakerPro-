@@ -234,5 +234,24 @@
         "analyze_desc": "Detaylı geri bildirim ve anahtar kelime analizi al",
         "strength": "Güç Skoru",
         "strength_desc": "Detaylı kırılımı ve eksikleri gör"
+    },
+    "paywall": {
+        "title": "Premium'a Geç",
+        "subtitle": "CV Maker Pro'nun tüm gücünü aç",
+        "feature_unlimited_pdf": "Sınırsız PDF indirme",
+        "feature_ai_tools": "Tüm AI araçları: Optimize, Analiz, Ön Yazı",
+        "feature_all_templates": "Tüm premium şablonlar",
+        "feature_no_watermark": "Filigransız",
+        "unlock_now": "Şimdi Aç",
+        "restore_purchases": "Satın Almaları Geri Yükle",
+        "popular": "POPÜLER",
+        "period_weekly": "Haftalık",
+        "period_monthly": "Aylık",
+        "period_yearly": "Yıllık",
+        "purchase_failed": "Satın alma başarısız. Lütfen tekrar deneyin.",
+        "restore_success": "Satın almalar başarıyla geri yüklendi!",
+        "restore_none": "Önceki satın alma bulunamadı.",
+        "offerings_error": "Planlar yüklenemedi. Bağlantınızı kontrol edin.",
+        "legal_note": "Abonelik iptal edilmediği sürece otomatik yenilenir. Ayarlardan istediğiniz zaman iptal edebilirsiniz."
     }
 }

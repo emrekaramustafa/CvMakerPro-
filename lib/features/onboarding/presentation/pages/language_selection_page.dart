@@ -1,13 +1,10 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../resume/presentation/providers/resume_provider.dart';
-import '../../../resume/data/services/pdf_import_service.dart';
-import 'theme_selection_page.dart';
 import 'template_selection_page.dart';
+import '../../../resume/presentation/pages/home_page.dart';
 
 class LanguageSelectionPage extends StatefulWidget {
   const LanguageSelectionPage({super.key});
@@ -68,18 +65,32 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(Icons.arrow_back_rounded, color: c.textPrimary),
-                  style: IconButton.styleFrom(
-                    backgroundColor: c.cardBackgroundSolid,
-                    padding: const EdgeInsets.all(12),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                ShaderMask(
-                  shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
-                  child: const Icon(Icons.translate_rounded, size: 48, color: Colors.white),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomePage()),
+                            (route) => false,
+                          );
+                        }
+                      },
+                      icon: Icon(Icons.arrow_back_rounded, color: c.textPrimary),
+                      style: IconButton.styleFrom(
+                        backgroundColor: c.cardBackgroundSolid,
+                        padding: const EdgeInsets.all(12),
+                      ),
+                    ),
+                    ShaderMask(
+                      shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
+                      child: const Icon(Icons.translate_rounded, size: 48, color: Colors.white),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -130,13 +141,13 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
         ),
         boxShadow: isSelected ? [
           BoxShadow(
-            color: c.primaryStart.withOpacity(0.2),
+            color: c.primaryStart.withValues(alpha: 0.2),
             blurRadius: 15,
             offset: const Offset(0, 4),
           ),
         ] : c.isDark ? [] : [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -159,7 +170,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: isSelected ? c.primaryStart.withOpacity(0.1) : c.surface,
+                    color: isSelected ? c.primaryStart.withValues(alpha: 0.1) : c.surface,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(
@@ -212,7 +223,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: isEnabled ? [
           BoxShadow(
-            color: c.primaryStart.withOpacity(0.4),
+            color: c.primaryStart.withValues(alpha: 0.4),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),

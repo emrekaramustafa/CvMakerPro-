@@ -193,5 +193,24 @@
         "suggestions": "Sugerencias IA",
         "cv_strength_analysis": "Fortaleza del CV y Análisis",
         "ai_insights": "Análisis IA"
+    },
+    "paywall": {
+        "title": "Hazte Premium",
+        "subtitle": "Desbloquea todo el poder de CV Maker Pro",
+        "feature_unlimited_pdf": "Descargas PDF ilimitadas",
+        "feature_ai_tools": "Todas las herramientas IA: Optimizar, Analizar, Carta",
+        "feature_all_templates": "Todas las plantillas premium",
+        "feature_no_watermark": "Sin marcas de agua",
+        "unlock_now": "Desbloquear ahora",
+        "restore_purchases": "Restaurar compras",
+        "popular": "POPULAR",
+        "period_weekly": "Semanal",
+        "period_monthly": "Mensual",
+        "period_yearly": "Anual",
+        "purchase_failed": "Compra fallida. Por favor, inténtalo de nuevo.",
+        "restore_success": "¡Compras restauradas con éxito!",
+        "restore_none": "No se encontraron compras anteriores.",
+        "offerings_error": "No se pudieron cargar los planes. Comprueba tu conexión.",
+        "legal_note": "La suscripción se renueva automáticamente salvo cancelación. Cancela en cualquier momento en Ajustes."
     }
 }

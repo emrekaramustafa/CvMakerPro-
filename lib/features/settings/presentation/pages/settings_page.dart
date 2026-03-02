@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:in_app_review/in_app_review.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/theme_provider.dart';
 import 'legal_page.dart';
@@ -197,8 +199,17 @@ class _SettingsPageState extends State<SettingsPage> {
         ListTile(
           leading: Icon(Icons.star_outline, color: c.textSecondary),
           title: Text('settings.rate_app'.tr(), style: TextStyle(color: c.textPrimary)),
-          onTap: () {
-            // TODO: Implement rating
+          onTap: () async {
+            try {
+              final InAppReview inAppReview = InAppReview.instance;
+              if (await inAppReview.isAvailable()) {
+                inAppReview.requestReview();
+              } else {
+                inAppReview.openStoreListing(appStoreId: 'YOUR_APP_STORE_ID'); // Replace with real ID later
+              }
+            } catch (e) {
+              debugPrint('Error launching review: $e');
+            }
           },
         ),
       ],

@@ -193,5 +193,24 @@
         "suggestions": "KI-Vorschläge",
         "cv_strength_analysis": "CV-Stärke & Analyse",
         "ai_insights": "KI-Analyse"
+    },
+    "paywall": {
+        "title": "Premium werden",
+        "subtitle": "Schalten Sie die volle Leistung von CV Maker Pro frei",
+        "feature_unlimited_pdf": "Unbegrenzte PDF-Downloads",
+        "feature_ai_tools": "Alle KI-Tools: Optimieren, Analysieren, Anschreiben",
+        "feature_all_templates": "Alle Premium-Vorlagen",
+        "feature_no_watermark": "Ohne Wasserzeichen",
+        "unlock_now": "Jetzt freischalten",
+        "restore_purchases": "Käufe wiederherstellen",
+        "popular": "BELIEBT",
+        "period_weekly": "Wöchentlich",
+        "period_monthly": "Monatlich",
+        "period_yearly": "Jährlich",
+        "purchase_failed": "Kauf fehlgeschlagen. Bitte erneut versuchen.",
+        "restore_success": "Käufe erfolgreich wiederhergestellt!",
+        "restore_none": "Keine früheren Käufe gefunden.",
+        "offerings_error": "Pläne konnten nicht geladen werden. Verbindung prüfen.",
+        "legal_note": "Abonnement verlängert sich automatisch, sofern nicht gekündigt. Jederzeit in den Einstellungen kündbar."
     }
 }

@@ -56,40 +56,43 @@ class _AILoadingOverlayState extends State<AILoadingOverlay> with TickerProvider
   @override
   Widget build(BuildContext context) {
     final c = AppColorsDynamic.of(context);
-    return Scaffold(
-      body: Container(
-        width: double.infinity, height: double.infinity,
-        decoration: BoxDecoration(gradient: c.backgroundGradient),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const Spacer(flex: 2),
-              _buildAnimatedIcon(c),
-              const SizedBox(height: 48),
-              ShaderMask(
-                shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
-                child: Text(
-                  'cv_choice.ai_working'.tr(),
-                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -0.5),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Container(
+          width: double.infinity, height: double.infinity,
+          decoration: BoxDecoration(gradient: c.backgroundGradient),
+          child: SafeArea(
+            child: Column(
+              children: [
+                const Spacer(flex: 2),
+                _buildAnimatedIcon(c),
+                const SizedBox(height: 48),
+                ShaderMask(
+                  shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
+                  child: Text(
+                    'cv_choice.ai_working'.tr(),
+                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -0.5),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'cv_choice.ai_working_desc'.tr(),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: c.textSecondary, height: 1.5),
-              ),
-              const SizedBox(height: 48),
-              _buildStepIndicators(c),
-              const Spacer(flex: 3),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 32),
-                child: Text(
-                  'cv_choice.ai_patience'.tr(),
-                  style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
+                const SizedBox(height: 12),
+                Text(
+                  'cv_choice.ai_working_desc'.tr(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: c.textSecondary, height: 1.5),
                 ),
-              ),
-            ],
+                const SizedBox(height: 48),
+                _buildStepIndicators(c),
+                const Spacer(flex: 3),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32),
+                  child: Text(
+                    'cv_choice.ai_patience'.tr(),
+                    style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -113,10 +116,10 @@ class _AILoadingOverlayState extends State<AILoadingOverlay> with TickerProvider
                     shape: BoxShape.circle,
                     gradient: SweepGradient(
                       colors: [
-                        c.primaryStart.withOpacity(0.0),
-                        c.primaryStart.withOpacity(0.6),
-                        c.primaryEnd.withOpacity(0.8),
-                        c.primaryStart.withOpacity(0.0),
+                        c.primaryStart.withValues(alpha: 0.0),
+                        c.primaryStart.withValues(alpha: 0.6),
+                        c.primaryEnd.withValues(alpha: 0.8),
+                        c.primaryStart.withValues(alpha: 0.0),
                       ],
                       stops: const [0.0, 0.3, 0.7, 1.0],
                     ),
@@ -131,7 +134,7 @@ class _AILoadingOverlayState extends State<AILoadingOverlay> with TickerProvider
               shape: BoxShape.circle,
               color: c.isDark ? const Color(0xFF1A1F35) : Colors.white,
               boxShadow: [
-                BoxShadow(color: c.primaryStart.withOpacity(0.2), blurRadius: 30, spreadRadius: 5),
+                BoxShadow(color: c.primaryStart.withValues(alpha: 0.2), blurRadius: 30, spreadRadius: 5),
               ],
             ),
           ),
@@ -163,13 +166,13 @@ class _AILoadingOverlayState extends State<AILoadingOverlay> with TickerProvider
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             decoration: BoxDecoration(
               color: isActive
-                  ? c.primaryStart.withOpacity(0.15)
-                  : isDone ? c.surface.withOpacity(0.5) : Colors.transparent,
+                  ? c.primaryStart.withValues(alpha: 0.15)
+                  : isDone ? c.surface.withValues(alpha: 0.5) : Colors.transparent,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: isActive
-                    ? c.primaryStart.withOpacity(0.4)
-                    : isDone ? c.primaryStart.withOpacity(0.2) : c.cardBorder.withOpacity(0.5),
+                    ? c.primaryStart.withValues(alpha: 0.4)
+                    : isDone ? c.primaryStart.withValues(alpha: 0.2) : c.cardBorder.withValues(alpha: 0.5),
                 width: isActive ? 1.5 : 1,
               ),
             ),
@@ -205,7 +208,7 @@ class _AILoadingOverlayState extends State<AILoadingOverlay> with TickerProvider
                     width: 18, height: 18,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(c.primaryStart.withOpacity(0.7)),
+                      valueColor: AlwaysStoppedAnimation<Color>(c.primaryStart.withValues(alpha: 0.7)),
                     ),
                   ),
               ],

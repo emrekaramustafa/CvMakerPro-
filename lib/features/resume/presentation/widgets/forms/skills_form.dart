@@ -148,7 +148,9 @@ class _SkillsFormState extends State<SkillsForm> {
                   ),
                 ],
               ),
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
+              _buildSuggestedSkills(c, skills),
+              const SizedBox(height: 24),
               
               // Skills Display
               if (skills.isEmpty)
@@ -167,6 +169,77 @@ class _SkillsFormState extends State<SkillsForm> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSuggestedSkills(AppColorsDynamic c, List<String> currentSkills) {
+    final suggestedKeys = [
+      'form.suggested_teamwork',
+      'form.suggested_discipline',
+      'form.suggested_communication',
+    ];
+
+    // Translate the keys first
+    final suggested = suggestedKeys.map((key) => key.tr()).toList();
+    // Filter out ones already in the list (case-insensitive check)
+    final toShow = suggested.where((s) {
+      return !currentSkills.any((cs) => cs.toLowerCase() == s.toLowerCase());
+    }).toList();
+
+    if (toShow.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 12),
+          child: Text(
+            'form.suggestions'.tr(),
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: c.textTertiary,
+            ),
+          ),
+        ),
+        Wrap(
+          spacing: 8.0,
+          runSpacing: 8.0,
+          children: toShow.map((skill) {
+            return GestureDetector(
+              onTap: () {
+                final provider = context.read<ResumeProvider>();
+                final updatedSkills = List<String>.from(provider.currentResume?.skills ?? []);
+                updatedSkills.add(skill);
+                provider.updateSkills(updatedSkills);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                decoration: BoxDecoration(
+                  color: c.primaryStart.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: c.primaryStart.withOpacity(0.2)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add_rounded, size: 16, color: c.primaryStart),
+                    const SizedBox(width: 4),
+                    Text(
+                      skill,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: c.primaryStart,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 

@@ -530,6 +530,48 @@ class ResumeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // ─── Onboarding Progress ───────────────────────
+  bool get hasSelectedTemplate => _currentResume?.templateId != null && _currentResume!.templateId.isNotEmpty;
+  bool get hasAddedPersonalInfo => isPersonalInfoComplete;
+  bool get hasAddedExperience => isExperienceComplete;
+  bool get hasCheckedAI => _aiAnalysis != null;
+  bool get hasExportedPDF => false; // Track externally if needed
+
+  double get onboardingProgress {
+    int done = 0;
+    const total = 5;
+    if (hasSelectedTemplate) done++;
+    if (hasAddedPersonalInfo) done++;
+    if (hasAddedExperience) done++;
+    if (hasCheckedAI) done++;
+    if (hasExportedPDF) done++;
+    return done / total;
+  }
+
+  // ─── Summary ──────────────────────────────────
+  void updateSummary(String summary) {
+    if (_currentResume == null) return;
+    _currentResume = ResumeModel(
+      id: _currentResume!.id,
+      targetLanguage: _currentResume!.targetLanguage,
+      personalInfo: _currentResume!.personalInfo,
+      experience: _currentResume!.experience,
+      education: _currentResume!.education,
+      skills: _currentResume!.skills,
+      languages: _currentResume!.languages,
+      certificates: _currentResume!.certificates,
+      references: _currentResume!.references,
+      activities: _currentResume!.activities,
+      professionalSummary: summary,
+      createdAt: _currentResume!.createdAt,
+      updatedAt: DateTime.now(),
+      templateId: _currentResume!.templateId,
+      isPremium: _currentResume!.isPremium,
+      coverLetter: _currentResume!.coverLetter,
+    );
+    notifyListeners();
+  }
+
   // Template
   void switchTemplate(String templateId) {
     if (_currentResume == null) return;

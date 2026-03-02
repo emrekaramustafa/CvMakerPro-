@@ -7,17 +7,15 @@ class ClassicTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
     if (resume.personalInfo.profileImagePath != null) {
-      try {
-        final bytes = File(resume.personalInfo.profileImagePath!).readAsBytesSync();
-        final base64Image = base64Encode(bytes);
+      final imageFile = File(resume.personalInfo.profileImagePath!);
+      if (imageFile.existsSync()) {
+        final fileUri = Uri.file(imageFile.path).toString();
         profileImageHtml = '''
           <div style="text-align:center; margin-bottom:12px;">
-            <img src="data:image/jpeg;base64,$base64Image" 
+            <img src="$fileUri" 
                  style="width:80px; height:80px; border-radius:50%; object-fit:cover; border:3px solid #C4975C;" />
           </div>
         ''';
-      } catch (e) {
-        profileImageHtml = '';
       }
     }
 
@@ -112,7 +110,7 @@ class ClassicTemplate {
     </head>
     <body>
       <!-- ═══ HEADER BAND ═══ -->
-      <div style="background-color:#1B2A4A; color:#fff; padding:30px 44px 24px; text-align:center;">
+      <div style="background-color:#1B2A4A; color:#fff; padding:16px 36px 12px; text-align:center;">
         $profileImageHtml
         <div style="font-size:26px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#fff; margin-bottom:4px;">
           ${resume.personalInfo.fullName}
@@ -126,7 +124,7 @@ class ClassicTemplate {
       </div>
 
       <!-- ═══ CONTENT ═══ -->
-      <div style="padding:24px 44px 36px;">
+      <div style="padding:12px 36px 24px;">
         
         <!-- Profile -->
         ${resume.professionalSummary != null && resume.professionalSummary!.isNotEmpty ? '''

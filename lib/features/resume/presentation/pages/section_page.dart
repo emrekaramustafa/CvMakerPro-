@@ -2,12 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/scale_button.dart';
+
+import 'preview_page.dart';
+import 'home_page.dart';
 
 class SectionPage extends StatelessWidget {
   final String title;
   final Widget child;
   final VoidCallback? onNext;
   final String? nextButtonLabel;
+  final bool showQuickPreview;
 
   const SectionPage({
     super.key,
@@ -15,6 +20,7 @@ class SectionPage extends StatelessWidget {
     required this.child,
     this.onNext,
     this.nextButtonLabel,
+    this.showQuickPreview = true,
   });
 
   @override
@@ -33,13 +39,23 @@ class SectionPage extends StatelessWidget {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              color: c.background.withOpacity(0.8),
+              color: c.background.withValues(alpha: 0.8),
             ),
           ),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_rounded, color: c.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => HomePage()),
+                (route) => false,
+              );
+            }
+          },
         ),
       ),
       body: Container(
@@ -68,7 +84,7 @@ class SectionPage extends StatelessWidget {
                       gradient: c.primaryGradient,
                       boxShadow: [
                         BoxShadow(
-                          color: c.primaryStart.withOpacity(0.3),
+                          color: c.primaryStart.withValues(alpha: 0.3),
                           blurRadius: 15,
                           offset: const Offset(0, 8),
                         ),
@@ -77,7 +93,9 @@ class SectionPage extends StatelessWidget {
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: onNext,
+                        onTap: () {
+                          if (onNext != null) onNext!();
+                        },
                         borderRadius: BorderRadius.circular(16),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -109,6 +127,44 @@ class SectionPage extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: showQuickPreview ? Padding(
+        padding: EdgeInsets.only(bottom: onNext != null ? 82 : 16),
+        child: ScaleButton(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const PreviewPage(resume: null)),
+          ),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: c.success,
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.2),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.visibility_rounded, color: Colors.white, size: 20),
+              const SizedBox(width: 8),
+              Text(
+                'form.quick_preview'.tr(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      )) : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

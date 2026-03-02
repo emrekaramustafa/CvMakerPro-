@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -18,6 +19,7 @@ import 'template_selection_page.dart';
 import '../../../resume/presentation/pages/home_page.dart';
 import '../../../resume/data/services/pdf_import_service.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
+import '../../../../core/services/analytics_service.dart';
 import '../widgets/ai_loading_overlay.dart';
 
 class CVChoicePage extends StatefulWidget {
@@ -46,11 +48,13 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
   }
 
   void _createNewCV() {
+    AnalyticsService().trackEvent('create_new_cv');
     Navigator.push(context, MaterialPageRoute(builder: (_) => const LanguageSelectionPage()));
   }
 
   Future<void> _importCV() async {
     try {
+      AnalyticsService().trackEvent('import_cv_start');
       final result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
       if (result == null || result.files.isEmpty) return;
       final filePath = result.files.single.path;
@@ -69,7 +73,9 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
       
       if (extractedText.isEmpty) {
         if (mounted) {
-          Navigator.pop(context);
+          if (ModalRoute.of(context)?.isCurrent == true) {
+            Navigator.pop(context);
+          }
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('cv_choice.no_text_found'.tr()), backgroundColor: AppColors.error));
         }
         return;
@@ -105,14 +111,18 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
       );
       
       if (mounted) {
-        Navigator.pop(context);
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          Navigator.pop(context);
+        }
         context.read<ResumeProvider>().loadResume(resume);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const TemplateSelectionPage(isFromImport: true)));
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const TemplateSelectionPage(isFromImport: true)));
       }
     } catch (e) {
       if (mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.error));
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          Navigator.pop(context);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${'common.error'.tr()}: $e"), backgroundColor: AppColors.error));
       }
     }
   }
@@ -125,44 +135,316 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final c = AppColorsDynamic.of(context);
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(gradient: c.backgroundGradient),
-        child: SafeArea(
-          child: FadeTransition(
-            opacity: _fadeAnimation,
+    final isRoot = !Navigator.canPop(context);
+    
+    return PopScope(
+      canPop: !isRoot,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+          (route) => false,
+        );
+      },
+      child: Scaffold(
+        body: Stack(
+        children: [
+          // Background Glows
+          Positioned(
+            top: -100,
+            left: -100,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: c.primaryStart.withValues(alpha: 0.15),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -50,
+            right: -50,
+            child: Container(
+              width: 250,
+              height: 250,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: c.accent.withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+          
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(gradient: c.backgroundGradient),
+              child: SafeArea(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8),
+                        // Settings Button aligned to the right
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage())),
+                            icon: Icon(Icons.settings_outlined, color: Colors.white.withValues(alpha: 0.8)),
+                            style: IconButton.styleFrom(
+                              backgroundColor: Colors.white.withValues(alpha: 0.05),
+                              padding: const EdgeInsets.all(12),
+                              side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        
+                        // Centered App Icon & Name
+                        Center(
+                          child: Column(
+                            children: [
+                              TweenAnimationBuilder<double>(
+                                tween: Tween(begin: 0.8, end: 1.0),
+                                duration: const Duration(milliseconds: 800),
+                                curve: Curves.easeOutBack,
+                                builder: (context, scale, child) {
+                                  return Transform.scale(
+                                    scale: scale,
+                                    child: child,
+                                  );
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(28),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF7C3AED).withValues(alpha: 0.5),
+                                        blurRadius: 40,
+                                        spreadRadius: 5,
+                                        offset: const Offset(0, 10),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(28),
+                                    child: Image.asset(
+                                      'assets/appicon_transparent.png',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              ShaderMask(
+                                shaderCallback: (bounds) => const LinearGradient(
+                                  colors: [Colors.white, Color(0xFFD8B4FE)],
+                                ).createShader(bounds),
+                                child: const Text(
+                                  'CV Maker Pro+',
+                                  style: TextStyle(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w900,
+                                    color: Colors.white,
+                                    letterSpacing: -1,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+                                ),
+                                child: Text(
+                                  'cv_choice.title'.tr(),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        
+                        _buildHighlightedAiCard(
+                          icon: Icons.auto_awesome_rounded,
+                          title: 'cv_choice.create_new'.tr(),
+                          subtitle: 'cv_choice.create_new_desc'.tr(),
+                          onTap: _createNewCV,
+                          c: c,
+                          index: 0,
+                        ),
+                        const SizedBox(height: 16),
+                        _buildOptionCard(
+                          icon: Icons.upload_file_rounded,
+                          iconGradient: c.accentGradient,
+                          title: 'cv_choice.import_cv'.tr(),
+                          subtitle: 'cv_choice.import_cv_desc'.tr(),
+                          onTap: _importCV,
+                          c: c,
+                          index: 1,
+                        ),
+                        const SizedBox(height: 16),
+                        _buildOptionCard(
+                          icon: Icons.folder_shared_rounded,
+                          iconGradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF4F46E5)]),
+                          title: 'cv_choice.saved_resumes'.tr(),
+                          subtitle: 'cv_choice.saved_resumes_desc'.tr(),
+                          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage())),
+                          c: c,
+                          index: 2,
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+      ),
+    ));
+  }
+
+  Widget _buildHighlightedAiCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+    required AppColorsDynamic c,
+    required int index,
+  }) {
+    // Unique animated glowing card for the primary AI action
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: Duration(milliseconds: 600 + (index * 100)),
+      curve: Curves.easeOutQuart,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 50 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF6C2BD9), Color(0xFF3B0764)], // Deep vibrant purple gradient
+          ),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFD8B4FE).withValues(alpha: 0.5), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF7C3AED).withValues(alpha: 0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(24),
+            splashColor: Colors.white.withValues(alpha: 0.2),
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              child: Row(
                 children: [
-                  const SizedBox(height: 20),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage())),
-                      icon: Icon(Icons.settings_outlined, color: c.textPrimary),
-                      style: IconButton.styleFrom(backgroundColor: c.cardBackgroundSolid, padding: const EdgeInsets.all(12)),
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.white.withValues(alpha: 0.4),
+                          Colors.white.withValues(alpha: 0.1),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.6), width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white.withValues(alpha: 0.25),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Icon(icon, color: Colors.white, size: 32),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                            letterSpacing: -0.2,
+                            height: 1.2,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withValues(alpha: 0.85),
+                            height: 1.3,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 32),
-                  ShaderMask(
-                    shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
-                    child: Text(
-                      'cv_choice.title'.tr(),
-                      style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -0.5),
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.15),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.15),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
+                    child: const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 24),
                   ),
-                  const SizedBox(height: 8),
-                  Text('cv_choice.subtitle'.tr(), style: TextStyle(fontSize: 16, color: c.textSecondary)),
-                  
-                  _buildOptionCard(icon: Icons.auto_awesome_rounded, iconGradient: c.primaryGradient, title: 'cv_choice.create_new'.tr(), subtitle: 'cv_choice.create_new_desc'.tr(), onTap: _createNewCV, c: c),
-                  const SizedBox(height: 16),
-                  _buildOptionCard(icon: Icons.upload_file_rounded, iconGradient: c.accentGradient, title: 'cv_choice.import_cv'.tr(), subtitle: 'cv_choice.import_cv_desc'.tr(), onTap: _importCV, c: c),
-                  const SizedBox(height: 16),
-                  _buildOptionCard(icon: Icons.folder_shared_rounded, iconGradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF4F46E5)]), title: 'cv_choice.saved_resumes'.tr(), subtitle: 'cv_choice.saved_resumes_desc'.tr(), onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const HomePage())), c: c),
-                  
-                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -172,45 +454,124 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
     );
   }
 
-  Widget _buildOptionCard({required IconData icon, required Gradient iconGradient, required String title, required String subtitle, required VoidCallback onTap, required AppColorsDynamic c}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: c.cardBackgroundSolid,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: c.cardBorder),
-        boxShadow: c.isDark ? [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 20, offset: const Offset(0, 8))] : [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Row(
-              children: [
-                Container(
-                  width: 60, height: 60,
-                  decoration: BoxDecoration(gradient: iconGradient, borderRadius: BorderRadius.circular(16)),
-                  child: Icon(icon, color: Colors.white, size: 28),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: c.textPrimary)),
-                      const SizedBox(height: 4),
-                      Text(subtitle, style: TextStyle(fontSize: 14, color: c.textSecondary)),
-                    ],
+  Widget _buildOptionCard({
+    required IconData icon,
+    required Gradient iconGradient,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+    required AppColorsDynamic c,
+    required int index,
+  }) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: Duration(milliseconds: 600 + (index * 100)),
+      curve: Curves.easeOutQuart,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 50 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF6C2BD9), Color(0xFF3B0764)], // Deep vibrant purple gradient
+          ),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFD8B4FE).withValues(alpha: 0.3), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF7C3AED).withValues(alpha: 0.2),
+              blurRadius: 15,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(24),
+            splashColor: c.primaryStart.withValues(alpha: 0.1),
+            highlightColor: c.primaryStart.withValues(alpha: 0.05),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Row(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: iconGradient,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: (iconGradient as LinearGradient).colors.first.withValues(alpha: 0.3),
+                          blurRadius: 15,
+                          offset: const Offset(0, 6),
+                        ),
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Icon(icon, color: Colors.white, size: 28),
                   ),
-                ),
-                Container(
-                  width: 40, height: 40,
-                  decoration: BoxDecoration(color: c.surface, borderRadius: BorderRadius.circular(12)),
-                  child: const Icon(Icons.arrow_forward_rounded, color: AppColors.textTertiary, size: 20),
-                ),
-              ],
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            letterSpacing: -0.3,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          subtitle,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white.withValues(alpha: 0.8),
+                            height: 1.4,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.15),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.4), width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.15),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 24),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

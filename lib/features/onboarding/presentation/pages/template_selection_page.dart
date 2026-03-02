@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,8 @@ import '../../../resume/presentation/pages/resume_edit_page.dart';
 import '../../../resume/presentation/pages/preview_page.dart';
 import '../../../resume/presentation/pages/home_page.dart';
 import '../../../resume/presentation/providers/resume_provider.dart';
+import 'cv_choice_page.dart';
+import '../../../resume/data/models/template_data.dart';
 
 class TemplateSelectionPage extends StatefulWidget {
   final bool isFromImport;
@@ -17,32 +20,27 @@ class TemplateSelectionPage extends StatefulWidget {
 
 class _TemplateSelectionPageState extends State<TemplateSelectionPage> with SingleTickerProviderStateMixin {
   String? _selectedTemplate;
+  int _current = 0;
+  String _selectedCategory = 'form.categories.all'.tr();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  final CarouselSliderController _carouselController = CarouselSliderController();
 
-  final List<Map<String, dynamic>> templates = [
-    {
-      'id': 'classic', 'name': 'Classic', 'nameKey': 'templates.classic', 'description': 'templates.classic_desc',
-      'primaryColor': const Color(0xFF3B82F6), 'image': 'assets/images/templates/classic.png',
-    },
-    {
-      'id': 'modern', 'name': 'Modern', 'nameKey': 'templates.modern', 'description': 'templates.modern_desc',
-      'primaryColor': const Color(0xFF6366F1), 'image': 'assets/images/templates/modern.png',
-    },
-    {
-      'id': 'creative', 'name': 'Creative', 'nameKey': 'templates.creative', 'description': 'templates.creative_desc',
-      'primaryColor': const Color(0xFFEC4899), 'image': 'assets/images/templates/creative.png',
-    },
-    {
-      'id': 'elegant', 'name': 'Elegant', 'nameKey': 'templates.elegant', 'description': 'templates.elegant_desc',
-      'primaryColor': const Color(0xFF1F2937), 'image': 'assets/images/templates/elegant.png',
-    },
-  ];
+  // Use shared data
+  List<String> get _categories => TemplateData.categories;
+  List<Map<String, dynamic>> get _templates => TemplateData.templates;
 
   @override
   void initState() {
     super.initState();
     _selectedTemplate = context.read<ResumeProvider>().currentResume?.templateId;
+    
+    // Find index of selected template for carousel
+    if (_selectedTemplate != null) {
+      final index = _templates.indexWhere((t) => t['id'] == _selectedTemplate);
+      if (index != -1) _current = index;
+    }
+
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
     _animationController.forward();
@@ -60,19 +58,29 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
     provider.switchTemplate(_selectedTemplate!);
     
     if (widget.isFromImport) {
-      // Save the resume, then go to edit page with preview on top
+      // Save the resume, then go to HomePage as root, then push Edit and Preview
       provider.saveResume();
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (_) => const ResumeEditPage()),
+        MaterialPageRoute(builder: (_) => HomePage()),
         (route) => false,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const ResumeEditPage()),
       );
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const PreviewPage()),
       );
     } else {
-      Navigator.pushReplacement(
+      // For new CV flow, also ensure HomePage is at the base
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => HomePage()),
+        (route) => false,
+      );
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const ResumeEditPage()),
       );
@@ -81,163 +89,275 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
 
   @override
   Widget build(BuildContext context) {
+    final displayTemplates = _selectedCategory == 'form.categories.all'.tr() 
+        ? _templates 
+        : _templates.where((t) => 'form.categories.${t['category'].toString().toLowerCase()}'.tr() == _selectedCategory).toList();
     final c = AppColorsDynamic.of(context);
-    return Scaffold(
-      body: Container(
+    final isRoot = !Navigator.canPop(context);
+    final canGoBack = !widget.isFromImport && !isRoot;
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+          (route) => false,
+        );
+      },
+      child: Scaffold(
+        body: Container(
         decoration: BoxDecoration(gradient: c.backgroundGradient),
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnimation,
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.arrow_back_rounded, color: c.textPrimary),
-                    style: IconButton.styleFrom(
-                      backgroundColor: c.cardBackgroundSolid,
-                      padding: const EdgeInsets.all(12),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ShaderMask(
-                    shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
-                    child: Text(
-                      'templates.title'.tr(),
-                      style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -0.5),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'templates.subtitle'.tr(),
-                    style: TextStyle(fontSize: 15, color: c.textSecondary),
-                  ),
-                  const SizedBox(height: 24),
-                  Expanded(
-                    child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, mainAxisSpacing: 16, crossAxisSpacing: 16, childAspectRatio: 0.65,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (!widget.isFromImport)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    child: IconButton(
+                      onPressed: () {
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (_) => HomePage()),
+                            (route) => false,
+                          );
+                        }
+                      },
+                      icon: Icon(Icons.arrow_back_rounded, color: c.textPrimary),
+                      style: IconButton.styleFrom(
+                        backgroundColor: c.cardBackgroundSolid,
+                        padding: const EdgeInsets.all(12),
                       ),
-                      itemCount: templates.length,
-                      itemBuilder: (context, index) {
-                        return _buildTemplateCard(templates[index], templates[index]['id'] == _selectedTemplate, c);
+                    ),
+                  ),
+                if (!widget.isFromImport) const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShaderMask(
+                        shaderCallback: (bounds) => c.primaryGradient.createShader(bounds),
+                        child: Text(
+                          'templates.title'.tr(),
+                          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: -0.5),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'templates.subtitle'.tr(),
+                        style: TextStyle(fontSize: 15, color: c.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                
+                // Category Filter
+                SizedBox(
+                  height: 40,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: _categories.length,
+                    itemBuilder: (context, index) {
+                      final category = _categories[index];
+                      final isSelected = _selectedCategory == category;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: FilterChip(
+                          label: Text(category),
+                          selected: isSelected,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _selectedCategory = category;
+                              _current = 0; // Reset carousel index
+                            });
+                          },
+                          backgroundColor: c.cardBackgroundSolid,
+                          selectedColor: c.primaryStart.withValues(alpha: 0.2),
+                          labelStyle: TextStyle(
+                            color: isSelected ? c.primaryStart : c.textSecondary,
+                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                            fontSize: 13,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: isSelected ? c.primaryStart : c.cardBorder,
+                            ),
+                          ),
+                          showCheckmark: false,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 24),
+
+                Expanded(
+                  child: displayTemplates.isEmpty 
+                  ? Center(child: Text("templates.no_found".tr(), style: TextStyle(color: c.textSecondary)))
+                  : CarouselSlider.builder(
+                    carouselController: _carouselController,
+                    itemCount: displayTemplates.length,
+                    itemBuilder: (context, index, realIndex) {
+                      final template = displayTemplates[index];
+                      final isSelected = template['id'] == _selectedTemplate;
+                      return _buildTemplateCard(template, isSelected, c);
+                    },
+                    options: CarouselOptions(
+                      height: double.infinity,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: false,
+                      initialPage: _current,
+                      viewportFraction: 0.75,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = index;
+                          _selectedTemplate = displayTemplates[index]['id'];
+                        });
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  _buildContinueButton(c),
-                ],
-              ),
+                ),
+
+                // Dots Indicator
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: displayTemplates.asMap().entries.map((entry) {
+                    return Container(
+                      width: 7.0,
+                      height: 7.0,
+                      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: c.textPrimary.withValues(alpha: _current == entry.key ? 0.9 : 0.2),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: _buildContinueButton(c, displayTemplates),
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
           ),
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildTemplateCard(Map<String, dynamic> template, bool isSelected, AppColorsDynamic c) {
-    final primaryColor = template['primaryColor'] as Color;
     return GestureDetector(
-      onTap: () => setState(() => _selectedTemplate = template['id']),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      onTap: () {
+        setState(() => _selectedTemplate = template['id']);
+        _onContinue();
+      },
+      child: Container(
         decoration: BoxDecoration(
           color: c.cardBackgroundSolid,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
           border: Border.all(
             color: isSelected ? c.primaryStart : c.cardBorder,
             width: isSelected ? 2.5 : 1,
           ),
-          boxShadow: isSelected ? [
-            BoxShadow(color: c.primaryStart.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8)),
-          ] : c.isDark ? [] : [
-            BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4)),
+        ),
+        child: Column(
+          children: [
+            // Image / Preview Area
+            Expanded(
+              flex: 3,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: (template['color'] as Color).withValues(alpha: 0.05),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
+                ),
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
+                    child: Image.asset(
+                      template['image'] as String,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            
+            // Info Area
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: isSelected ? (template['color'] as Color).withValues(alpha: 0.05) : null,
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(22)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    template['name'].toString().tr(),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: isSelected ? template['color'] : c.textPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    template['description'].toString().tr(),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: c.textSecondary,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(8),
-                  child: _buildCVPreview(template),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                decoration: BoxDecoration(
-                  color: isSelected ? primaryColor.withOpacity(0.1) : c.surface,
-                  border: Border(top: BorderSide(color: c.cardBorder.withOpacity(0.5))),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            (template['nameKey'] as String).tr(),
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: isSelected ? primaryColor : c.textPrimary),
-                          ),
-                          Text(
-                            (template['description'] as String).tr(),
-                            style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
-                            maxLines: 1, overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (isSelected)
-                      Container(
-                        width: 22, height: 22,
-                        decoration: BoxDecoration(gradient: c.primaryGradient, shape: BoxShape.circle),
-                        child: const Icon(Icons.check, size: 14, color: Colors.white),
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
 
-  Widget _buildCVPreview(Map<String, dynamic> template) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300, width: 0.5),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(7),
-        child: Image.asset(
-          template['image'] as String,
-          fit: BoxFit.cover,
-          width: double.infinity, height: double.infinity,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildContinueButton(AppColorsDynamic c) {
+  Widget _buildContinueButton(AppColorsDynamic c, List<Map<String, dynamic>> displayTemplates) {
     final isEnabled = _selectedTemplate != null;
+    final selectedIdx = displayTemplates.indexWhere((t) => t['id'] == _selectedTemplate);
+    final templateColor = selectedIdx != -1 ? displayTemplates[selectedIdx]['color'] as Color : c.primaryStart;
+
     return Container(
       width: double.infinity,
       height: 56,
       decoration: BoxDecoration(
-        gradient: isEnabled ? c.primaryGradient : null,
-        color: isEnabled ? null : c.cardBackgroundSolid,
+        color: isEnabled ? templateColor : c.cardBackgroundSolid,
         borderRadius: BorderRadius.circular(16),
         boxShadow: isEnabled ? [
-          BoxShadow(color: c.primaryStart.withOpacity(0.4), blurRadius: 20, offset: const Offset(0, 8)),
+          BoxShadow(color: templateColor.withValues(alpha: 0.4), blurRadius: 20, offset: const Offset(0, 8)),
         ] : null,
       ),
       child: Material(

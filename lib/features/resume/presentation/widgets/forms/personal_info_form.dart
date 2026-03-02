@@ -204,7 +204,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                     Text('form.birth_date'.tr(), style: TextStyle(color: _birthDate != null ? c.primaryStart : c.textTertiary, fontSize: 12, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
                     Text(
-                      _birthDate != null ? DateFormat.yMMMd(context.locale.toString()).format(_birthDate!) : 'Select date',
+                      _birthDate != null ? DateFormat.yMMMd(context.locale.toString()).format(_birthDate!) : 'form.select_date'.tr(),
                       style: TextStyle(color: _birthDate != null ? c.textPrimary : c.textMuted, fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -260,7 +260,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
             label: Text('form.delete'.tr(), style: TextStyle(color: c.error, fontWeight: FontWeight.w600)),
           )
         else
-          Text('Tap to add photo', style: TextStyle(color: c.textTertiary, fontSize: 13, fontWeight: FontWeight.w500)),
+          Text('form.tap_to_add_photo'.tr(), style: TextStyle(color: c.textTertiary, fontSize: 13, fontWeight: FontWeight.w500)),
       ],
     );
   }

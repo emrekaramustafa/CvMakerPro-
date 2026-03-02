@@ -6,6 +6,9 @@ import '../templates/modern_template.dart';
 import '../templates/classic_template.dart';
 import '../templates/creative_template.dart';
 import '../templates/elegant_template.dart';
+import '../templates/student_template.dart';
+import '../templates/executive_template.dart';
+import '../templates/startup_template.dart';
 
 class PdfGeneratorService {
   Future<File> generateResumePdf(ResumeModel resume) async {
@@ -23,6 +26,17 @@ class PdfGeneratorService {
         break;
       case 'elegant':
         htmlContent = ElegantTemplate.generate(resume);
+        break;
+      case 'student':
+      case 'academic':
+        htmlContent = StudentTemplate.generate(resume);
+        break;
+      case 'executive':
+      case 'simple':
+        htmlContent = ExecutiveTemplate.generate(resume);
+        break;
+      case 'startup':
+        htmlContent = StartupTemplate.generate(resume);
         break;
       case 'modern':
       default:

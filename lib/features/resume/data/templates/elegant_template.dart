@@ -7,17 +7,15 @@ class ElegantTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
     if (resume.personalInfo.profileImagePath != null) {
-      try {
-        final bytes = File(resume.personalInfo.profileImagePath!).readAsBytesSync();
-        final base64Image = base64Encode(bytes);
+      final imageFile = File(resume.personalInfo.profileImagePath!);
+      if (imageFile.existsSync()) {
+        final fileUri = Uri.file(imageFile.path).toString();
         profileImageHtml = '''
           <div style="text-align:center; margin-bottom:14px;">
-            <img src="data:image/jpeg;base64,$base64Image" 
+            <img src="$fileUri" 
                  style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:2px solid #C9A96E; padding:2px;" />
           </div>
         ''';
-      } catch (e) {
-        profileImageHtml = '';
       }
     }
 
@@ -126,7 +124,7 @@ class ElegantTemplate {
       <div style="height:5px; background-color:#C9A96E;"></div>
       
       <!-- ═══ CONTENT ═══ -->
-      <div style="padding:34px 50px;">
+      <div style="padding:16px 36px;">
         
         <!-- Header -->
         <div style="text-align:center; margin-bottom:22px;">

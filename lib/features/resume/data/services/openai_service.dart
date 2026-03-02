@@ -177,6 +177,26 @@ Return ONLY valid JSON with this EXACT structure:
       "languageName": "exact language name",
       "level": "native|fluent|advanced|intermediate|basic"
     }
+  ],
+  "certificates": [
+    {
+      "title": "exact cert name",
+      "issuer": "exact issuer"
+    }
+  ],
+  "references": [
+    {
+      "fullName": "exact name",
+      "company": "exact company",
+      "email": "email or null",
+      "phone": "phone or null"
+    }
+  ],
+  "activities": [
+    {
+      "title": "exact title",
+      "description": "exact description or empty"
+    }
   ]
 }
 

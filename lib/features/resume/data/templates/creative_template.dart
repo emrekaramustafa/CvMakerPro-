@@ -7,17 +7,15 @@ class CreativeTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
     if (resume.personalInfo.profileImagePath != null) {
-      try {
-        final bytes = File(resume.personalInfo.profileImagePath!).readAsBytesSync();
-        final base64Image = base64Encode(bytes);
+      final imageFile = File(resume.personalInfo.profileImagePath!);
+      if (imageFile.existsSync()) {
+        final fileUri = Uri.file(imageFile.path).toString();
         profileImageHtml = '''
           <div style="text-align:center; margin-bottom:18px;">
-            <img src="data:image/jpeg;base64,$base64Image" 
+            <img src="$fileUri" 
                  style="width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid #fff;" />
           </div>
         ''';
-      } catch (e) {
-        profileImageHtml = '';
       }
     }
 
@@ -118,10 +116,10 @@ class CreativeTemplate {
       </style>
     </head>
     <body>
-      <table width="100%" cellpadding="0" cellspacing="0" style="min-height:100vh; border:none;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
         <tr>
           <!-- ═══ SIDEBAR ═══ -->
-          <td width="34%" style="background-color:#2D1B69; padding:28px 18px; vertical-align:top; border:none;">
+          <td width="34%" style="background-color:#2D1B69; padding:16px 14px; vertical-align:top; border:none;">
             
             $profileImageHtml
 
@@ -166,7 +164,7 @@ class CreativeTemplate {
           </td>
 
           <!-- ═══ MAIN CONTENT ═══ -->
-          <td width="66%" style="background-color:#1E1333; padding:28px 24px; vertical-align:top; border:none;">
+          <td width="66%" style="background-color:#1E1333; padding:16px 18px; vertical-align:top; border:none;">
             
             <!-- Title -->
             <div style="font-size:14px; color:#EC4899; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">

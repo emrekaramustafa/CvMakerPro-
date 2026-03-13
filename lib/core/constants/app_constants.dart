@@ -1,3 +1,4 @@
+class AppConstants {
   // ── OpenAI Proxy ─────────────────────────────────────────────────────────
   // Your Cloud Run function URL (e.g., https://openai-proxy-xxxx-uc.a.run.app)
   static const String openAiProxyUrl = String.fromEnvironment(

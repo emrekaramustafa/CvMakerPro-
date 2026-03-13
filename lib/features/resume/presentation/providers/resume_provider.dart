@@ -321,6 +321,7 @@ class ResumeProvider extends ChangeNotifier {
     notifyListeners();
     
     _resumes = await repository.getResumes();
+    _resumes.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     
     _isLoading = false;
     notifyListeners();

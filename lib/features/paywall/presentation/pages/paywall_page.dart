@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import '../../data/services/revenue_cat_service.dart';
-import '../../settings/presentation/pages/legal_page.dart';
+import 'package:ai_resume_pro/features/settings/presentation/pages/legal_page.dart';
 
 class PaywallPage extends StatefulWidget {
   final bool allowDismiss;

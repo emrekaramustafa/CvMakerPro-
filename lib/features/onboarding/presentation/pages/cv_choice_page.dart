@@ -82,7 +82,7 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
         return;
       }
       
-      final openAIService = OpenAIService(apiKey: AppConstants.openAiApiKey);
+      final openAIService = OpenAIService();
       final parsedData = await openAIService.parseCVFromText(extractedText);
       final personalInfo = parsedData['personalInfo'] ?? {};
       final experiences = (parsedData['experience'] as List<dynamic>?)?.map((e) => ExperienceModel(

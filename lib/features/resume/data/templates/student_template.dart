@@ -50,11 +50,11 @@ class StudentTemplate {
     ''' : '';
 
     // ── Experience ──
-    final validExperiences = resume.experience.where((e) => e.companyName.isNotEmpty || e.jobTitle.isNotEmpty || e.description.isNotEmpty).toList();
+    final validExperiences = resume.experience.where((e) => e.companyName.trim().isNotEmpty || e.jobTitle.trim().isNotEmpty || e.description.trim().isNotEmpty).toList();
     final experienceItems = validExperiences.map((e) {
       final dates = '${DateFormat.yMMM().format(e.startDate)} – ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.yMMM().format(e.endDate!) : "Present")}';
-      final iconLetter = e.companyName.isNotEmpty ? e.companyName[0].toUpperCase() : '?';
-      final descHtml = e.description.isNotEmpty ? '<div class="entry-desc">${e.description.replaceAll('\\n', '<br>')}</div>' : '';
+      final iconLetter = e.companyName.trim().isNotEmpty ? e.companyName[0].toUpperCase() : '?';
+      final descHtml = e.description.trim().isNotEmpty ? '<div class="entry-desc">${e.description.replaceAll('\\n', '<br>')}</div>' : '';
       final bulletHtml = e.bulletPoints.isNotEmpty ? '<ul class="bullet-list">${e.bulletPoints.map((b) => '<li>$b</li>').join('')}</ul>' : '';
       return '''
         <div class="entry">
@@ -80,9 +80,9 @@ class StudentTemplate {
     ''' : '';
 
     // ── Education ──
-    final educationItems = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) {
+    final educationItems = resume.education.where((e) => e.institutionName.trim().isNotEmpty || e.degree.trim().isNotEmpty || e.fieldOfStudy.trim().isNotEmpty).map((e) {
       final dates = '${DateFormat.y().format(e.startDate)} – ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.y().format(e.endDate!) : "Present")}';
-      final iconLetter = e.institutionName.isNotEmpty ? e.institutionName[0].toUpperCase() : '?';
+      final iconLetter = e.institutionName.trim().isNotEmpty ? e.institutionName[0].toUpperCase() : '?';
       return '''
         <div class="entry">
           <div class="entry-icon">

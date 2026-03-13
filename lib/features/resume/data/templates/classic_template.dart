@@ -17,7 +17,7 @@ class ClassicTemplate {
       ''';
     }
 
-    final experiences = resume.experience.where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty || e.description.isNotEmpty).map((e) => '''
+    final experiences = resume.experience.where((e) => e.jobTitle.trim().isNotEmpty || e.companyName.trim().isNotEmpty || e.description.trim().isNotEmpty).map((e) => '''
       <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid #F3F4F6;">
         <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
           <tr>
@@ -28,12 +28,12 @@ class ClassicTemplate {
             <td style="text-align:right; font-size:10px; color:#A0AEC0; white-space:nowrap; vertical-align:top; border:none;">${DateFormat.yMMM().format(e.startDate)} - ${e.isCurrent ? 'Present' : (e.endDate != null ? DateFormat.yMMM().format(e.endDate!) : 'Present')}</td>
           </tr>
         </table>
-        ${e.description.isNotEmpty ? '<div style="font-size:11px; color:#4A5568; margin-top:4px; margin-bottom:3px;">${e.description}</div>' : ''}
+        ${e.description.trim().isNotEmpty ? '<div style="font-size:11px; color:#4A5568; margin-top:4px; margin-bottom:3px;">${e.description}</div>' : ''}
         ${e.bulletPoints.isNotEmpty ? '<ul style="padding-left:16px; margin:3px 0 0;">${e.bulletPoints.map((b) => '<li style="font-size:11px; color:#4A5568; margin-bottom:2px;">$b</li>').join('')}</ul>' : ''}
       </div>
     ''').join('');
 
-    final education = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) => '''
+    final education = resume.education.where((e) => e.institutionName.trim().isNotEmpty || e.degree.trim().isNotEmpty || e.fieldOfStudy.trim().isNotEmpty).map((e) => '''
       <div style="margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #F3F4F6;">
         <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
           <tr>

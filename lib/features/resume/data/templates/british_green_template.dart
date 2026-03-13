@@ -16,14 +16,14 @@ class BritishGreenTemplate {
       ''';
     }
 
-    final experiences = resume.experience.where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty || e.description.isNotEmpty).map((e) => '''
+    final experiences = resume.experience.where((e) => e.jobTitle.trim().isNotEmpty || e.companyName.trim().isNotEmpty || e.description.trim().isNotEmpty).map((e) => '''
       <div style="margin-bottom: 20px;">
         <div style="font-weight:700; font-size:16px; color:#374151;">${e.jobTitle}</div>
         <div style="color:#004225; font-weight:600; font-size:14px; margin-bottom:4px;">${e.companyName}</div>
         <div style="font-size:12px; color:#6B7280; margin-bottom:8px; font-style: italic;">
            ${DateFormat.yMMM().format(e.startDate)} - ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.yMMM().format(e.endDate!) : "Present")}
         </div>
-        ${e.description.isNotEmpty ? '<div style="font-size:13px; color:#4B5563; line-height:1.6;">${e.description.replaceAll('\n', '<br>')}</div>' : ''}
+        ${e.description.trim().isNotEmpty ? '<div style="font-size:13px; color:#4B5563; line-height:1.6;">${e.description.replaceAll('\n', '<br>')}</div>' : ''}
         ${e.bulletPoints.isNotEmpty ? '''
           <ul style="margin: 8px 0 0 18px; padding: 0; font-size:13px; color:#4B5563;">
             ${e.bulletPoints.map((b) => '<li style="margin-bottom:4px;">$b</li>').join('')}
@@ -32,7 +32,7 @@ class BritishGreenTemplate {
       </div>
     ''').join('');
 
-    final educations = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) => '''
+    final educations = resume.education.where((e) => e.institutionName.trim().isNotEmpty || e.degree.trim().isNotEmpty || e.fieldOfStudy.trim().isNotEmpty).map((e) => '''
       <div style="margin-bottom: 20px;">
         <div style="font-weight:700; font-size:16px; color:#374151;">${e.institutionName}</div>
         <div style="color:#004225; font-weight:600; font-size:14px; margin-bottom:4px;">${e.degree}, ${e.fieldOfStudy}</div>

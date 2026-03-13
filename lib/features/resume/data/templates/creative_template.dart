@@ -17,7 +17,7 @@ class CreativeTemplate {
       ''';
     }
 
-    final experiences = resume.experience.where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty || e.description.isNotEmpty).map((e) => '''
+    final experiences = resume.experience.where((e) => e.jobTitle.trim().isNotEmpty || e.companyName.trim().isNotEmpty || e.description.trim().isNotEmpty).map((e) => '''
       <div style="margin-bottom:14px;">
         <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
           <tr>
@@ -32,7 +32,7 @@ class CreativeTemplate {
                 </tr>
               </table>
               <div style="font-size:12px; color:#EC4899; font-weight:500; margin-bottom:3px;">${e.companyName}</div>
-              ${e.description.isNotEmpty ? '<div style="font-size:11px; color:#94A3B8; margin-bottom:3px;">${e.description}</div>' : ''}
+              ${e.description.trim().isNotEmpty ? '<div style="font-size:11px; color:#94A3B8; margin-bottom:3px;">${e.description}</div>' : ''}
               ${e.bulletPoints.isNotEmpty ? '<ul style="padding-left:14px; margin:2px 0 0;">${e.bulletPoints.map((b) => '<li style="font-size:11px; color:#CBD5E1; margin-bottom:2px;">$b</li>').join('')}</ul>' : ''}
             </td>
           </tr>
@@ -40,7 +40,7 @@ class CreativeTemplate {
       </div>
     ''').join('');
 
-    final education = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) => '''
+    final education = resume.education.where((e) => e.institutionName.trim().isNotEmpty || e.degree.trim().isNotEmpty || e.fieldOfStudy.trim().isNotEmpty).map((e) => '''
       <div style="margin-bottom:10px;">
         <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
           <tr>
@@ -55,7 +55,7 @@ class CreativeTemplate {
                 </tr>
               </table>
               <div style="font-size:11px; color:#EC4899; font-weight:500;">${e.institutionName}</div>
-              ${e.fieldOfStudy.isNotEmpty ? '<div style="font-size:10px; color:#94A3B8;">${e.fieldOfStudy}</div>' : ''}
+              ${e.fieldOfStudy.trim().isNotEmpty ? '<div style="font-size:10px; color:#94A3B8;">${e.fieldOfStudy}</div>' : ''}
             </td>
           </tr>
         </table>

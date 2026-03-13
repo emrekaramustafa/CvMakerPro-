@@ -61,6 +61,15 @@ class TemplateData {
       'description': 'template_names.startup.desc',
     },
 
+    {
+      'id': 'british_green',
+      'name': 'template_names.british_green.name',
+      'category': 'modern',
+      'categories': ['modern', 'professional'],
+      'image': 'assets/images/templates/british_green.png',
+      'color': const Color(0xFF004225),
+      'description': 'template_names.british_green.desc',
+    },
 
   ];
 

@@ -4,7 +4,16 @@
         "title": "Mis Currículums",
         "create_new": "Crear nuevo currículum",
         "no_resumes": "No se encontraron currículums. ¡Crea uno ahora!",
-        "delete_confirm": "¿Estás seguro de que quieres eliminar este currículum?"
+        "delete_confirm": "¿Estás seguro de que quieres eliminar este currículum?",
+        "good_morning": "Buenos días,",
+        "good_afternoon": "Buenas tardes,",
+        "good_evening": "Buenas noches,",
+        "ready_to_succeed": "¿Listo para el éxito?",
+        "popular_templates": "Plantillas Populares",
+        "see_all": "Ver todo",
+        "start_journey_desc": "Crea tu primer CV.",
+        "untitled_cv": "CV sin título",
+        "cover_letter": "Carta de Presentación"
     },
     "welcome": {
         "title": "Bienvenido",
@@ -12,7 +21,18 @@
         "users": "Usuarios\nMundial",
         "rating": "Calificación\nPromedio",
         "description": "Destácate de tus competidores con un CV profesional impulsado por IA. Crea tu currículum con plantillas inteligentes.",
-        "continue": "Comenzar"
+        "continue": "Comenzar",
+        "skip": "Saltar",
+        "slider": {
+            "title_1": "Plantillas de CV Perfectas",
+            "desc_1": "Destaca con plantillas profesionales.",
+            "title_2": "Currículum con IA",
+            "desc_2": "Haz tu CV amigable con ATS usando IA.",
+            "title_3": "Soporte Multilingüe",
+            "desc_3": "Crea un CV en diferentes idiomas, descárgalo como PDF. Postúlate a trabajos globales.",
+            "title_4": "Descargar como PDF",
+            "desc_4": "Obtén tu CV en alta calidad en PDF."
+        }
     },
     "cv_language": {
         "title": "¿En qué idioma prepararás tu CV?",
@@ -49,7 +69,10 @@
         "creative": "Creativo",
         "creative_desc": "Atrevido y colorido",
         "elegant": "Elegante",
-        "elegant_desc": "Sofisticado y minimalista"
+        "elegant_desc": "Sofisticado y minimalista",
+        "use_this": "Usar esta plantilla",
+        "no_found": "No Found",
+        "changed": "{} seleccionado con éxito"
     },
     "form": {
         "personal_info": "Información personal",
@@ -132,7 +155,57 @@
         "purchase": "Comprar",
         "cancel": "Cancelar",
         "delete": "Eliminar",
-        "present": "Presente"
+        "present": "Presente",
+        "subtitle": "Completa la información de tu CV",
+        "summary": "Resumen Profesional",
+        "summary_hint": "Resume tus objetivos...",
+        "summary_placeholder": "Puedes generar un resumen con IA...",
+        "additional": "Información Adicional",
+        "quick_preview": "Vista Rápida",
+        "categories": {
+            "all": "Todo",
+            "modern": "Moderno",
+            "classic": "Clásico",
+            "creative": "Creativo",
+            "elegant": "Elegante",
+            "simple": "Simple",
+            "academic": "Académico",
+            "professional": "Profesional"
+        },
+        "suggestions": "Sugerencias",
+        "suggested_teamwork": "Trabajo en equipo",
+        "suggested_discipline": "Disciplina",
+        "suggested_communication": "Comunicación",
+        "category": "Category",
+        "hobby": "Hobby",
+        "activities_list": "Activities List",
+        "add_activity": "Add Activity",
+        "volunteering": "Volunteering",
+        "references_list": "References List",
+        "edit_certificate": "Edit Certificate",
+        "edit_activity": "Edit Activity",
+        "startup_template": "Startup Template",
+        "select_date": "Select Date",
+        "ref_company": "Ref Company",
+        "references": "References",
+        "certificates": "Certificates",
+        "add_certificate": "Add Certificate",
+        "cert_issuer": "Cert Issuer",
+        "tap_to_add_photo": "Tap To Add Photo",
+        "professional_summary": "Professional Summary",
+        "cert_title": "Cert Title",
+        "activities": "Activities",
+        "add_reference": "Add Reference",
+        "certificates_list": "Certificates List",
+        "ref_name": "Ref Name",
+        "linkedin_template": "Linkedin Template",
+        "edit_reference": "Edit Reference",
+        "essentials": "Essentials",
+        "activity_title": "Activity Title",
+        "unsaved_changes_title": "Cambios sin guardar",
+        "unsaved_changes_desc": "Tienes cambios sin guardar. ¿Deseas guardar antes de salir?",
+        "discard": "Descartar",
+        "british_green_template": "British Green Şablon"
     },
     "languages": {
         "en": "Inglés",
@@ -159,7 +232,39 @@
     },
     "legal": {
         "privacy_title": "Política de Privacidad",
-        "terms_title": "Términos de Servicio"
+        "terms_title": "Términos de Servicio",
+        "all_rights_reserved": "All Rights Reserved",
+        "last_updated": "Last Updated",
+        "open_in_browser": "Open In Browser",
+        "view_online": "Ver en línea",
+        "privacy": {
+            "s1_heading": "1. Introducción",
+            "s1_body": "Bienvenido a CV Maker Pro+ (la «Aplicación»). Estamos comprometidos con la protección de su privacidad y con garantizarle una experiencia positiva al usar nuestra aplicación móvil. Esta Política de privacidad describe nuestras prácticas de gestión de datos, especialmente en lo que respecta a las funciones avanzadas de inteligencia artificial y biometría que ofrecemos.",
+            "s2_heading": "2. Datos que recopilamos y cómo los usamos",
+            "s2_body": "Para ofrecerle currículums altamente personalizados y profesionales, recopilamos y procesamos cierta información:\n\n• Acceso a la cámara y a la biblioteca de fotos: Solicitamos acceso a la cámara y a la biblioteca de fotos de su dispositivo únicamente para permitirle cargar o tomar una foto de perfil para su currículum.\n\n• Datos biométricos (detección facial): Utilizamos la tecnología de detección facial ML Kit en el dispositivo para identificar y recortar automáticamente los rostros de las fotos que carga. Este proceso ocurre completamente en su dispositivo. No transmitimos, recopilamos ni almacenamos ningún dato biométrico facial en nuestros servidores.\n\n• Información del currículum: Los datos de texto que ingresa (experiencia, educación, habilidades, etc.) se procesan temporalmente para generar su documento PDF final.",
+            "s3_heading": "3. Procesamiento de IA por terceros (OpenAI)",
+            "s3_body": "Nuestra aplicación utiliza la inteligencia artificial avanzada de OpenAI para analizar, mejorar y formatear el contenido de su currículum. Cuando usa nuestras funciones de IA (como el análisis de puntuación ATS o la reescritura inteligente de texto), los datos de texto que proporciona se envían de forma segura a los servidores de OpenAI para su procesamiento. Estos datos solo se usan para generar la respuesta solicitada y no son utilizados por OpenAI para entrenar sus modelos, de acuerdo con las políticas de uso de datos de la API de OpenAI.",
+            "s4_heading": "4. Compras dentro de la aplicación y suscripciones",
+            "s4_body": "Usamos RevenueCat para gestionar de forma segura nuestras compras dentro de la aplicación y suscripciones premium. RevenueCat procesa su historial de compras de forma anónima para otorgarle acceso a funciones premium (como descargas de PDF y herramientas de IA) en todos sus dispositivos. No tenemos acceso a sus datos de tarjeta de crédito sin procesar.",
+            "s5_heading": "5. Retención de datos y seguridad",
+            "s5_body": "Su privacidad es nuestra prioridad. Sus currículums generados y los datos ingresados se almacenan principalmente de forma local en su dispositivo. Cualquier dato transmitido a los modelos de IA está cifrado en tránsito y solo se conserva durante el tiempo necesario para cumplir con la solicitud inmediata. No vendemos, alquilamos ni intercambiamos ninguna de su información personal a terceros.",
+            "s6_heading": "6. Contáctenos",
+            "s6_body": "Si tiene preguntas o inquietudes sobre esta Política de privacidad o nuestras prácticas de datos, contáctenos en:\n\nmehmetemrekaramustafa@gmail.com"
+        },
+        "terms": {
+            "s1_heading": "1. Aceptación de los términos",
+            "s1_body": "Al descargar o usar CV Maker Pro+, acepta estar sujeto a estos Términos de uso. Si no está de acuerdo con alguna parte de estos términos, no podrá acceder ni usar la aplicación.",
+            "s2_heading": "2. Licencia de uso",
+            "s2_body": "Le otorgamos una licencia personal, no exclusiva, intransferible y revocable para usar la aplicación con fines personales y no comerciales. No puede distribuir, modificar, realizar ingeniería inversa ni crear obras derivadas de la aplicación.",
+            "s3_heading": "3. Funciones de IA y aviso legal",
+            "s3_body": "Nuestra aplicación utiliza algoritmos de inteligencia artificial de terceros (como OpenAI) para ayudarle a crear currículums. Aunque nos esforzamos por ser precisos, el contenido generado por IA puede estar incompleto, ser inexacto o requerir edición manual. Usted es el único responsable de revisar y verificar cualquier contenido generado por IA antes de usarlo en aplicaciones profesionales.",
+            "s4_heading": "4. Suscripciones y pagos",
+            "s4_body": "Algunas funciones de CV Maker Pro+ están disponibles mediante una suscripción de renovación automática o compras únicas (compras dentro de la aplicación). Los pagos se cargarán a su Apple ID o cuenta de Google Play al confirmar la compra. Las suscripciones se renuevan automáticamente a menos que las cancele al menos 24 horas antes del final del período actual. Puede gestionar y cancelar sus suscripciones accediendo a la configuración de su cuenta de App Store o Google Play después de la compra.",
+            "s5_heading": "5. Pautas de uso",
+            "s5_body": "Usted acepta no usar la aplicación para ningún propósito ilegal ni cargar contenido ofensivo, difamatorio o que viole los derechos de terceros.",
+            "s6_heading": "6. Información de contacto",
+            "s6_body": "Si tiene preguntas sobre estos Términos, contáctenos en:\n\nmehmetemrekaramustafa@gmail.com"
+        }
     },
     "cover_letter": {
         "title": "Carta de Presentación",
@@ -192,15 +297,16 @@
         "missing_keywords": "Palabras Clave Faltantes",
         "suggestions": "Sugerencias IA",
         "cv_strength_analysis": "Fortaleza del CV y Análisis",
-        "ai_insights": "Análisis IA"
+        "ai_insights": "Análisis IA",
+        "improve_hint": "¿Cómo mejorar?"
     },
     "paywall": {
         "title": "Hazte Premium",
         "subtitle": "Desbloquea todo el poder de CV Maker Pro",
-        "feature_unlimited_pdf": "Descargas PDF ilimitadas",
+        "feature_unlimited_pdf": "PDF ilimitados",
         "feature_ai_tools": "Todas las herramientas IA: Optimizar, Analizar, Carta",
-        "feature_all_templates": "Todas las plantillas premium",
-        "feature_no_watermark": "Sin marcas de agua",
+        "feature_all_templates": "Todas las plantillas",
+        "feature_no_watermark": "Sin marca de agua",
         "unlock_now": "Desbloquear ahora",
         "restore_purchases": "Restaurar compras",
         "popular": "POPULAR",
@@ -211,6 +317,115 @@
         "restore_success": "¡Compras restauradas con éxito!",
         "restore_none": "No se encontraron compras anteriores.",
         "offerings_error": "No se pudieron cargar los planes. Comprueba tu conexión.",
-        "legal_note": "La suscripción se renueva automáticamente salvo cancelación. Cancela en cualquier momento en Ajustes."
+        "legal_note": "La suscripción se renueva automáticamente. Adminístrala desde tu cuenta de App Store o Google Play.",
+        "hero_title": "Un Paso Más Cerca\nde Tu Trabajo Soñado",
+        "hero_subtitle": "Destácate con un currículum impulsado por IA.",
+        "social_count": "10.000+ profesionales",
+        "social_subtitle": "crearon su CV con IA ✨",
+        "features_title": "Ventajas Premium",
+        "feature_ai_magic": "IA Magic",
+        "feature_share": "Compartir al instante",
+        "feature_ats": "Análisis ATS",
+        "plan_select": "Elige un plan",
+        "badge_popular": "Más popular",
+        "badge_best_value": "Mejor valor",
+        "badge_save": "73% de descuento",
+        "plan_weekly_label": "Semanal",
+        "plan_monthly_label": "Mensual",
+        "plan_annual_label": "Anual",
+        "plan_per_week": "/sem.",
+        "cta_button": "Ir a Premium →",
+        "cta_cancel": "Cancela cuando quieras",
+        "restore_checking": "Comprobando...",
+        "trust_secure": "Pago\nseguro",
+        "trust_cancel": "Cancela\ncuando quieras",
+        "trust_devices": "Todos\nlos dispositivos"
+    },
+    "template_names": {
+        "modern": {
+            "name": "Moderno",
+            "desc": "Contemporáneo y elegante"
+        },
+        "classic": {
+            "name": "Clásico",
+            "desc": "Tradicional y profesional"
+        },
+        "creative": {
+            "name": "Creativo",
+            "desc": "Audaz y colorido"
+        },
+        "elegant": {
+            "name": "Elegante",
+            "desc": "Sofisticado y minimalista"
+        },
+        "startup": {
+            "name": "Startup",
+            "desc": "Para roles innovadores"
+        },
+        "linkedin": {
+            "name": "Perfil",
+            "desc": "Diseño centrado en conexiones"
+        },
+        "student": {
+            "name": "Estudiante",
+            "desc": "Para recién graduados"
+        },
+        "british_green": {
+            "name": "British Green",
+            "desc": "Zengin koyu yeşil tasarım"
+        }
+    },
+    "common": {
+        "send": "Enviar",
+        "continue_editing": "Continuar editando",
+        "error": "Ocurrió un error",
+        "success": "Éxito",
+        "processing": "Procesando...",
+        "retry": "Reintentar",
+        "failed_generate_pdf": "Error al generar PDF",
+        "ai_starting": "Iniciando IA...",
+        "ai_success": "Análisis de IA exitoso"
+    },
+    "premium": {
+        "share_cta": "Comparte la app para descargar PDFs ilimitados",
+        "share_unlock": "Compartir para desbloquear",
+        "ai_limit_title": "Límite de IA alcanzado",
+        "ai_limit_reached": "Has alcanzado tu límite gratuito de IA."
+    },
+    "onboarding_checklist": {
+        "title": "Pasos para el éxito",
+        "step_template": "Seleccionar plantilla",
+        "step_info": "Información personal",
+        "step_experience": "Añadir experiencia",
+        "step_ai": "Análisis de IA",
+        "step_pdf": "Descargar PDF"
+    },
+    "splash": {
+        "tagline": "Creador de CV con IA"
+    },
+    "ai_assistant": {
+        "analyze": "Analyze",
+        "strength": "Strength",
+        "strength_desc": "Strength Desc",
+        "ai_magic": "Ai Magic",
+        "subtitle": "Subtitle",
+        "analyze_desc": "Analyze Desc",
+        "ai_magic_desc": "Ai Magic Desc",
+        "title": "Title",
+        "ai_magic_confirm_desc": "Todas las secciones de tu CV serán optimizadas profesionalmente con AI Magic. Este proceso mejora el contenido para el lenguaje profesional de trabajo.",
+        "ai_magic_start": "Potenciar ✨",
+        "missing_required_fields": "Por favor, completa primero el Nombre, Email y Puesto objetivo."
+    },
+    "cv_theme": {
+        "title": "Title",
+        "subtitle": "Subtitle"
+    },
+    "ai_magic": {
+        "target_position_title": "¿Cuál es su puesto objetivo?",
+        "target_position_desc": "Ingrese el puesto exacto al que se postula para que la IA pueda optimizar mejor su CV.",
+        "target_position_hint": "ej., Senior Flutter Developer",
+        "cancel": "Cancelar",
+        "start": "Empezar",
+        "optimizing": "Potenciando su CV..."
     }
 }

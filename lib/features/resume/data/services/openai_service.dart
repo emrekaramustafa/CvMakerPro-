@@ -4,12 +4,10 @@ import '../models/resume_model.dart';
 import '../../../../core/constants/app_constants.dart';
 
 class OpenAIService {
-  static const String _baseUrl = 'https://api.openai.com/v1/chat/completions';
+  // Now points to our secure Cloud Run proxy
+  static const String _baseUrl = AppConstants.openAiProxyUrl;
   
-  // TODO: Secure this key! ideally use Env variables or backend proxy
-  final String apiKey;
-
-  OpenAIService({required this.apiKey});
+  OpenAIService();
 
   Future<Map<String, dynamic>> optimizeResume({
     required ResumeModel resume,
@@ -23,7 +21,7 @@ class OpenAIService {
         Uri.parse(_baseUrl),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
+          // No API key on client side anymore
         },
         body: jsonEncode({
           'model': 'gpt-4o-mini',
@@ -213,7 +211,7 @@ $rawText
         Uri.parse(_baseUrl),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
+          // No API key on client side anymore
         },
         body: jsonEncode({
           'model': 'gpt-4o',
@@ -297,7 +295,7 @@ INSTRUCTIONS:
         Uri.parse(_baseUrl),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
+          // No API key on client side anymore
         },
         body: jsonEncode({
           'model': 'gpt-4o-mini',
@@ -369,7 +367,7 @@ Be specific and actionable. All text must be in $language.
         Uri.parse(_baseUrl),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $apiKey',
+          // No API key on client side anymore
         },
         body: jsonEncode({
           'model': 'gpt-4o-mini',

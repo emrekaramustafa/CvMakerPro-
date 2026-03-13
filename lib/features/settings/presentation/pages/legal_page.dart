@@ -17,125 +17,22 @@ class LegalPage extends StatelessWidget {
     required this.contentKey,
   });
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // PRIVACY POLICY — mirrors website/privacy-policy.html
-  // ────────────────────────────────────────────────────────────────────────────
-  static const List<_LegalSection> _privacySections = [
-    _LegalSection(
-      heading: '1. Introduction',
-      body:
-          'Welcome to CV Maker Pro+ (the "App"). We are committed to protecting '
-          'your privacy and ensuring you have a positive experience when you use '
-          'our mobile application. This Privacy Policy outlines our data handling '
-          'practices, particularly concerning the advanced AI and biometrics '
-          'features we provide.',
-    ),
-    _LegalSection(
-      heading: '2. Data We Collect and How We Use It',
-      body:
-          'To provide you with highly customized and professional resumes, we '
-          'collect and process certain information:\n\n'
-          '• Camera and Photo Library Access: We request access to your device\'s '
-          'camera and photo library strictly to allow you to upload or capture a '
-          'profile picture for your resume.\n\n'
-          '• Biometric Data (Face Detection): We utilize on-device ML Kit Face '
-          'Detection technology to automatically identify and properly crop faces '
-          'in the photos you upload. This process happens entirely on your device. '
-          'We do not transmit, collect, or store any biometric face data on our '
-          'servers.\n\n'
-          '• Resume Information: The text data you input (experience, education, '
-          'skills, etc.) is temporarily processed to generate your final PDF document.',
-    ),
-    _LegalSection(
-      heading: '3. Third-Party AI Processing (OpenAI)',
-      body:
-          'Our App leverages advanced artificial intelligence provided by OpenAI '
-          'to analyze, enhance, and format your resume content. When you use our '
-          'AI features (such as ATS score analysis or smart text rewriting), the '
-          'text data you provide is securely sent to OpenAI\'s servers for '
-          'processing. This data is only used to generate your requested response '
-          'and is not used by OpenAI to train their models, in accordance with '
-          'OpenAI\'s API data usage policies.',
-    ),
-    _LegalSection(
-      heading: '4. In-App Purchases and Subscriptions',
-      body:
-          'We use RevenueCat to manage our in-app purchases and premium '
-          'subscriptions securely. RevenueCat processes your purchase history '
-          'anonymously to grant you access to premium features (like PDF downloads '
-          'and AI tools) across your devices. We do not have access to your raw '
-          'credit card information.',
-    ),
-    _LegalSection(
-      heading: '5. Data Retention and Security',
-      body:
-          'Your privacy is our priority. Your generated resumes and entered data '
-          'are primarily stored locally on your device. Any data transmitted to '
-          'AI models is encrypted in transit and is only retained for as long as '
-          'necessary to fulfill the immediate request. We do not sell, rent, or '
-          'trade any of your personal information to third parties.',
-    ),
-    _LegalSection(
-      heading: '6. Contact Us',
-      body:
-          'If you have any questions or concerns about this Privacy Policy or our '
-          'data practices, please contact us at:\n\n'
-          'mehmetemrekaramustafa@gmail.com',
-    ),
+  List<_LegalSection> get _privacySections => [
+    _LegalSection(heading: 'legal.privacy.s1_heading'.tr(), body: 'legal.privacy.s1_body'.tr()),
+    _LegalSection(heading: 'legal.privacy.s2_heading'.tr(), body: 'legal.privacy.s2_body'.tr()),
+    _LegalSection(heading: 'legal.privacy.s3_heading'.tr(), body: 'legal.privacy.s3_body'.tr()),
+    _LegalSection(heading: 'legal.privacy.s4_heading'.tr(), body: 'legal.privacy.s4_body'.tr()),
+    _LegalSection(heading: 'legal.privacy.s5_heading'.tr(), body: 'legal.privacy.s5_body'.tr()),
+    _LegalSection(heading: 'legal.privacy.s6_heading'.tr(), body: 'legal.privacy.s6_body'.tr()),
   ];
 
-  // ────────────────────────────────────────────────────────────────────────────
-  // TERMS OF SERVICE — mirrors website/terms-of-service.html
-  // ────────────────────────────────────────────────────────────────────────────
-  static const List<_LegalSection> _termsSections = [
-    _LegalSection(
-      heading: '1. Agreement to Terms',
-      body:
-          'By downloading or using CV Maker Pro+, you agree to be bound by these '
-          'Terms of Use. If you disagree with any part of these terms, you may not '
-          'access or use the application.',
-    ),
-    _LegalSection(
-      heading: '2. License to Use',
-      body:
-          'We grant you a personal, non-exclusive, non-transferable, and revocable '
-          'license to use the app for your personal, non-commercial purposes. You '
-          'may not distribute, modify, reverse engineer, or create derivative works '
-          'from the application.',
-    ),
-    _LegalSection(
-      heading: '3. AI Features and Disclaimer',
-      body:
-          'Our app utilizes third-party artificial intelligence algorithms (such as '
-          'OpenAI) to assist you in creating resumes. While we strive for accuracy, '
-          'the AI-generated content may be incomplete, inaccurate, or require manual '
-          'editing. You are solely responsible for reviewing and verifying any '
-          'content generated by the AI before using it for professional applications.',
-    ),
-    _LegalSection(
-      heading: '4. Subscriptions and Payments',
-      body:
-          'Some features of CV Maker Pro+ are available via an auto-renewing '
-          'subscription or one-time purchases (In-App Purchases). Payments will be '
-          'charged to your Apple ID or Google Play account at confirmation of '
-          'purchase. Subscriptions automatically renew unless canceled at least '
-          '24 hours before the end of the current period. You can manage and cancel '
-          'your subscriptions by going to your App Store or Google Play account '
-          'settings after purchase.',
-    ),
-    _LegalSection(
-      heading: '5. User Guidelines',
-      body:
-          'You agree not to use the app for any unlawful purposes or to upload any '
-          'content that is offensive, defamatory, or violates any third party\'s '
-          'rights.',
-    ),
-    _LegalSection(
-      heading: '6. Contact Information',
-      body:
-          'If you have any questions regarding these Terms, please contact us at:\n\n'
-          'mehmetemrekaramustafa@gmail.com',
-    ),
+  List<_LegalSection> get _termsSections => [
+    _LegalSection(heading: 'legal.terms.s1_heading'.tr(), body: 'legal.terms.s1_body'.tr()),
+    _LegalSection(heading: 'legal.terms.s2_heading'.tr(), body: 'legal.terms.s2_body'.tr()),
+    _LegalSection(heading: 'legal.terms.s3_heading'.tr(), body: 'legal.terms.s3_body'.tr()),
+    _LegalSection(heading: 'legal.terms.s4_heading'.tr(), body: 'legal.terms.s4_body'.tr()),
+    _LegalSection(heading: 'legal.terms.s5_heading'.tr(), body: 'legal.terms.s5_body'.tr()),
+    _LegalSection(heading: 'legal.terms.s6_heading'.tr(), body: 'legal.terms.s6_body'.tr()),
   ];
 
   List<_LegalSection> get _sections =>
@@ -148,8 +45,10 @@ class LegalPage extends StatelessWidget {
 
   Future<void> _openInBrowser() async {
     final uri = Uri.parse(_webUrl);
-    if (await canLaunchUrl(uri)) {
+    try {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      await launchUrl(uri, mode: LaunchMode.platformDefault);
     }
   }
 
@@ -199,6 +98,39 @@ class LegalPage extends StatelessWidget {
 
             // ── Sections ──────────────────────────────────────────────
             ..._sections.map((section) => _buildSection(section, c)),
+
+            const SizedBox(height: 20),
+
+            // ── Web URL card ──────────────────────────────────────────
+            GestureDetector(
+              onTap: _openInBrowser,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [c.primaryStart.withValues(alpha: 0.12), c.primaryMid.withValues(alpha: 0.06)],
+                  ),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: c.primaryStart.withValues(alpha: 0.25)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.open_in_browser_rounded, color: c.primaryMid, size: 20),
+                    const SizedBox(width: 10),
+                    Text(
+                      'legal.view_online'.tr(),
+                      style: TextStyle(
+                        color: c.primaryMid,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             const SizedBox(height: 20),
 

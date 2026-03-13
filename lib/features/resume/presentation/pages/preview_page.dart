@@ -141,6 +141,7 @@ class _PreviewPageState extends State<PreviewPage> {
                 PopupMenuItem(value: 'elegant', child: Text('form.elegant_template'.tr())),
                 PopupMenuItem(value: 'student', child: Text('form.linkedin_template'.tr())),
                 PopupMenuItem(value: 'startup', child: Text('form.startup_template'.tr())),
+                PopupMenuItem(value: 'british_green', child: Text('form.british_green_template'.tr())),
               ],
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -258,7 +259,7 @@ class _PreviewPageState extends State<PreviewPage> {
 
                         // Continue Editing Button
                         Positioned(
-                          bottom: isPremium ? 80 : 30,
+                          bottom: isPremium ? 130 : 80,
                           left: 20,
                           right: 20,
                           child: ScaleButton(

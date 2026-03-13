@@ -47,7 +47,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
   }
 
   void _onContinue() {
-    if (_currentPage < 3) {
+    if (_currentPage < 2) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut,
@@ -167,12 +167,6 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
           'welcome.slider.desc_3'.tr(),
           Icons.tips_and_updates_rounded,
         ),
-        _buildSlide(
-          c,
-          'welcome.slider.title_4'.tr(),
-          'welcome.slider.desc_4'.tr(),
-          Icons.rocket_launch_rounded,
-        ),
       ],
     );
   }
@@ -213,7 +207,7 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
   Widget _buildPageIndicator(AppColorsDynamic c) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(4, (index) {
+      children: List.generate(3, (index) {
         final isSelected = _currentPage == index;
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -236,8 +230,6 @@ class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStat
       return _buildAIAtsShowcase(c);
     } else if (page == 2) {
       return _buildAITipsShowcase(c);
-    } else if (page == 3) {
-      return _buildSpeedShowcase(c);
     }
     // Default showcase for other pages
     return _buildCVTemplatesShowcase(c);

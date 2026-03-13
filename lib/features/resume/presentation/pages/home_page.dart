@@ -11,6 +11,8 @@ import 'resume_edit_page.dart';
 import 'template_gallery_page.dart';
 import '../../data/models/template_data.dart';
 import '../../../onboarding/presentation/pages/cv_choice_page.dart';
+import '../../../paywall/presentation/pages/paywall_page.dart';
+import '../../../paywall/presentation/providers/premium_provider.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -503,10 +505,20 @@ class _HomePageState extends State<HomePage> {
             ),
             IconButton(
               onPressed: () async {
-                 final file = await context.read<ResumeProvider>().generatePdfToFile(resume);
-                 if (context.mounted) {
-                   provider.shareResume(resume);
-                 }
+                final isPremium = context.read<PremiumProvider>().isPremium;
+                if (!isPremium) {
+                  final purchased = await Navigator.push<bool>(
+                    context,
+                    MaterialPageRoute(builder: (_) => const PaywallPage()),
+                  );
+                  if (!context.mounted) return;
+                  if (purchased != true && !context.read<PremiumProvider>().isPremium) {
+                    return;
+                  }
+                }
+                if (context.mounted) {
+                  provider.shareResume(resume);
+                }
               },
               icon: Icon(Icons.send_rounded, color: c.accent),
             ),

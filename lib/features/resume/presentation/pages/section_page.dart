@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:ui';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/scale_button.dart';
 
 import 'preview_page.dart';
 import 'home_page.dart';
+import '../providers/resume_provider.dart';
 
 class SectionPage extends StatelessWidget {
   final String title;
@@ -26,38 +28,93 @@ class SectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = AppColorsDynamic.of(context);
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text(
-          title,
-          style: TextStyle(fontWeight: FontWeight.bold, color: c.textPrimary),
+    
+    Future<bool> handleBackPress() async {
+      // Check if not at root
+      if (!Navigator.canPop(context)) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => HomePage()),
+          (route) => false,
+        );
+        return false;
+      }
+
+      final shouldPop = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          backgroundColor: c.surface,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Text(
+            'form.unsaved_changes_title'.tr(),
+            style: TextStyle(color: c.textPrimary, fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            'form.unsaved_changes_desc'.tr(),
+            style: TextStyle(color: c.textSecondary),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true), // pop dialog, let caller know to pop without save
+              child: Text('form.discard'.tr(), style: TextStyle(color: c.textSecondary)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: c.primaryStart,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () async {
+                // Save and pop
+                await context.read<ResumeProvider>().saveResume();
+                if (dialogContext.mounted) {
+                   Navigator.pop(dialogContext, true);
+                }
+              },
+              child: Text('form.save'.tr(), style: const TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              color: c.background.withValues(alpha: 0.8),
+      );
+
+      return shouldPop ?? false;
+    }
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final bool shouldPop = await handleBackPress();
+        if (shouldPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          title: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold, color: c.textPrimary),
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+                color: c.background.withValues(alpha: 0.8),
+              ),
             ),
           ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new_rounded, color: c.textPrimary),
+            onPressed: () async {
+              final bool shouldPop = await handleBackPress();
+              if (shouldPop && context.mounted) {
+                Navigator.pop(context);
+              }
+            },
+          ),
         ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: c.textPrimary),
-          onPressed: () {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            } else {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => HomePage()),
-                (route) => false,
-              );
-            }
-          },
-        ),
-      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -147,24 +204,26 @@ class SectionPage extends StatelessWidget {
                 ),
               ],
             ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.visibility_rounded, color: Colors.white, size: 20),
-              const SizedBox(width: 8),
-              Text(
-                'form.quick_preview'.tr(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.visibility_rounded, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'form.quick_preview'.tr(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      )) : null,
+      ) : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    ),
     );
   }
 }

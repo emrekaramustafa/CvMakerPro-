@@ -19,6 +19,7 @@ import '../widgets/section_card.dart';
 import '../../../paywall/presentation/pages/paywall_page.dart';
 import '../../../paywall/presentation/providers/premium_provider.dart';
 import '../../../paywall/data/services/usage_limit_service.dart';
+import '../../data/models/personal_info_model.dart';
 import 'section_page.dart';
 
 import 'preview_page.dart';
@@ -313,22 +314,63 @@ class _ResumeEditPageState extends State<ResumeEditPage> {
                     ),
                   ),
 
-                   if (provider.isLoading)
-                    Positioned.fill(
-                      child: Container(
-                        color: Colors.black.withValues(alpha: 0.5),
-                        child: Center(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const CircularProgressIndicator(color: Colors.white),
-                              const SizedBox(height: 16),
-                              Text('common.processing'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                            ],
+                    if (provider.isLoading)
+                      Positioned.fill(
+                        child: Container(
+                          color: c.background.withValues(alpha: 0.85),
+                          child: Center(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                              decoration: BoxDecoration(
+                                color: c.surface,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: c.primaryMid.withValues(alpha: 0.3)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: c.primaryMid.withValues(alpha: 0.2),
+                                    blurRadius: 30,
+                                    spreadRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 60,
+                                        height: 60,
+                                        child: CircularProgressIndicator(
+                                          color: c.primaryMid,
+                                          strokeWidth: 3,
+                                        ),
+                                      ),
+                                      Icon(
+                                        Icons.auto_awesome_rounded,
+                                        color: c.accentOrange,
+                                        size: 30,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    'ai_magic.optimizing'.tr(),
+                                    style: TextStyle(
+                                      color: c.textPrimary,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
                   // ── Footer pinned to bottom ──
                   Positioned(
@@ -478,135 +520,241 @@ class _ResumeEditPageState extends State<ResumeEditPage> {
     );
   }
 
-  void _showAIOptions(BuildContext context) {
+  void _showAIMagicSheet(BuildContext context) async {
     final c = AppColorsDynamic.of(context);
+    final premium = context.read<PremiumProvider>();
+    final provider = context.read<ResumeProvider>();
+    final resume = provider.currentResume;
+
+    // 1. Premium check
+    if (!premium.isPremium) {
+      final purchased = await Navigator.push<bool>(
+        context,
+        MaterialPageRoute(builder: (_) => const PaywallPage()),
+      );
+      if (purchased != true || !context.mounted) return;
+    }
+
+    if (!context.mounted) return;
+
+    // 2. Required fields check
+    final name = resume?.personalInfo.fullName ?? '';
+    final email = resume?.personalInfo.email ?? '';
+    final jobTitle = resume?.personalInfo.targetJobTitle ?? '';
+    if (name.isEmpty || email.isEmpty || jobTitle.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('ai_assistant.missing_required_fields'.tr()),
+          backgroundColor: c.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+      );
+      return;
+    }
+
+    // 3. Show AI Magic confirmation sheet
+    if (!context.mounted) return;
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
+      builder: (ctx) => Padding(
         padding: const EdgeInsets.only(bottom: 70),
         child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: c.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          padding: const EdgeInsets.all(28),
+          decoration: BoxDecoration(
+            color: c.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Drag handle
+              Container(
+                width: 40, height: 4,
+                decoration: BoxDecoration(
+                  color: c.textTertiary.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Icon
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFF59E0B), Color(0xFFF97316)],
+                  ),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFF59E0B).withValues(alpha: 0.4),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 32),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'ai_assistant.ai_magic'.tr(),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: c.textPrimary),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'ai_assistant.ai_magic_confirm_desc'.tr(),
+                style: TextStyle(fontSize: 14, color: c.textSecondary, height: 1.6),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 28),
+              SizedBox(
+                width: double.infinity,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [Color(0xFFF59E0B), Color(0xFFF97316)]),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFFF59E0B).withValues(alpha: 0.4),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      Navigator.pop(ctx);
+                      final granted = await _checkAndConsumeAiAccess(
+                        context,
+                        featureKey: UsageLimitService.featureAiOptimize,
+                      );
+                      if (!granted || !context.mounted) return;
+                      _showTargetPositionDialog(context, provider);
+                    },
+                    icon: const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 20),
+                    label: Text(
+                      'ai_assistant.ai_magic_start'.tr(),
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text('form.cancel'.tr(), style: TextStyle(color: c.textSecondary)),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
         ),
-        child: Column(
+      ),
+    );
+  }
+
+  Future<void> _showTargetPositionDialog(BuildContext context, ResumeProvider provider) async {
+    final c = AppColorsDynamic.of(context);
+    final _controller = TextEditingController(text: provider.currentResume?.personalInfo.targetJobTitle ?? '');
+    
+    // Check if widget is still in tree before showing dialog
+    if (!context.mounted) return;
+
+    final targetPosition = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: c.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(
+          'ai_magic.target_position_title'.tr(), // "What is your target position?"
+          style: TextStyle(color: c.textPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Text(
-              'ai_assistant.title'.tr(),
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: c.textPrimary),
-            ),
-            const SizedBox(height: 8),
             Text(
-              'ai_assistant.subtitle'.tr(),
-              style: TextStyle(fontSize: 14, color: c.textSecondary),
+              'ai_magic.target_position_desc'.tr(), // "Enter the exact position so the AI can optimize better."
+              style: TextStyle(color: c.textSecondary, fontSize: 14),
             ),
-            const SizedBox(height: 24),
-            _buildAIOptionTile(
-              context,
-              icon: Icons.psychology_rounded,
-              title: 'ai_assistant.analyze'.tr(),
-              subtitle: 'ai_assistant.analyze_desc'.tr(),
-              color: Colors.purpleAccent,
-              onTap: () async {
-                Navigator.pop(context);
-                final granted = await _checkAndConsumeAiAccess(
-                  context,
-                  featureKey: UsageLimitService.featureAiAnalyze,
-                );
-                if (!granted || !context.mounted) return;
-                context.read<ResumeProvider>().analyzeWithAI();
-                _showScoreDetails(context);
-              },
+            const SizedBox(height: 16),
+            TextField(
+              controller: _controller,
+              style: TextStyle(color: c.textPrimary),
+              decoration: InputDecoration(
+                hintText: 'ai_magic.target_position_hint'.tr(),
+                hintStyle: TextStyle(color: c.textTertiary),
+                filled: true,
+                fillColor: c.background,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide(color: c.primaryMid)),
+              ),
+              autofocus: true,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (val) => Navigator.pop(ctx, val.trim()),
             ),
-            const SizedBox(height: 12),
-            _buildAIOptionTile(
-              context,
-              icon: Icons.auto_awesome_rounded,
-              title: 'ai_assistant.ai_magic'.tr(),
-              subtitle: 'ai_assistant.ai_magic_desc'.tr(),
-              color: Colors.amber,
-              onTap: () async {
-                Navigator.pop(context);
-                final granted = await _checkAndConsumeAiAccess(
-                  context,
-                  featureKey: UsageLimitService.featureAiOptimize,
-                );
-                if (!granted || !context.mounted) return;
-                _runAIMagic(context);
-              },
-            ),
-            const SizedBox(height: 12),
-            _buildAIOptionTile(
-              context,
-              icon: Icons.bar_chart_rounded,
-              title: 'ai_assistant.strength'.tr(),
-              subtitle: 'ai_assistant.strength_desc'.tr(),
-              color: c.success,
-              onTap: () {
-                Navigator.pop(context);
-                _showScoreDetails(context);
-              },
-            ),
-            const SizedBox(height: 20),
           ],
         ),
-      ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('ai_magic.cancel'.tr(), style: TextStyle(color: c.textSecondary)),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx, _controller.text.trim()),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: c.primaryMid,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Text('ai_magic.start'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
       ),
     );
+
+    if (targetPosition != null && targetPosition.isNotEmpty) {
+      if (!context.mounted) return;
+      // Update the target job title in provider first
+      provider.updatePersonalInfo(PersonalInfoModel(
+        fullName: provider.currentResume?.personalInfo.fullName ?? '',
+        email: provider.currentResume?.personalInfo.email ?? '',
+        phone: provider.currentResume?.personalInfo.phone ?? '',
+        targetJobTitle: targetPosition,
+        address: provider.currentResume?.personalInfo.address,
+        linkedinUrl: provider.currentResume?.personalInfo.linkedinUrl,
+        websiteUrl: provider.currentResume?.personalInfo.websiteUrl,
+        birthDate: provider.currentResume?.personalInfo.birthDate,
+        profileImagePath: provider.currentResume?.personalInfo.profileImagePath,
+      ));
+      
+      _runAIMagic(context, provider);
+    }
   }
 
-  Widget _buildAIOptionTile(BuildContext context, {required IconData icon, required String title, required String subtitle, required Color color, required VoidCallback onTap}) {
+  Future<void> _runAIMagic(BuildContext context, ResumeProvider provider) async {
     final c = AppColorsDynamic.of(context);
-    return ScaleButton(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: c.cardBackgroundSolid,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: c.cardBorder),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(icon, color: color),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: c.textPrimary)),
-                  const SizedBox(height: 4),
-                  Text(subtitle, style: TextStyle(color: c.textSecondary, fontSize: 12)),
-                ],
-              ),
-            ),
-            Icon(Icons.arrow_forward_ios_rounded, size: 16, color: c.textTertiary),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _runAIMagic(BuildContext context) async {
-    final c = AppColorsDynamic.of(context);
-    final provider = context.read<ResumeProvider>();
     try {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('common.ai_starting'.tr()), backgroundColor: AppColors.primaryStart, duration: const Duration(seconds: 2)));
       await provider.optimizeResume();
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('common.ai_success'.tr()), backgroundColor: c.success));
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('common.ai_success'.tr()), backgroundColor: c.success));
         _confettiController.play();
+        
+        // Auto-navigate to preview page
+        await Future.delayed(const Duration(milliseconds: 1500)); // Let the user see the success and confetti
+        if (context.mounted) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const PreviewPage(resume: null)),
+            );
+        }
       }
     } catch (e) {
       if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('common.ai_failed'.tr(args: [e.toString()])), backgroundColor: c.error));
@@ -1023,6 +1171,8 @@ class _ResumeEditPageState extends State<ResumeEditPage> {
                     color: c.textPrimary,
                     letterSpacing: -0.5,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
                 Text(
                   'form.subtitle'.tr(),
@@ -1049,7 +1199,7 @@ class _ResumeEditPageState extends State<ResumeEditPage> {
               ],
             ),
             child: IconButton(
-              onPressed: () => _showAIOptions(context),
+              onPressed: () => _showAIMagicSheet(context),
               icon: const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 20),
               tooltip: 'AI Assistant',
               constraints: const BoxConstraints(minWidth: 40, minHeight: 40),

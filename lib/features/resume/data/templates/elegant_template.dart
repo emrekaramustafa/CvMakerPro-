@@ -2,21 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 import '../models/resume_model.dart';
 import 'package:intl/intl.dart';
+import 'template_utils.dart';
 
 class ElegantTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
-    if (resume.personalInfo.profileImagePath != null) {
-      final imageFile = File(resume.personalInfo.profileImagePath!);
-      if (imageFile.existsSync()) {
-        final fileUri = Uri.file(imageFile.path).toString();
-        profileImageHtml = '''
-          <div style="text-align:center; margin-bottom:14px;">
-            <img src="$fileUri" 
-                 style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:2px solid #C9A96E; padding:2px;" />
-          </div>
-        ''';
-      }
+    final imgUri = getBase64ImageUri(resume.personalInfo.profileImagePath);
+    if (imgUri != null) {
+      profileImageHtml = '''
+        <div style="text-align:center; margin-bottom:14px;">
+          <img src="$imgUri" 
+               style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:2px solid #C9A96E; padding:2px;" />
+        </div>
+      ''';
     }
 
     final experiences = resume.experience.map((e) => '''

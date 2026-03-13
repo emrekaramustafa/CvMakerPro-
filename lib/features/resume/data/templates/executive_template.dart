@@ -2,23 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 import '../models/resume_model.dart';
 import 'package:intl/intl.dart';
+import 'template_utils.dart';
 
 class ExecutiveTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
     // Executive templates often omit photos in some regions, but let's keep it optional/subtle
-    if (resume.personalInfo.profileImagePath != null) {
-        // ... same image logic, maybe smaller or square ...
-        final imageFile = File(resume.personalInfo.profileImagePath!);
-        if (imageFile.existsSync()) {
-        final fileUri = Uri.file(imageFile.path).toString();
-        profileImageHtml = '''
-          <img src="$fileUri" 
-               style="width:80px; height:80px; object-fit:cover; border-radius:4px;" />
-        ''';
-      } else {
-        profileImageHtml = '';
-      }
+    final imgUri = getBase64ImageUri(resume.personalInfo.profileImagePath);
+    if (imgUri != null) {
+      profileImageHtml = '''
+        <img src="$imgUri" 
+             style="width:80px; height:80px; object-fit:cover; border-radius:4px;" />
+      ''';
     }
 
     final experiences = resume.experience.map((e) => '''

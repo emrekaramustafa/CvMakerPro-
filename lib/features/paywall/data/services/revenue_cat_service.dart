@@ -7,6 +7,8 @@ import '../../../../core/constants/app_constants.dart';
 /// - Configure on app startup via [init].
 /// - All purchase / restore / status methods delegate to the SDK.
 class RevenueCatService {
+  bool _isConfigured = false;
+  bool get isConfigured => _isConfigured;
   // ─── Init ────────────────────────────────────────────────────────────────
 
   Future<void> init() async {
@@ -19,14 +21,17 @@ class RevenueCatService {
       if (apiKey.isEmpty) {
         log('⚠️ RevenueCat: API key is empty — purchases will not work. '
             'Pass RC_IOS_KEY / RC_ANDROID_KEY via --dart-define.');
+        _isConfigured = false;
         return;
       }
 
       await Purchases.setLogLevel(LogLevel.info);
       final config = PurchasesConfiguration(apiKey);
       await Purchases.configure(config);
+      _isConfigured = true;
       log('✅ RevenueCat configured successfully (${Platform.isIOS ? "iOS" : "Android"})');
     } catch (e) {
+      _isConfigured = false;
       log('❌ RevenueCat init error: $e');
     }
   }
@@ -35,6 +40,7 @@ class RevenueCatService {
 
   /// Returns true if the user has an active "premium" entitlement.
   Future<bool> isPremium() async {
+    if (!_isConfigured) return false;
     try {
       final info = await Purchases.getCustomerInfo();
       return info.entitlements.active
@@ -53,6 +59,7 @@ class RevenueCatService {
   /// Fetches the current offering from RevenueCat.
   /// Returns null if the offering cannot be loaded.
   Future<Offering?> getCurrentOffering() async {
+    if (!_isConfigured) return null;
     try {
       final offerings = await Purchases.getOfferings();
       return offerings.current;
@@ -148,6 +155,7 @@ class RevenueCatService {
 
   /// Restores previous purchases and returns whether premium is now active.
   Future<bool> restorePurchases() async {
+    if (!_isConfigured) return false;
     try {
       final info = await Purchases.restorePurchases();
       final isNowPremium = info.entitlements.active

@@ -44,7 +44,7 @@ void main() async {
       final resumeBox = Hive.box<ResumeModel>('resumes');
       final localDataSource = ResumeLocalDataSourceImpl(resumeBox: resumeBox);
       final repository = ResumeRepositoryImpl(localDataSource: localDataSource);
-      final openAiService = OpenAIService(apiKey: AppConstants.openAiApiKey);
+      final openAiService = OpenAIService();
 
       // Init RevenueCat (non-blocking — key may be empty until build-time define is set)
       final rcService = RevenueCatService();

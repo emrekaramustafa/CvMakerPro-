@@ -55,7 +55,7 @@ dependencies:
   pdfx: ^2.9.2
   google_mlkit_face_detection: ^0.13.2
   image: ^4.7.2
-  google_fonts: ^8.0.1
+  google_fonts: ^8.0.2
   confetti: ^0.8.0
   flutter_staggered_animations: ^1.1.1
   carousel_slider: ^5.0.0
@@ -63,6 +63,7 @@ dependencies:
   intl: any
   http: any
   in_app_review: ^2.0.11
+  mixpanel_flutter: ^2.5.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

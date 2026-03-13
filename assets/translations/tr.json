@@ -4,7 +4,16 @@
         "title": "CV'lerim",
         "create_new": "Yeni CV Oluştur",
         "no_resumes": "Henüz CV yok. Hemen oluştur!",
-        "delete_confirm": "Bu CV'yi silmek istediğinize emin misiniz?"
+        "delete_confirm": "Bu CV'yi silmek istediğinize emin misiniz?",
+        "good_morning": "Günaydın,",
+        "good_afternoon": "İyi Günler,",
+        "good_evening": "İyi Akşamlar,",
+        "ready_to_succeed": "Başarıya hazır mısın?",
+        "popular_templates": "Popüler Şablonlar",
+        "see_all": "Tümünü Gör",
+        "start_journey_desc": "Hayalindeki işe adım atmak için ilk CV'ni oluştur.",
+        "untitled_cv": "İsimsiz CV",
+        "cover_letter": "Ön Yazı"
     },
     "welcome": {
         "title": "Hoş Geldiniz",
@@ -12,7 +21,18 @@
         "users": "Dünya Geneli\nKullanıcı",
         "rating": "Ortalama\nPuan",
         "description": "AI destekli profesyonel CV'niz ile rakipleriniz arasından sıyrılın. Akıllı ve özelleştirilebilir şablonlarla profesyonel CV'nizi oluşturun.",
-        "continue": "Başlayalım"
+        "continue": "Başlayalım",
+        "skip": "Atla",
+        "slider": {
+            "title_1": "Mükemmel CV Şablonları",
+            "desc_1": "Sektör onaylı, profesyonel CV şablonlarıyla öne çıkın.",
+            "title_2": "AI Gücüyle Özgeçmiş",
+            "desc_2": "AI ile CV'nizi ATS sistemlerine uyumlu hale getirin.",
+            "title_3": "Çoklu Dil Desteği",
+            "desc_3": "Farklı dillerde CV oluştur, pdf olarak indir. Global işlere başvur.",
+            "title_4": "PDF Olarak İndir",
+            "desc_4": "Tek tıkla CV'nizi yüksek kaliteli PDF formatında alın."
+        }
     },
     "cv_language": {
         "title": "Hangi dilde CV hazırlayacaksın",
@@ -49,7 +69,10 @@
         "creative": "Yaratıcı",
         "creative_desc": "Cesur ve renkli",
         "elegant": "Zarif",
-        "elegant_desc": "Sofistike ve minimal"
+        "elegant_desc": "Sofistike ve minimal",
+        "use_this": "Bu Şablonu Kullan",
+        "no_found": "No Found",
+        "changed": "{} başarıyla seçildi"
     },
     "cv_theme": {
         "title": "Renk Teması Seç",
@@ -162,7 +185,36 @@
         "activity_title": "Başlık",
         "category": "Kategori",
         "volunteering": "Gönüllülük",
-        "hobby": "Hobi"
+        "hobby": "Hobi",
+        "subtitle": "CV bilgilerinizi eksiksiz doldurun",
+        "summary": "Profesyonel Özet",
+        "summary_hint": "Kariyer hedeflerinizi özetleyin...",
+        "summary_placeholder": "AI ile özetinizi yazdırabilirsiniz...",
+        "additional": "Ek Bilgiler",
+        "quick_preview": "Hızlı Önizleme",
+        "categories": {
+            "all": "Tümü",
+            "modern": "Modern",
+            "classic": "Klasik",
+            "creative": "Yaratıcı",
+            "elegant": "Zarif",
+            "simple": "Basit",
+            "academic": "Akademik",
+            "professional": "Profesyonel"
+        },
+        "suggestions": "Öneriler",
+        "suggested_teamwork": "Takım Çalışması",
+        "suggested_discipline": "Disiplin",
+        "suggested_communication": "İletişim",
+        "startup_template": "Startup Template",
+        "tap_to_add_photo": "Tap To Add Photo",
+        "professional_summary": "Professional Summary",
+        "linkedin_template": "Linkedin Template",
+        "essentials": "Essentials",
+        "unsaved_changes_title": "Kaydedilmemiş Değişiklikler",
+        "unsaved_changes_desc": "Kaydedilmemiş değişiklikleriniz var. Çıkmadan önce kaydetmek ister misiniz?",
+        "discard": "Çık",
+        "british_green_template": "British Green Şablon"
     },
     "languages": {
         "en": "İngilizce",
@@ -189,7 +241,39 @@
     },
     "legal": {
         "privacy_title": "Gizlilik Politikası",
-        "terms_title": "Kullanım Koşulları"
+        "terms_title": "Kullanım Koşulları",
+        "all_rights_reserved": "All Rights Reserved",
+        "last_updated": "Last Updated",
+        "open_in_browser": "Open In Browser",
+        "view_online": "Çevrimiçi görüntüle",
+        "privacy": {
+            "s1_heading": "1. Giriş",
+            "s1_body": "CV Maker Pro+ (\"Uygulama\")\na hoş geldiniz. Gizliliğinizi korumaya ve mobil uygulamamızı kullanırken olumlu bir deneyim yaşamanızı sağlamaya kararlıyız. Bu Gizlilik Politikası, özellikle sunduğumuz gelişmiş yapay zeka ve biyometrik özellikler açısından veri işleme uygulamalarımızı özetlemektedir.",
+            "s2_heading": "2. Topladığımız Veriler ve Kullanım Amacı",
+            "s2_body": "Size özelleştirilmiş ve profesyonel özgeçmişler sunabilmek için belirli bilgileri topluyoruz:\n\n• Kamera ve Fotoğraf Kütüphanesi Erişimi: Yalnızca özgeçmişiniz için profil fotoğrafı yüklemenize veya çekmenize olanak tanımak amacıyla cihazınızın kamerasına ve fotoğraf kütüphanesine erişim talep ediyoruz.\n\n• Biyometrik Veri (Yüz Tespiti): Yüklediğiniz fotoğraflardaki yüzleri otomatik olarak tanımlamak ve kırpmak için cihaz üzerinde ML Kit Yüz Tanıma teknolojisinden yararlanıyoruz. Bu işlem tamamen cihazınızda gerçekleşir. Sunucularımızda hiçbir biyometrik yüz verisi iletilmez, toplanmaz veya saklanmaz.\n\n• Özgeçmiş Bilgileri: Girdiğiniz metin verileri (deneyim, eğitim, beceriler vb.) yalnızca nihai PDF belgesini oluşturmak için geçici olarak işlenir.",
+            "s3_heading": "3. Üçüncü Taraf Yapay Zeka İşleme (OpenAI)",
+            "s3_body": "Uygulamamız, özgeçmiş içeriğinizi analiz etmek, geliştirmek ve biçimlendirmek için OpenAI tarafından sağlanan gelişmiş yapay zekadan yararlanmaktadır. Yapay zeka özelliklerimizi kullandığınızda (ATS skor analizi veya akıllı metin yeniden yazma gibi), sağladığınız metin verileri işlenmek üzere güvenli biçimde OpenAI sunucularına iletilir. Bu veriler yalnızca talep ettiğiniz yanıtı oluşturmak için kullanılır ve OpenAI'nın API veri kullanım politikaları çerçevesinde modellerini eğitmek amacıyla kullanılmaz.",
+            "s4_heading": "4. Uygulama İçi Satın Almalar ve Abonelikler",
+            "s4_body": "Uygulama içi satın almalarımızı ve premium aboneliklerimizi güvenli biçimde yönetmek için RevenueCat'i kullanıyoruz. RevenueCat, cihazlarınız genelinde premium özelliklere (PDF indirme ve yapay zeka araçları gibi) erişiminizi sağlamak amacıyla satın alma geçmişinizi anonim olarak işler. Ham kredi kartı bilgilerinize erişim sağlamıyoruz.",
+            "s5_heading": "5. Veri Saklama ve Güvenlik",
+            "s5_body": "Gizliliğiniz önceliğimizdir. Oluşturulan özgeçmişleriniz ve girdiğiniz veriler öncelikli olarak cihazınızda yerel olarak saklanır. Yapay zeka modellerine iletilen veriler aktarım sırasında şifrelenir ve yalnızca anlık talebi karşılamak için gereken süre boyunca tutulur. Kişisel bilgilerinizden hiçbirini üçüncü taraflara satmıyor, kiralamıyor veya devretmiyoruz.",
+            "s6_heading": "6. Bize Ulaşın",
+            "s6_body": "Bu Gizlilik Politikası veya veri uygulamalarımız hakkında sorularınız veya endişeleriniz varsa lütfen bizimle iletişime geçin:\n\nmehmetemrekaramustafa@gmail.com"
+        },
+        "terms": {
+            "s1_heading": "1. Şartları Kabul",
+            "s1_body": "CV Maker Pro+'ı indirerek veya kullanarak bu Kullanım Koşullarına bağlı olmayı kabul edersiniz. Bu koşulların herhangi bir bölümüne katılmıyorsanız uygulamaya erişemez veya uygulamayı kullanamazsınız.",
+            "s2_heading": "2. Kullanım Lisansı",
+            "s2_body": "Uygulamayı kişisel, ticari olmayan amaçlarla kullanmanız için size kişisel, münhasır olmayan, devredilemez ve iptal edilebilir bir lisans veriyoruz. Uygulamayı dağıtamaz, değiştiremez, tersine mühendislik yapamaz veya uygulamadan türev eserler oluşturamazsınız.",
+            "s3_heading": "3. Yapay Zeka Özellikleri ve Sorumluluk Reddi",
+            "s3_body": "Uygulamamız, özgeçmiş oluşturmanıza yardımcı olmak için üçüncü taraf yapay zeka algoritmalarından (OpenAI gibi) yararlanmaktadır. Doğruluk için çaba göstersek de yapay zeka tarafından oluşturulan içerik eksik, hatalı olabilir veya manuel düzenleme gerektirebilir. Yapay zeka tarafından oluşturulan içerikleri profesyonel uygulamalarda kullanmadan önce incelemek ve doğrulamak tamamen sizin sorumluluğunuzdadır.",
+            "s4_heading": "4. Abonelikler ve Ödemeler",
+            "s4_body": "CV Maker Pro+'ın bazı özellikleri otomatik yenilenen abonelik veya tek seferlik satın almalar (Uygulama İçi Satın Almalar) aracılığıyla sunulmaktadır. Ödemeler, satın alma onayında Apple Kimliğinize veya Google Play hesabınıza tahakkuk ettirilir. Abonelikler, mevcut dönemin bitiminden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. Satın alma sonrasında App Store veya Google Play hesap ayarlarınıza girerek aboneliklerinizi yönetebilir ve iptal edebilirsiniz.",
+            "s5_heading": "5. Kullanıcı Yönergeleri",
+            "s5_body": "Uygulamayı herhangi bir yasadışı amaç için kullanmamayı veya rahatsız edici, iftira niteliğinde ya da üçüncü tarafların haklarını ihlal eden içerikler yüklememeyı kabul edersiniz.",
+            "s6_heading": "6. İletişim Bilgileri",
+            "s6_body": "Bu Koşullarla ilgili sorularınız varsa lütfen bizimle iletişime geçin:\n\nmehmetemrekaramustafa@gmail.com"
+        }
     },
     "cover_letter": {
         "title": "AI ile Ön Yazı",
@@ -223,7 +307,8 @@
         "missing_keywords": "Eksik Anahtar Kelimeler",
         "suggestions": "AI Önerileri",
         "cv_strength_analysis": "CV Gücü ve Analiz",
-        "ai_insights": "AI Analizi"
+        "ai_insights": "AI Analizi",
+        "improve_hint": "Nasıl Geliştirilir?"
     },
     "ai_assistant": {
         "title": "AI Asistan",
@@ -233,14 +318,17 @@
         "analyze": "AI ile Analiz Et",
         "analyze_desc": "Detaylı geri bildirim ve anahtar kelime analizi al",
         "strength": "Güç Skoru",
-        "strength_desc": "Detaylı kırılımı ve eksikleri gör"
+        "strength_desc": "Detaylı kırılımı ve eksikleri gör",
+        "ai_magic_confirm_desc": "CV'nizdeki tüm bölümler AI Magic ile profesyonelce optimize edilecek. Bu işlem içerikleri İngilizce iş diline uygun hale getirir.",
+        "ai_magic_start": "Güçlendir ✨",
+        "missing_required_fields": "Lütfen önce Ad Soyad, E-posta ve Hedef Pozisyon alanlarını doldurun."
     },
     "paywall": {
         "title": "Premium'a Geç",
         "subtitle": "CV Maker Pro'nun tüm gücünü aç",
-        "feature_unlimited_pdf": "Sınırsız PDF indirme",
+        "feature_unlimited_pdf": "Sınırsız PDF",
         "feature_ai_tools": "Tüm AI araçları: Optimize, Analiz, Ön Yazı",
-        "feature_all_templates": "Tüm premium şablonlar",
+        "feature_all_templates": "Tüm Şablonlar",
         "feature_no_watermark": "Filigransız",
         "unlock_now": "Şimdi Aç",
         "restore_purchases": "Satın Almaları Geri Yükle",
@@ -252,6 +340,98 @@
         "restore_success": "Satın almalar başarıyla geri yüklendi!",
         "restore_none": "Önceki satın alma bulunamadı.",
         "offerings_error": "Planlar yüklenemedi. Bağlantınızı kontrol edin.",
-        "legal_note": "Abonelik iptal edilmediği sürece otomatik yenilenir. Ayarlardan istediğiniz zaman iptal edebilirsiniz."
+        "legal_note": "Abonelik otomatik yenilenir. App Store veya Google Play hesabınızdan yönetebilirsiniz.",
+        "hero_title": "Hayalindeki İşe\nBir Adım Daha Yakın",
+        "hero_subtitle": "AI destekli özgeçmiş oluşturucuyla öne çık.",
+        "social_count": "10.000+ profesyonel",
+        "social_subtitle": "CV'sini AI ile oluşturdu ✨",
+        "features_title": "Premium Avantajlar",
+        "feature_ai_magic": "AI Magic",
+        "feature_share": "Anında Paylaş",
+        "feature_ats": "ATS Analiz",
+        "plan_select": "Plan Seç",
+        "badge_popular": "En Popüler",
+        "badge_best_value": "En İyi Değer",
+        "badge_save": "%73 Tasarruf",
+        "plan_weekly_label": "Haftalık",
+        "plan_monthly_label": "Aylık",
+        "plan_annual_label": "Yıllık",
+        "plan_per_week": "/hf",
+        "cta_button": "Premium'a Geç →",
+        "cta_cancel": "İstediğin zaman iptal et",
+        "restore_checking": "Kontrol ediliyor...",
+        "trust_secure": "Güvenli\nÖdeme",
+        "trust_cancel": "İstediğin\nzaman iptal",
+        "trust_devices": "Tüm\nCihazlar"
+    },
+    "template_names": {
+        "modern": {
+            "name": "Modern",
+            "desc": "Çağdaş ve şık"
+        },
+        "classic": {
+            "name": "Klasik",
+            "desc": "Geleneksel ve profesyonel"
+        },
+        "creative": {
+            "name": "Yaratıcı",
+            "desc": "Cesur ve renkli"
+        },
+        "elegant": {
+            "name": "Zarif",
+            "desc": "Sofistike ve minimal"
+        },
+        "startup": {
+            "name": "Startup",
+            "desc": "Yenilikçi roller için"
+        },
+        "linkedin": {
+            "name": "Profil",
+            "desc": "Bağlantı odaklı tasarım"
+        },
+        "student": {
+            "name": "Öğrenci",
+            "desc": "Yeni mezunlar için"
+        },
+        "british_green": {
+            "name": "British Green",
+            "desc": "Zengin koyu yeşil tasarım"
+        }
+    },
+    "common": {
+        "send": "Gönder",
+        "continue_editing": "Düzenlemeye Devam Et",
+        "error": "Bir hata oluştu",
+        "success": "Başarılı",
+        "processing": "İşleniyor...",
+        "retry": "Tekrar Dene",
+        "failed_generate_pdf": "PDF oluşturulamadı",
+        "ai_starting": "AI başlatılıyor...",
+        "ai_success": "AI analizi başarılı"
+    },
+    "premium": {
+        "share_cta": "Sınırsız PDF indirmek ve tüm özellikleri açmak için uygulamayı paylaşın",
+        "share_unlock": "Paylaş ve Kilidi Aç",
+        "ai_limit_title": "AI Sınırına Ulaşıldı",
+        "ai_limit_reached": "Ücretsiz AI kullanım sınırına ulaştınız."
+    },
+    "onboarding_checklist": {
+        "title": "Başarı Adımları",
+        "step_template": "Şablon Seçimi",
+        "step_info": "Kişisel Bilgiler",
+        "step_experience": "Deneyim Ekleme",
+        "step_ai": "AI Analizi",
+        "step_pdf": "PDF İndirme"
+    },
+    "splash": {
+        "tagline": "AI Destekli CV Oluşturucu"
+    },
+    "ai_magic": {
+        "target_position_title": "Hedef Pozisyonunuz Nedir?",
+        "target_position_desc": "Yapay zekanın CV'nizi daha iyi optimize edebilmesi için başvurduğunuz tam pozisyonu girin.",
+        "target_position_hint": "Örn: Senior Flutter Developer",
+        "cancel": "İptal",
+        "start": "Başla",
+        "optimizing": "CV'niz Güçlendiriliyor..."
     }
 }

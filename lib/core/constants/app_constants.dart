@@ -1,10 +1,8 @@
-class AppConstants {
-  // ── OpenAI ──────────────────────────────────────────────────────────────
-  // Pass at build time:
-  //   flutter build ipa --dart-define=OPENAI_API_KEY=sk-...
-  static const String openAiApiKey = String.fromEnvironment(
-    'OPENAI_API_KEY',
-    defaultValue: '',
+  // ── OpenAI Proxy ─────────────────────────────────────────────────────────
+  // Your Cloud Run function URL (e.g., https://openai-proxy-xxxx-uc.a.run.app)
+  static const String openAiProxyUrl = String.fromEnvironment(
+    'OPENAI_PROXY_URL',
+    defaultValue: '', 
   );
 
   // ── RevenueCat ──────────────────────────────────────────────────────────

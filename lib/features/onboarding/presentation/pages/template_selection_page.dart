@@ -91,7 +91,10 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
   Widget build(BuildContext context) {
     final displayTemplates = _selectedCategory == 'form.categories.all'.tr() 
         ? _templates 
-        : _templates.where((t) => 'form.categories.${t['category'].toString().toLowerCase()}'.tr() == _selectedCategory).toList();
+        : _templates.where((t) {
+            final categories = t['categories'] as List<String>? ?? [];
+            return categories.map((c) => 'form.categories.$c'.tr()).contains(_selectedCategory);
+          }).toList();
     final c = AppColorsDynamic.of(context);
     final isRoot = !Navigator.canPop(context);
     final canGoBack = !widget.isFromImport && !isRoot;

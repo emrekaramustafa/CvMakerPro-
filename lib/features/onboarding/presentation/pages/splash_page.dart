@@ -66,72 +66,11 @@ class _SplashPageState extends State<SplashPage>
         ),
         child: FadeTransition(
           opacity: _fadeAnim,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Glowing logo
-              ScaleTransition(
-                scale: _scaleAnim,
-                child: Container(
-                  width: 140,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF7C3AED).withValues(alpha: 0.7),
-                        blurRadius: 50,
-                        spreadRadius: 10,
-                      ),
-                      BoxShadow(
-                        color: const Color(0xFF06B6D4).withValues(alpha: 0.35),
-                        blurRadius: 80,
-                        spreadRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(32),
-                    child: Image.asset(
-                      'assets/appicon_transparent.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 36),
-
-              // App name
-              ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [Colors.white, Color(0xFFD8B4FE)],
-                ).createShader(bounds),
-                child: const Text(
-                  'CV Maker Pro+',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              // Localized tagline
-              Text(
-                'splash.tagline'.tr(),
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white.withValues(alpha: 0.5),
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+          child: Image.asset(
+            'assets/images/splash_bg.png',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
         ),
       ),

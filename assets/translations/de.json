@@ -4,7 +4,16 @@
         "title": "Meine Lebensläufe",
         "create_new": "Neuen Lebenslauf erstellen",
         "no_resumes": "Keine Lebensläufe gefunden. Jetzt erstellen!",
-        "delete_confirm": "Möchten Sie diesen Lebenslauf wirklich löschen?"
+        "delete_confirm": "Möchten Sie diesen Lebenslauf wirklich löschen?",
+        "good_morning": "Guten Morgen,",
+        "good_afternoon": "Guten Tag,",
+        "good_evening": "Guten Abend,",
+        "ready_to_succeed": "Bereit für den Erfolg?",
+        "popular_templates": "Beliebte Vorlagen",
+        "see_all": "Alle ansehen",
+        "start_journey_desc": "Erstellen Sie Ihren ersten Lebenslauf.",
+        "untitled_cv": "Unbenannter Lebenslauf",
+        "cover_letter": "Anschreiben"
     },
     "welcome": {
         "title": "Willkommen",
@@ -12,7 +21,18 @@
         "users": "Nutzer\nWeltweit",
         "rating": "Durchschnittl.\nBewertung",
         "description": "Heben Sie sich von Ihren Mitbewerbern ab mit KI-gestütztem professionellem Lebenslauf. Erstellen Sie Ihren Lebenslauf mit intelligenten Vorlagen.",
-        "continue": "Los geht's"
+        "continue": "Los geht's",
+        "skip": "Überspringen",
+        "slider": {
+            "title_1": "Perfekte Lebenslauf-Vorlagen",
+            "desc_1": "Heben Sie sich mit branchenerprobten Vorlagen hervor.",
+            "title_2": "KI-gestützter Lebenslauf",
+            "desc_2": "Machen Sie Ihren Lebenslauf mit KI ATS-freundlich.",
+            "title_3": "Mehrsprachige Unterstützung",
+            "desc_3": "Erstellen Sie einen Lebenslauf in verschiedenen Sprachen, laden Sie ihn als PDF herunter. Bewerben Sie sich auf globale Jobs.",
+            "title_4": "Als PDF herunterladen",
+            "desc_4": "Erhalten Sie Ihren Lebenslauf mit einem Klick als PDF."
+        }
     },
     "cv_language": {
         "title": "In welcher Sprache wirst du deinen Lebenslauf erstellen?",
@@ -49,7 +69,10 @@
         "creative": "Kreativ",
         "creative_desc": "Mutig und farbenfroh",
         "elegant": "Elegant",
-        "elegant_desc": "Anspruchsvoll und minimal"
+        "elegant_desc": "Anspruchsvoll und minimal",
+        "use_this": "Diese Vorlage verwenden",
+        "no_found": "No Found",
+        "changed": "{} erfolgreich ausgewählt"
     },
     "form": {
         "personal_info": "Persönliche Daten",
@@ -132,7 +155,57 @@
         "purchase": "Kaufen",
         "cancel": "Abbrechen",
         "delete": "Löschen",
-        "present": "Gegenwärtig"
+        "present": "Gegenwärtig",
+        "subtitle": "Füllen Sie Ihre Lebenslauf-Informationen aus",
+        "summary": "Professionelle Zusammenfassung",
+        "summary_hint": "Fassen Sie Ihre Karriereziele zusammen...",
+        "summary_placeholder": "Sie können eine Zusammenfassung mit KI erstellen...",
+        "additional": "Zusätzliche Informationen",
+        "quick_preview": "Schnelle Vorschau",
+        "categories": {
+            "all": "Alle",
+            "modern": "Modern",
+            "classic": "Klassisch",
+            "creative": "Kreativ",
+            "elegant": "Elegant",
+            "simple": "Einfach",
+            "academic": "Akademisch",
+            "professional": "Professionell"
+        },
+        "suggestions": "Vorschläge",
+        "suggested_teamwork": "Teamarbeit",
+        "suggested_discipline": "Disziplin",
+        "suggested_communication": "Kommunikation",
+        "category": "Category",
+        "hobby": "Hobby",
+        "activities_list": "Activities List",
+        "add_activity": "Add Activity",
+        "volunteering": "Volunteering",
+        "references_list": "References List",
+        "edit_certificate": "Edit Certificate",
+        "edit_activity": "Edit Activity",
+        "startup_template": "Startup Template",
+        "select_date": "Select Date",
+        "ref_company": "Ref Company",
+        "references": "References",
+        "certificates": "Certificates",
+        "add_certificate": "Add Certificate",
+        "cert_issuer": "Cert Issuer",
+        "tap_to_add_photo": "Tap To Add Photo",
+        "professional_summary": "Professional Summary",
+        "cert_title": "Cert Title",
+        "activities": "Activities",
+        "add_reference": "Add Reference",
+        "certificates_list": "Certificates List",
+        "ref_name": "Ref Name",
+        "linkedin_template": "Linkedin Template",
+        "edit_reference": "Edit Reference",
+        "essentials": "Essentials",
+        "activity_title": "Activity Title",
+        "unsaved_changes_title": "Ungespeicherte Änderungen",
+        "unsaved_changes_desc": "Sie haben ungespeicherte Änderungen. Möchten Sie vor dem Verlassen speichern?",
+        "discard": "Verwerfen",
+        "british_green_template": "British Green Şablon"
     },
     "languages": {
         "en": "Englisch",
@@ -159,7 +232,39 @@
     },
     "legal": {
         "privacy_title": "Datenschutzerklärung",
-        "terms_title": "Nutzungsbedingungen"
+        "terms_title": "Nutzungsbedingungen",
+        "all_rights_reserved": "All Rights Reserved",
+        "last_updated": "Last Updated",
+        "open_in_browser": "Open In Browser",
+        "view_online": "Online anzeigen",
+        "privacy": {
+            "s1_heading": "1. Einleitung",
+            "s1_body": "Willkommen bei CV Maker Pro+ (die „App\"). Wir verpflichten uns, Ihre Privatsphäre zu schützen und Ihnen eine positive Erfahrung bei der Nutzung unserer mobilen Anwendung zu gewährleisten. Diese Datenschutzrichtlinie beschreibt unsere Datenverwaltungspraktiken, insbesondere im Hinblick auf die erweiterten KI- und Biometriefunktionen, die wir anbieten.",
+            "s2_heading": "2. Erhobene Daten und deren Verwendung",
+            "s2_body": "Um Ihnen hochgradig individuelle und professionelle Lebensläufe bereitzustellen, erheben und verarbeiten wir bestimmte Informationen:\n\n• Kamera- und Fotomediathekzugriff: Wir fordern ausschließlich Zugriff auf die Kamera und Fotomediathek Ihres Geräts an, damit Sie ein Profilfoto für Ihren Lebenslauf hochladen oder aufnehmen können.\n\n• Biometrische Daten (Gesichtserkennung): Wir nutzen die gerätegebundene ML Kit-Gesichtserkennungstechnologie, um Gesichter in den hochgeladenen Fotos automatisch zu erkennen und korrekt zu beschneiden. Dieser Prozess findet vollständig auf Ihrem Gerät statt. Wir übermitteln, erfassen oder speichern keinerlei biometrische Gesichtsdaten auf unseren Servern.\n\n• Lebenslaufinformationen: Die von Ihnen eingegebenen Textdaten (Erfahrung, Ausbildung, Fähigkeiten usw.) werden vorübergehend verarbeitet, um Ihr endgültiges PDF-Dokument zu erstellen.",
+            "s3_heading": "3. KI-Verarbeitung durch Dritte (OpenAI)",
+            "s3_body": "Unsere App nutzt die fortschrittliche künstliche Intelligenz von OpenAI, um Ihre Lebenslaufinhalte zu analysieren, zu verbessern und zu formatieren. Wenn Sie unsere KI-Funktionen verwenden (wie ATS-Analyse oder intelligentes Umschreiben von Texten), werden die von Ihnen bereitgestellten Textdaten sicher an OpenAIs Server zur Verarbeitung übertragen. Diese Daten werden ausschließlich zur Generierung der angeforderten Antwort verwendet und nicht genutzt, um die Modelle von OpenAI zu trainieren – gemäß der API-Datennutzungsrichtlinien von OpenAI.",
+            "s4_heading": "4. In-App-Käufe und Abonnements",
+            "s4_body": "Wir verwenden RevenueCat, um unsere In-App-Käufe und Premium-Abonnements sicher zu verwalten. RevenueCat verarbeitet Ihren Kaufverlauf anonym, um Ihnen geräteübergreifend Zugang zu Premium-Funktionen (wie PDF-Downloads und KI-Tools) zu gewähren. Wir haben keinen Zugriff auf Ihre rohen Kreditkartendaten.",
+            "s5_heading": "5. Datenspeicherung und Sicherheit",
+            "s5_body": "Ihre Privatsphäre hat oberste Priorität. Ihre erstellten Lebensläufe und eingegebenen Daten werden hauptsächlich lokal auf Ihrem Gerät gespeichert. Jegliche an KI-Modelle übertragenen Daten werden während der Übertragung verschlüsselt und nur so lange aufbewahrt, wie es zur Erfüllung der jeweiligen Anfrage notwendig ist. Wir verkaufen, vermieten oder handeln keinerlei Ihrer persönlichen Daten an Dritte.",
+            "s6_heading": "6. Kontakt",
+            "s6_body": "Falls Sie Fragen oder Bedenken zu dieser Datenschutzrichtlinie oder unseren Datenpraktiken haben, kontaktieren Sie uns bitte unter:\n\nmehmetemrekaramustafa@gmail.com"
+        },
+        "terms": {
+            "s1_heading": "1. Zustimmung zu den Bedingungen",
+            "s1_body": "Durch das Herunterladen oder die Nutzung von CV Maker Pro+ erklären Sie sich mit diesen Nutzungsbedingungen einverstanden. Wenn Sie mit einem Teil dieser Bedingungen nicht einverstanden sind, dürfen Sie die Anwendung nicht aufrufen oder nutzen.",
+            "s2_heading": "2. Nutzungslizenz",
+            "s2_body": "Wir gewähren Ihnen eine persönliche, nicht exklusive, nicht übertragbare und widerrufliche Lizenz zur Nutzung der App für Ihre persönlichen, nicht kommerziellen Zwecke. Sie dürfen die Anwendung nicht verteilen, modifizieren, zurückentwickeln oder davon abgeleitete Werke erstellen.",
+            "s3_heading": "3. KI-Funktionen und Haftungsausschluss",
+            "s3_body": "Unsere App nutzt KI-Algorithmen von Drittanbietern (wie OpenAI), um Ihnen bei der Erstellung von Lebensläufen zu helfen. Obwohl wir uns um Genauigkeit bemühen, können KI-generierte Inhalte unvollständig oder ungenau sein und eine manuelle Bearbeitung erfordern. Sie sind allein dafür verantwortlich, von der KI generierte Inhalte zu prüfen und zu verifizieren, bevor Sie diese für professionelle Bewerbungen verwenden.",
+            "s4_heading": "4. Abonnements und Zahlungen",
+            "s4_body": "Einige Funktionen von CV Maker Pro+ sind über ein automatisch verlängertes Abonnement oder Einmalzahlungen (In-App-Käufe) verfügbar. Zahlungen werden bei Kaufbestätigung Ihrer Apple ID oder Ihrem Google Play-Konto belastet. Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor Ablauf des aktuellen Zeitraums gekündigt werden. Sie können Ihre Abonnements nach dem Kauf in den Einstellungen Ihres App Store- oder Google Play-Kontos verwalten und kündigen.",
+            "s5_heading": "5. Nutzerrichtlinien",
+            "s5_body": "Sie stimmen zu, die App nicht für rechtswidrige Zwecke zu nutzen oder Inhalte hochzuladen, die beleidigend oder verleumderisch sind oder die Rechte Dritter verletzen.",
+            "s6_heading": "6. Kontaktinformationen",
+            "s6_body": "Bei Fragen zu diesen Bedingungen kontaktieren Sie uns bitte unter:\n\nmehmetemrekaramustafa@gmail.com"
+        }
     },
     "cover_letter": {
         "title": "Anschreiben",
@@ -192,15 +297,16 @@
         "missing_keywords": "Fehlende Schlüsselwörter",
         "suggestions": "KI-Vorschläge",
         "cv_strength_analysis": "CV-Stärke & Analyse",
-        "ai_insights": "KI-Analyse"
+        "ai_insights": "KI-Analyse",
+        "improve_hint": "Wie man sich verbessert?"
     },
     "paywall": {
         "title": "Premium werden",
         "subtitle": "Schalten Sie die volle Leistung von CV Maker Pro frei",
-        "feature_unlimited_pdf": "Unbegrenzte PDF-Downloads",
+        "feature_unlimited_pdf": "Unbegrenzt PDF",
         "feature_ai_tools": "Alle KI-Tools: Optimieren, Analysieren, Anschreiben",
-        "feature_all_templates": "Alle Premium-Vorlagen",
-        "feature_no_watermark": "Ohne Wasserzeichen",
+        "feature_all_templates": "Alle Vorlagen",
+        "feature_no_watermark": "Kein Wasserzeichen",
         "unlock_now": "Jetzt freischalten",
         "restore_purchases": "Käufe wiederherstellen",
         "popular": "BELIEBT",
@@ -211,6 +317,115 @@
         "restore_success": "Käufe erfolgreich wiederhergestellt!",
         "restore_none": "Keine früheren Käufe gefunden.",
         "offerings_error": "Pläne konnten nicht geladen werden. Verbindung prüfen.",
-        "legal_note": "Abonnement verlängert sich automatisch, sofern nicht gekündigt. Jederzeit in den Einstellungen kündbar."
+        "legal_note": "Abonnement verlängert sich automatisch. Verwalten Sie es in Ihrem App Store oder Google Play-Konto.",
+        "hero_title": "Deinem Traumjob\nEinen Schritt Näher",
+        "hero_subtitle": "Mit KI-gestütztem Lebenslauf hervorstechen.",
+        "social_count": "10.000+ Fachleute",
+        "social_subtitle": "haben ihren Lebenslauf mit KI erstellt ✨",
+        "features_title": "Premium-Vorteile",
+        "feature_ai_magic": "KI Magic",
+        "feature_share": "Sofort teilen",
+        "feature_ats": "ATS-Analyse",
+        "plan_select": "Plan wählen",
+        "badge_popular": "Beliebteste",
+        "badge_best_value": "Bestes Angebot",
+        "badge_save": "73% Rabatt",
+        "plan_weekly_label": "Wöchentlich",
+        "plan_monthly_label": "Monatlich",
+        "plan_annual_label": "Jährlich",
+        "plan_per_week": "/Wo.",
+        "cta_button": "Zu Premium →",
+        "cta_cancel": "Jederzeit kündbar",
+        "restore_checking": "Wird geprüft...",
+        "trust_secure": "Sichere\nZahlung",
+        "trust_cancel": "Jederzeit\nkündbar",
+        "trust_devices": "Alle\nGeräte"
+    },
+    "template_names": {
+        "modern": {
+            "name": "Modern",
+            "desc": "Zeitgemäß und elegant"
+        },
+        "classic": {
+            "name": "Klassisch",
+            "desc": "Traditionell und professionell"
+        },
+        "creative": {
+            "name": "Kreativ",
+            "desc": "Mutig und farbenfroh"
+        },
+        "elegant": {
+            "name": "Elegant",
+            "desc": "Anspruchsvoll und minimal"
+        },
+        "startup": {
+            "name": "Startup",
+            "desc": "Für innovative Rollen"
+        },
+        "linkedin": {
+            "name": "Profil",
+            "desc": "Fokus auf Verbindungen"
+        },
+        "student": {
+            "name": "Student",
+            "desc": "Für Absolventen"
+        },
+        "british_green": {
+            "name": "British Green",
+            "desc": "Zengin koyu yeşil tasarım"
+        }
+    },
+    "common": {
+        "send": "Senden",
+        "continue_editing": "Bearbeitung fortsetzen",
+        "error": "Ein Fehler ist aufgetreten",
+        "success": "Erfolg",
+        "processing": "Wird bearbeitet...",
+        "retry": "Wiederholen",
+        "failed_generate_pdf": "PDF konnte nicht erstellt werden",
+        "ai_starting": "KI wird gestartet...",
+        "ai_success": "KI-Analyse erfolgreich"
+    },
+    "premium": {
+        "share_cta": "Teilen Sie die App für unbegrenzte PDF-Downloads",
+        "share_unlock": "Teilen zum Entsperren",
+        "ai_limit_title": "KI-Limit erreicht",
+        "ai_limit_reached": "Sie haben Ihr kostenloses KI-Limit erreicht."
+    },
+    "onboarding_checklist": {
+        "title": "Erfolgsschritte",
+        "step_template": "Vorlage auswählen",
+        "step_info": "Persönliche Infos",
+        "step_experience": "Erfahrung hinzufügen",
+        "step_ai": "KI-Analyse",
+        "step_pdf": "PDF herunterladen"
+    },
+    "splash": {
+        "tagline": "KI-gestützter Lebenslauf-Ersteller"
+    },
+    "ai_assistant": {
+        "analyze": "Analyze",
+        "strength": "Strength",
+        "strength_desc": "Strength Desc",
+        "ai_magic": "Ai Magic",
+        "subtitle": "Subtitle",
+        "analyze_desc": "Analyze Desc",
+        "ai_magic_desc": "Ai Magic Desc",
+        "title": "Title",
+        "ai_magic_confirm_desc": "Alle Abschnitte Ihres Lebenslaufs werden professionell mit AI Magic optimiert. Dieser Vorgang verbessert Inhalte für professionelle Stellenbeschreibungen.",
+        "ai_magic_start": "Optimieren ✨",
+        "missing_required_fields": "Bitte füllen Sie zuerst Name, E-Mail und Zielposition aus."
+    },
+    "cv_theme": {
+        "title": "Title",
+        "subtitle": "Subtitle"
+    },
+    "ai_magic": {
+        "target_position_title": "Was ist Ihre Zielposition?",
+        "target_position_desc": "Geben Sie die genaue Position ein, für die Sie sich bewerben, damit die KI Ihren Lebenslauf besser optimieren kann.",
+        "target_position_hint": "z.B., Senior Flutter Developer",
+        "cancel": "Abbrechen",
+        "start": "Starten",
+        "optimizing": "Lebenslauf wird optimiert..."
     }
 }

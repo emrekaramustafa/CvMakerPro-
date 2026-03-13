@@ -70,6 +70,7 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
       final pdfService = PdfImportService();
       final extractedText = await pdfService.extractTextFromPdf(File(filePath));
       final profileImagePath = await pdfService.extractProfileImage(File(filePath));
+      print('[CVImport] profileImagePath result: $profileImagePath');
       
       if (extractedText.isEmpty) {
         if (mounted) {
@@ -291,7 +292,14 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
                         const SizedBox(height: 16),
                         _buildOptionCard(
                           icon: Icons.upload_file_rounded,
-                          iconGradient: c.accentGradient,
+                          iconGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.white.withValues(alpha: 0.4),
+                              Colors.white.withValues(alpha: 0.1),
+                            ],
+                          ),
                           title: 'cv_choice.import_cv'.tr(),
                           subtitle: 'cv_choice.import_cv_desc'.tr(),
                           onTap: _importCV,
@@ -301,7 +309,14 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
                         const SizedBox(height: 16),
                         _buildOptionCard(
                           icon: Icons.folder_shared_rounded,
-                          iconGradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF4F46E5)]),
+                          iconGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.white.withValues(alpha: 0.4),
+                              Colors.white.withValues(alpha: 0.1),
+                            ],
+                          ),
                           title: 'cv_choice.saved_resumes'.tr(),
                           subtitle: 'cv_choice.saved_resumes_desc'.tr(),
                           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage())),

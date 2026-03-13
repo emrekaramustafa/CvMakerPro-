@@ -2,54 +2,44 @@ import 'dart:convert';
 import 'dart:io';
 import '../models/resume_model.dart';
 import 'package:intl/intl.dart';
+import 'template_utils.dart';
 
 class StartupTemplate {
   static String generate(ResumeModel resume) {
     String profileImageHtml = '';
-    if (resume.personalInfo.profileImagePath != null) {
-      final imageFile = File(resume.personalInfo.profileImagePath!);
-      if (imageFile.existsSync()) {
-        final fileUri = Uri.file(imageFile.path).toString();
-        profileImageHtml = '''
-          <img src="$fileUri" 
-               style="width:140px; height:140px; border-radius:50%; object-fit:cover; border:6px solid #FFFFFF;" />
-        ''';
-      } else {
-        profileImageHtml = '<div style="width:140px; height:140px; border-radius:50%; border:6px solid #FFFFFF; background-color: rgba(255,255,255,0.3);"></div>';
-      }
-    } else {
-        profileImageHtml = '<div style="width:140px; height:140px; border-radius:50%; border:6px solid #FFFFFF; background-color: rgba(255,255,255,0.3);"></div>';
+    final imgUri = getBase64ImageUri(resume.personalInfo.profileImagePath);
+    if (imgUri != null) {
+      profileImageHtml = '''
+        <div style="text-align: center; margin-bottom: 20px;">
+          <img src="$imgUri" style="width:140px; height:140px; border-radius:50%; object-fit:cover; border:6px solid #FFFFFF;" />
+        </div>
+      ''';
     }
 
     final experiences = resume.experience.map((e) => '''
-      <tr>
-        <td style="padding-bottom: 20px;">
-          <div style="font-weight:700; font-size:16px; color:#374151;">${e.jobTitle}</div>
-          <div style="color:#F48FB1; font-weight:600; font-size:14px; margin-bottom:4px;">${e.companyName}</div>
-          <div style="font-size:12px; color:#9CA3AF; margin-bottom:8px; font-style: italic;">
-             ${DateFormat.yMMM().format(e.startDate)} - ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.yMMM().format(e.endDate!) : "Present")}
-          </div>
-          ${e.description.isNotEmpty ? '<div style="font-size:13px; color:#4B5563; line-height:1.6;">${e.description.replaceAll('\n', '<br>')}</div>' : ''}
-          ${e.bulletPoints.isNotEmpty ? '''
-            <ul style="margin: 8px 0 0 18px; padding: 0; font-size:13px; color:#4B5563;">
-              ${e.bulletPoints.map((b) => '<li style="margin-bottom:4px;">$b</li>').join('')}
-            </ul>
-          ''' : ''}
-
-        </td>
-      </tr>
+      <div style="margin-bottom: 20px;">
+        <div style="font-weight:700; font-size:16px; color:#374151;">${e.jobTitle}</div>
+        <div style="color:#F48FB1; font-weight:600; font-size:14px; margin-bottom:4px;">${e.companyName}</div>
+        <div style="font-size:12px; color:#6B7280; margin-bottom:8px; font-style: italic;">
+           ${DateFormat.yMMM().format(e.startDate)} - ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.yMMM().format(e.endDate!) : "Present")}
+        </div>
+        ${e.description.isNotEmpty ? '<div style="font-size:13px; color:#4B5563; line-height:1.6;">${e.description.replaceAll('\n', '<br>')}</div>' : ''}
+        ${e.bulletPoints.isNotEmpty ? '''
+          <ul style="margin: 8px 0 0 18px; padding: 0; font-size:13px; color:#4B5563;">
+            ${e.bulletPoints.map((b) => '<li style="margin-bottom:4px;">$b</li>').join('')}
+          </ul>
+        ''' : ''}
+      </div>
     ''').join('');
 
     final educations = resume.education.map((e) => '''
-      <tr>
-        <td style="padding-bottom: 20px;">
-          <div style="font-weight:700; font-size:16px; color:#374151;">${e.institutionName}</div>
-          <div style="color:#F48FB1; font-weight:600; font-size:14px; margin-bottom:4px;">${e.degree}, ${e.fieldOfStudy}</div>
-          <div style="font-size:12px; color:#9CA3AF; font-style: italic;">
-             ${DateFormat.y().format(e.startDate)} - ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.y().format(e.endDate!) : "Present")}
-          </div>
-        </td>
-      </tr>
+      <div style="margin-bottom: 20px;">
+        <div style="font-weight:700; font-size:16px; color:#374151;">${e.institutionName}</div>
+        <div style="color:#F48FB1; font-weight:600; font-size:14px; margin-bottom:4px;">${e.degree}, ${e.fieldOfStudy}</div>
+        <div style="font-size:12px; color:#6B7280; font-style: italic;">
+           ${DateFormat.y().format(e.startDate)} - ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.y().format(e.endDate!) : "Present")}
+        </div>
+      </div>
     ''').join('');
     
     final skillsLeft = resume.skills.map((s) => '''
@@ -75,47 +65,41 @@ class StartupTemplate {
         ? '''<div class="section-title first">Profile</div>\n<div class="summary-text">${resume.professionalSummary!.replaceAll('\n', '<br>')}</div>''' : '';
 
     final String experienceSection = resume.experience.isNotEmpty 
-        ? '''<div class="section-title ${resume.professionalSummary == null || resume.professionalSummary!.isEmpty ? 'first' : ''}">Experience</div>\n<table class="list-table">\n$experiences\n</table>''' : '';
+        ? '''<div class="section-title ${resume.professionalSummary == null || resume.professionalSummary!.isEmpty ? 'first' : ''}">Experience</div>\n<div>\n$experiences\n</div>''' : '';
 
     final String educationSection = resume.education.isNotEmpty 
-        ? '''<div class="section-title">Education</div>\n<table class="list-table">\n$educations\n</table>''' : '';
+        ? '''<div class="section-title">Education</div>\n<div>\n$educations\n</div>''' : '';
 
     final String certHtml = resume.certificates.map((c) => '''
-      <tr>
-        <td style="padding-bottom: 15px;">
-          <div style="font-weight:700; font-size:15px; color:#374151;">${c.title}</div>
-          <div style="color:#F48FB1; font-size:13px;">${c.issuer}</div>
-        </td>
-      </tr>
+      <div style="margin-bottom: 15px;">
+        <div style="font-weight:700; font-size:15px; color:#374151;">${c.title}</div>
+        <div style="color:#F48FB1; font-size:13px;">${c.issuer}</div>
+      </div>
     ''').join('');
 
     final String certificationsSection = resume.certificates.isNotEmpty 
-        ? '<div class="section-title">Certifications</div>\n<table class="list-table">\n$certHtml\n</table>' : '';
+        ? '<div class="section-title">Certifications</div>\n<div>\n$certHtml\n</div>' : '';
 
     final String refHtml = resume.references.map((r) => '''
-      <tr>
-        <td style="padding-bottom: 15px;">
-          <div style="font-weight:700; font-size:15px; color:#374151;">${r.fullName}</div>
-          <div style="color:#F48FB1; font-size:13px;">${r.company}</div>
-          <div style="font-size:12px; color:#9CA3AF;">${r.email ?? ''} ${r.phone ?? ''}</div>
-        </td>
-      </tr>
+      <div style="margin-bottom: 15px;">
+        <div style="font-weight:700; font-size:15px; color:#374151;">${r.fullName}</div>
+        <div style="color:#F48FB1; font-size:13px;">${r.company}</div>
+        <div style="font-size:12px; color:#6B7280;">${r.email ?? ''} ${r.phone ?? ''}</div>
+      </div>
     ''').join('');
 
     final String referencesSection = resume.references.isNotEmpty 
-        ? '<div class="section-title">References</div>\n<table class="list-table">\n$refHtml\n</table>' : '';
+        ? '<div class="section-title">References</div>\n<div>\n$refHtml\n</div>' : '';
 
     final String actHtml = resume.activities.map((a) => '''
-      <tr>
-        <td style="padding-bottom: 15px;">
-          <div style="font-weight:700; font-size:15px; color:#374151;">${a.title}</div>
-          ${a.description.isNotEmpty ? '<div style="font-size:13px; color:#4B5563; line-height:1.5; margin-top:4px;">${a.description.replaceAll('\n', '<br>')}</div>' : ''}
-        </td>
-      </tr>
+      <div style="margin-bottom: 15px;">
+        <div style="font-weight:700; font-size:15px; color:#374151;">${a.title}</div>
+        ${a.description.isNotEmpty ? '<div style="font-size:13px; color:#4B5563; line-height:1.5; margin-top:4px;">${a.description.replaceAll('\n', '<br>')}</div>' : ''}
+      </div>
     ''').join('');
 
     final String activitiesSection = resume.activities.isNotEmpty 
-        ? '<div class="section-title">Activities & Projects</div>\n<table class="list-table">\n$actHtml\n</table>' : '';
+        ? '<div class="section-title">Activities & Projects</div>\n<div>\n$actHtml\n</div>' : '';
 
 
     return '''
@@ -130,6 +114,8 @@ class StartupTemplate {
            margin: 0; 
            padding: 0;
            background-color: #FFFFFF;
+           -webkit-print-color-adjust: exact;
+           print-color-adjust: exact;
         }
         table.main-table {
            width: 100%;
@@ -211,9 +197,7 @@ class StartupTemplate {
        <table class="main-table">
          <tr>
            <td class="sidebar">
-              <div style="text-align: center; margin-bottom: 20px;">
-                $profileImageHtml
-              </div>
+              $profileImageHtml
               <div class="name-box">
                 <div class="last-name">${resume.personalInfo.fullName}</div>
               </div>

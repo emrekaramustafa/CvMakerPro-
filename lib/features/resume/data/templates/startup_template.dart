@@ -16,7 +16,7 @@ class StartupTemplate {
       ''';
     }
 
-    final experiences = resume.experience.map((e) => '''
+    final experiences = resume.experience.where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty || e.description.isNotEmpty).map((e) => '''
       <div style="margin-bottom: 20px;">
         <div style="font-weight:700; font-size:16px; color:#374151;">${e.jobTitle}</div>
         <div style="color:#F48FB1; font-weight:600; font-size:14px; margin-bottom:4px;">${e.companyName}</div>
@@ -32,7 +32,7 @@ class StartupTemplate {
       </div>
     ''').join('');
 
-    final educations = resume.education.map((e) => '''
+    final educations = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) => '''
       <div style="margin-bottom: 20px;">
         <div style="font-weight:700; font-size:16px; color:#374151;">${e.institutionName}</div>
         <div style="color:#F48FB1; font-weight:600; font-size:14px; margin-bottom:4px;">${e.degree}, ${e.fieldOfStudy}</div>

@@ -16,7 +16,7 @@ class ExecutiveTemplate {
       ''';
     }
 
-    final experiences = resume.experience.map((e) => '''
+    final experiences = resume.experience.where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty || e.description.isNotEmpty).map((e) => '''
       <div style="margin-bottom:16px;">
         <div style="display:flex; justify-content:space-between; align-items:baseline;">
            <span style="font-weight:700; font-size:14px; color:#111827;">${e.companyName}</span>
@@ -28,7 +28,7 @@ class ExecutiveTemplate {
       </div>
     ''').join('');
 
-    final education = resume.education.map((e) => '''
+    final education = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) => '''
       <div style="margin-bottom:8px;">
         <div style="font-weight:700; font-size:12px; color:#1F2937;">${e.institutionName}</div>
         <div style="font-size:11px; color:#4B5563;">${e.degree}, ${e.fieldOfStudy} (${DateFormat.y().format(e.startDate)} - ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.y().format(e.endDate!) : "Present")})</div>

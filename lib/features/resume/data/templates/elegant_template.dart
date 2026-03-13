@@ -17,7 +17,7 @@ class ElegantTemplate {
       ''';
     }
 
-    final experiences = resume.experience.map((e) => '''
+    final experiences = resume.experience.where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty || e.description.isNotEmpty).map((e) => '''
       <div style="margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid #F3F4F6;">
         <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
           <tr>
@@ -33,7 +33,7 @@ class ElegantTemplate {
       </div>
     ''').join('');
 
-    final education = resume.education.map((e) => '''
+    final education = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) => '''
       <div style="margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #F3F4F6;">
         <table width="100%" cellpadding="0" cellspacing="0" style="border:none;">
           <tr>

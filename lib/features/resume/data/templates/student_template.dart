@@ -50,7 +50,8 @@ class StudentTemplate {
     ''' : '';
 
     // ── Experience ──
-    final experienceItems = resume.experience.map((e) {
+    final validExperiences = resume.experience.where((e) => e.companyName.isNotEmpty || e.jobTitle.isNotEmpty || e.description.isNotEmpty).toList();
+    final experienceItems = validExperiences.map((e) {
       final dates = '${DateFormat.yMMM().format(e.startDate)} – ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.yMMM().format(e.endDate!) : "Present")}';
       final iconLetter = e.companyName.isNotEmpty ? e.companyName[0].toUpperCase() : '?';
       final descHtml = e.description.isNotEmpty ? '<div class="entry-desc">${e.description.replaceAll('\\n', '<br>')}</div>' : '';
@@ -71,7 +72,7 @@ class StudentTemplate {
       ''';
     }).join('');
 
-    final String experienceSection = resume.experience.isNotEmpty ? '''
+    final String experienceSection = validExperiences.isNotEmpty ? '''
       <div class="card">
         <h2 class="section-title">Experience</h2>
         <div class="card-body">$experienceItems</div>
@@ -79,7 +80,7 @@ class StudentTemplate {
     ''' : '';
 
     // ── Education ──
-    final educationItems = resume.education.map((e) {
+    final educationItems = resume.education.where((e) => e.institutionName.isNotEmpty || e.degree.isNotEmpty || e.fieldOfStudy.isNotEmpty).map((e) {
       final dates = '${DateFormat.y().format(e.startDate)} – ${e.isCurrent ? "Present" : (e.endDate != null ? DateFormat.y().format(e.endDate!) : "Present")}';
       final iconLetter = e.institutionName.isNotEmpty ? e.institutionName[0].toUpperCase() : '?';
       return '''
@@ -207,7 +208,7 @@ class StudentTemplate {
     /* Header */
     .header-card {
       position: relative;
-      background: #FFFFFF;
+      background: #0077B5;
       border: 1px solid #D4D2CD;
       border-radius: 8px;
       margin-bottom: 8px;
@@ -226,12 +227,12 @@ class StudentTemplate {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      border: 4px solid #FFFFFF;
+      border: 4px solid #0077B5;
       object-fit: cover;
       display: block;
       margin-top: -60px;
       margin-bottom: 12px;
-      background-color: #0077B5;
+      background-color: #FFFFFF;
     }
     .profile-pic-initials {
       display: flex;
@@ -239,25 +240,25 @@ class StudentTemplate {
       justify-content: center;
       font-size: 42px;
       font-weight: 600;
-      color: #FFFFFF;
-      background-color: #0077B5;
+      color: #0077B5;
+      background-color: #FFFFFF;
     }
     .header-name {
       font-size: 24px;
       font-weight: 600;
-      color: rgba(0,0,0,0.9);
+      color: #FFFFFF;
       line-height: 1.2;
     }
     .header-headline {
       font-size: 16px;
       font-weight: 400;
-      color: rgba(0,0,0,0.9);
+      color: rgba(255,255,255,0.9);
       margin-top: 4px;
       line-height: 1.3;
     }
     .header-contact {
       font-size: 13px;
-      color: rgba(0,0,0,0.6);
+      color: rgba(255,255,255,0.8);
       margin-top: 8px;
       line-height: 1.5;
       word-break: break-word;

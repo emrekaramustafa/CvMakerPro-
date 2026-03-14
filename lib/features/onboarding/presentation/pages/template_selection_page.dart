@@ -21,7 +21,7 @@ class TemplateSelectionPage extends StatefulWidget {
 class _TemplateSelectionPageState extends State<TemplateSelectionPage> with SingleTickerProviderStateMixin {
   String? _selectedTemplate;
   int _current = 0;
-  String _selectedCategory = 'form.categories.all'.tr();
+  int _selectedCategoryIndex = 0;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   final CarouselSliderController _carouselController = CarouselSliderController();
@@ -36,9 +36,17 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
     _selectedTemplate = context.read<ResumeProvider>().currentResume?.templateId;
     
     // Find index of selected template for carousel
-    if (_selectedTemplate != null) {
+    if (_selectedTemplate != null && _selectedTemplate!.isNotEmpty) {
       final index = _templates.indexWhere((t) => t['id'] == _selectedTemplate);
-      if (index != -1) _current = index;
+      if (index != -1) {
+        _current = index;
+      } else if (_templates.isNotEmpty) {
+        _selectedTemplate = _templates.first['id'];
+        _current = 0;
+      }
+    } else if (_templates.isNotEmpty) {
+      _selectedTemplate = _templates.first['id'];
+      _current = 0;
     }
 
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
@@ -89,11 +97,12 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
 
   @override
   Widget build(BuildContext context) {
-    final displayTemplates = _selectedCategory == 'form.categories.all'.tr() 
+    final selectedCategoryStr = _categories[_selectedCategoryIndex];
+    final displayTemplates = _selectedCategoryIndex == 0 
         ? _templates 
         : _templates.where((t) {
             final categories = t['categories'] as List<String>? ?? [];
-            return categories.map((c) => 'form.categories.$c'.tr()).contains(_selectedCategory);
+            return categories.map((c) => 'form.categories.$c'.tr()).contains(selectedCategoryStr);
           }).toList();
     final c = AppColorsDynamic.of(context);
     final isRoot = !Navigator.canPop(context);
@@ -172,7 +181,7 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
                     itemCount: _categories.length,
                     itemBuilder: (context, index) {
                       final category = _categories[index];
-                      final isSelected = _selectedCategory == category;
+                      final isSelected = _selectedCategoryIndex == index;
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: FilterChip(
@@ -180,7 +189,7 @@ class _TemplateSelectionPageState extends State<TemplateSelectionPage> with Sing
                           selected: isSelected,
                           onSelected: (bool selected) {
                             setState(() {
-                              _selectedCategory = category;
+                              _selectedCategoryIndex = index;
                               _current = 0; // Reset carousel index
                             });
                           },

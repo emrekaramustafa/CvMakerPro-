@@ -48,6 +48,7 @@
         "import_cv_desc": "CV'ni mükemmelleştirelim",
         "analyzing": "CV analiz ediliyor...",
         "no_text_found": "CV'de metin bulunamadı",
+        "no_text_found_detail": "CV'de metin bulunamadı. Lütfen belgenizin taranmış bir resim değil, seçilebilir metin içerdiğinden emin olun.",
         "saved_resumes": "Kayıtlı CV'ler",
         "saved_resumes_desc": "Daha önce oluşturduğun CV'lere göz at",
         "ai_working": "AI Analiz Ediyor",

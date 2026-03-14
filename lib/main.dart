@@ -25,6 +25,12 @@ void main() async {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       
+      // Restrict app to portrait mode
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      
       // Init Localization
       try {
         await EasyLocalization.ensureInitialized();

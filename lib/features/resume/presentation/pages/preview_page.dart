@@ -1,3 +1,4 @@
+import 'package:screen_protector/screen_protector.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,23 @@ class _PreviewPageState extends State<PreviewPage> {
   @override
   void initState() {
     super.initState();
+    _initScreenProtector();
     _generatePdf();
+  }
+
+  Future<void> _initScreenProtector() async {
+    await ScreenProtector.preventScreenshotOn();
+    await ScreenProtector.protectDataLeakageOn();
+  }
+
+  Future<void> _disposeScreenProtector() async {
+    await ScreenProtector.preventScreenshotOff();
+    await ScreenProtector.protectDataLeakageOff();
   }
 
   @override
   void dispose() {
+    _disposeScreenProtector();
     _pdfController?.dispose();
     super.dispose();
   }

@@ -1,3 +1,4 @@
+import 'package:screen_protector/screen_protector.dart';
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +28,26 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _initScreenProtector();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ResumeProvider>().loadResumes();
     });
+  }
+
+  Future<void> _initScreenProtector() async {
+    await ScreenProtector.preventScreenshotOn();
+    await ScreenProtector.protectDataLeakageOn();
+  }
+
+  @override
+  void dispose() {
+    _disposeScreenProtector();
+    super.dispose();
+  }
+
+  Future<void> _disposeScreenProtector() async {
+    await ScreenProtector.preventScreenshotOff();
+    await ScreenProtector.protectDataLeakageOff();
   }
 
   String get _greetingMessage {

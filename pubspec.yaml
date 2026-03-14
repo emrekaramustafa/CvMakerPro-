@@ -64,6 +64,7 @@ dependencies:
   http: any
   in_app_review: ^2.0.11
   mixpanel_flutter: ^2.5.0
+  screen_protector: ^1.5.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

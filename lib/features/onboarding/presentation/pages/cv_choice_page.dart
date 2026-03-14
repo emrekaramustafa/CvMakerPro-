@@ -67,65 +67,64 @@ class _CVChoicePageState extends State<CVChoicePage> with SingleTickerProviderSt
         ));
       }
       
-      final pdfService = PdfImportService();
-      final extractedText = await pdfService.extractTextFromPdf(File(filePath));
-      final profileImagePath = await pdfService.extractProfileImage(File(filePath));
-      print('[CVImport] profileImagePath result: $profileImagePath');
-      
-      if (extractedText.isEmpty) {
-        if (mounted) {
-          if (ModalRoute.of(context)?.isCurrent == true) {
-            Navigator.pop(context);
+      try {
+        final pdfService = PdfImportService();
+        final extractedText = await pdfService.extractTextFromPdf(File(filePath));
+        final profileImagePath = await pdfService.extractProfileImage(File(filePath));
+        print('[CVImport] profileImagePath result: $profileImagePath');
+        
+        if (extractedText.trim().isEmpty) {
+          if (mounted) {
+            Navigator.of(context, rootNavigator: true).pop();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('cv_choice.no_text_found_detail'.tr()), 
+              backgroundColor: AppColors.error,
+              duration: const Duration(seconds: 4),
+            ));
           }
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('cv_choice.no_text_found'.tr()), backgroundColor: AppColors.error));
+          return;
         }
-        return;
-      }
-      
-      final openAIService = OpenAIService();
-      final parsedData = await openAIService.parseCVFromText(extractedText);
-      final personalInfo = parsedData['personalInfo'] ?? {};
-      final experiences = (parsedData['experience'] as List<dynamic>?)?.map((e) => ExperienceModel(
-        companyName: e['companyName'] ?? '', jobTitle: e['jobTitle'] ?? '',
-        startDate: _parseDate(e['startDate']), endDate: e['endDate'] != null ? _parseDate(e['endDate']) : null,
-        isCurrent: e['isCurrent'] == true, description: e['description'] ?? '', bulletPoints: List<String>.from(e['bulletPoints'] ?? []),
-      )).toList() ?? [];
-      final educations = (parsedData['education'] as List<dynamic>?)?.map((e) => EducationModel(
-        institutionName: e['institutionName'] ?? '', degree: e['degree'] ?? '', fieldOfStudy: e['fieldOfStudy'] ?? '',
-        startDate: _parseDate(e['startDate']), endDate: e['endDate'] != null ? _parseDate(e['endDate']) : null, isCurrent: e['isCurrent'] == true,
-      )).toList() ?? [];
-      final skills = List<String>.from(parsedData['skills'] ?? []);
-      final languages = (parsedData['languages'] as List<dynamic>?)?.map((l) => LanguageEntry(
-        languageName: l['languageName'] ?? '', level: l['level'] ?? 'intermediate',
-      )).toList() ?? [];
-      
-      final resume = ResumeModel(
-        id: const Uuid().v4(), targetLanguage: context.locale.languageCode,
-        personalInfo: PersonalInfoModel(
-          fullName: personalInfo['fullName'] ?? '', email: personalInfo['email'] ?? '', phone: personalInfo['phone'] ?? '',
-          address: personalInfo['address'], linkedinUrl: personalInfo['linkedinUrl'], websiteUrl: personalInfo['websiteUrl'],
-          targetJobTitle: personalInfo['targetJobTitle'] ?? '',
-          profileImagePath: profileImagePath, // New field
-        ),
-        experience: experiences, education: educations, skills: skills, languages: languages,
-        professionalSummary: parsedData['professionalSummary'], createdAt: DateTime.now(), updatedAt: DateTime.now(),
-      );
-      
-      if (mounted) {
-        if (ModalRoute.of(context)?.isCurrent == true) {
-          Navigator.pop(context);
+        
+        final openAIService = OpenAIService();
+        final parsedData = await openAIService.parseCVFromText(extractedText);
+        final personalInfo = parsedData['personalInfo'] ?? {};
+        final experiences = (parsedData['experience'] as List<dynamic>?)?.map((e) => ExperienceModel(
+          companyName: e['companyName'] ?? '', jobTitle: e['jobTitle'] ?? '',
+          startDate: _parseDate(e['startDate']), endDate: e['endDate'] != null ? _parseDate(e['endDate']) : null,
+          isCurrent: e['isCurrent'] == true, description: e['description'] ?? '', bulletPoints: List<String>.from(e['bulletPoints'] ?? []),
+        )).toList() ?? [];
+        final educations = (parsedData['education'] as List<dynamic>?)?.map((e) => EducationModel(
+          institutionName: e['institutionName'] ?? '', degree: e['degree'] ?? '', fieldOfStudy: e['fieldOfStudy'] ?? '',
+          startDate: _parseDate(e['startDate']), endDate: e['endDate'] != null ? _parseDate(e['endDate']) : null, isCurrent: e['isCurrent'] == true,
+        )).toList() ?? [];
+        final skills = List<String>.from(parsedData['skills'] ?? []);
+        final languages = (parsedData['languages'] as List<dynamic>?)?.map((l) => LanguageEntry(
+          languageName: l['languageName'] ?? '', level: l['level'] ?? 'intermediate',
+        )).toList() ?? [];
+        
+        final resume = ResumeModel(
+          id: const Uuid().v4(), targetLanguage: context.locale.languageCode,
+          personalInfo: PersonalInfoModel(
+            fullName: personalInfo['fullName'] ?? '', email: personalInfo['email'] ?? '', phone: personalInfo['phone'] ?? '',
+            address: personalInfo['address'], linkedinUrl: personalInfo['linkedinUrl'], websiteUrl: personalInfo['websiteUrl'],
+            targetJobTitle: personalInfo['targetJobTitle'] ?? '',
+            profileImagePath: profileImagePath, // New field
+          ),
+          experience: experiences, education: educations, skills: skills, languages: languages,
+          professionalSummary: parsedData['professionalSummary'], createdAt: DateTime.now(), updatedAt: DateTime.now(),
+        );
+        
+        if (mounted) {
+          Navigator.of(context, rootNavigator: true).pop();
+          context.read<ResumeProvider>().loadResume(resume);
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const TemplateSelectionPage(isFromImport: true)));
         }
-        context.read<ResumeProvider>().loadResume(resume);
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const TemplateSelectionPage(isFromImport: true)));
-      }
-    } catch (e) {
-      if (mounted) {
-        if (ModalRoute.of(context)?.isCurrent == true) {
-          Navigator.pop(context);
+      } catch (e) {
+        if (mounted) {
+          Navigator.of(context, rootNavigator: true).pop();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${'common.error'.tr()}: $e"), backgroundColor: AppColors.error));
         }
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${'common.error'.tr()}: $e"), backgroundColor: AppColors.error));
       }
-    }
   }
   
   DateTime _parseDate(dynamic dateStr) {

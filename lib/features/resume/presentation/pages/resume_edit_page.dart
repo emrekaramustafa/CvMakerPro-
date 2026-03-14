@@ -1,3 +1,4 @@
+import 'package:screen_protector/screen_protector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,13 +42,25 @@ class _ResumeEditPageState extends State<ResumeEditPage> {
   @override
   void initState() {
     super.initState();
+    _initScreenProtector();
     _confettiController = ConfettiController(duration: const Duration(seconds: 2));
+  }
+
+  Future<void> _initScreenProtector() async {
+    await ScreenProtector.preventScreenshotOn();
+    await ScreenProtector.protectDataLeakageOn();
   }
 
   @override
   void dispose() {
+    _disposeScreenProtector();
     _confettiController.dispose();
     super.dispose();
+  }
+
+  Future<void> _disposeScreenProtector() async {
+    await ScreenProtector.preventScreenshotOff();
+    await ScreenProtector.protectDataLeakageOff();
   }
   
   void _navigateToSection(BuildContext context, String title, Widget form, {VoidCallback? onNext, String? nextLabel, bool showQuickPreview = true}) {
